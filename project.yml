@@ -19,11 +19,11 @@ targets:
     deploymentTarget: "15.0"
 
     sources:
-      - path: core/features
+      - path: ./core/features
         group: propromo
-      - path: core/resources
+      - path: ./core/resources
         group: propromo
-      - path: core/services
+      - path: ./core/services
         group: propromo
 
     dependencies:
@@ -41,10 +41,10 @@ targets:
     type: bundle.unit-test
     platform: iOS
     sources:
-      - path: core/tests
+      - path: ./core/tests
         group: propromo
 
-    # Link with Core target
+    # Link with ./core target
     dependencies:
       - target: Propromo
       
