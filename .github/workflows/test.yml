@@ -55,4 +55,3 @@ jobs:
         action: test # `build`
         code-coverage: true # default = `false`
         warnings-as-errors: false # default = `false`
-        scheme: propromo # Ideally if there is only one scheme you wouldn’t need to specify it, if you think we could have figured it out but didn’t please open a ticket. (xcschememanagement.plist)
