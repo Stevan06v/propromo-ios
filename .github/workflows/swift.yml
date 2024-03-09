@@ -18,11 +18,11 @@ jobs:
         platform:
           - iOS
         xcode:
-          - ^11
-          - ^12
+          #- ^11
+          #- ^12
           - ^13
-          # Not supported yet: use maxim-lobanov/setup-xcode@v1
-          #- ^14
+          # Not supported yet:
+          - ^14
           #- ^15
         # 11-13 tests IOS 13-15
         # https://flatgithub.com/mxcl/.github/?filename=versions.json&sha=7f6f9803a64ce8a542970f9f04eb1b39b8b76946
@@ -31,6 +31,14 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
+
+    - uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: ^13
+
+    - uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: ^14
 
     # Versions:
     # https://xcodereleases.com/
