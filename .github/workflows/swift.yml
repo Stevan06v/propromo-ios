@@ -1,7 +1,4 @@
-# This workflow will build a Swift project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
-
-name: Swift
+name: propromo.ios CI
 
 on:
   push:
@@ -11,12 +8,38 @@ on:
 
 jobs:
   build:
-
     runs-on: macos-latest
+    # Use macos-latest and trust this action to always work
+    # This because GitHub deprecate old environments, so if you want your CI to continue to work in 5 years you need to use latest
+    # This makes specifying specific xcode versions problematic however, we haven’t got a good story for this yet.
+
+    strategy:
+      matrix:
+        platform:
+          - iOS
+        xcode:
+          - ^11
+          - ^12
+          - ^13
+          # Not supported yet:
+          #- ^14
+          #- ^15
+        # 11-13 tests IOS 13-15
+        # https://flatgithub.com/mxcl/.github/?filename=versions.json&sha=7f6f9803a64ce8a542970f9f04eb1b39b8b76946
+        # https://github.com/actions/runner-images/blob/main/images/macos/macos-11-Readme.md#xcode
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Build
-      run: swift build -v
-    - name: Run tests
-      run: swift test -v
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    # Versions:
+    # https://xcodereleases.com/
+    # https://developer.apple.com/support/xcode/
+    - name: Xcode Tests
+      uses: mxcl/xcodebuild@v1
+      with:
+        xcode: ${{ matrix.xcode }}
+        platform: ${{ matrix.platform }}
+        action: test # `build`
+        code-coverage: true # default = `false`
+        warnings-as-errors: false # default = `false`
