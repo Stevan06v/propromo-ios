@@ -17,10 +17,10 @@ jobs:
       matrix:
         platform:
           - iOS
-        xcode:
-          - ^11
-          - ^12
-          - ^13
+        #xcode:
+          #- ^11
+          #- ^12
+          #- ^13
           # Not supported yet:
           #- ^14
           #- ^15
@@ -38,7 +38,7 @@ jobs:
     - name: Xcode Tests
       uses: mxcl/xcodebuild@v1
       with:
-        xcode: ${{ matrix.xcode }}
+        #xcode: ${{ matrix.xcode }}
         platform: ${{ matrix.platform }}
         action: test # `build`
         code-coverage: true # default = `false`
