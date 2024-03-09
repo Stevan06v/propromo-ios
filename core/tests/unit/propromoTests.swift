@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import propromo
+@testable import Propromo
 
 final class propromoTests: XCTestCase {
 

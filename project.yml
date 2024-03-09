@@ -1,0 +1,61 @@
+name: Propromo
+
+# VERSIONS are needed, build fails, if they are not specified :)
+# https://stackoverflow.com/questions/43111501/the-bundles-info-plist-does-not-contain-a-cfbundleversion-key-or-its-value-is-n
+settings:
+  GENERATE_INFOPLIST_FILE: YES
+  MARKETING_VERSION: 0.0.0
+  CURRENT_PROJECT_VERSION: 0.0.0
+options:
+  bundleIdPrefix: com.propromo
+packages:
+  Alamofire:
+    url: https://github.com/Alamofire/Alamofire
+    majorVersion: 5.5.0
+targets:
+  Propromo:
+    type: application
+    platform: iOS
+    deploymentTarget: "15.0"
+
+    sources:
+      - path: core/features
+        group: propromo
+      - path: core/resources
+        group: propromo
+      - path: core/services
+        group: propromo
+
+    dependencies:
+      - package: Alamofire
+
+    # Link with its target to run with cmd+u
+    scheme:
+      gatherCoverageData: true
+      testTargets:
+        - name: Tests
+          parallelizable: true
+          randomExecutionOrder: true
+
+  Tests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: core/tests
+        group: propromo
+
+    # Link with Core target
+    dependencies:
+      - target: Propromo
+      
+    # Create a new scheme that will be linked and configured for test purposes
+    scheme:
+      gatherCoverageData: true
+      testTargets:
+        - name: Tests
+          parallelizable: true
+          randomExecutionOrder: true
+
+# https://betterprogramming.pub/generating-xcodeprojs-with-xcodegen-7d291cfc2f46
+# https://github.com/yonaskolb/XcodeGen/blob/master/Docs/Usage.md
+# https://github.com/yonaskolb/XcodeGen/blob/master/Docs/ProjectSpec.md#options
