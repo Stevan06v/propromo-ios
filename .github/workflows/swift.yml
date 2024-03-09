@@ -21,7 +21,7 @@ jobs:
           #- ^11
           #- ^12
           #- ^13
-          # Not supported yet:
+          # Not supported yet: use maxim-lobanov/setup-xcode@v1
           #- ^14
           #- ^15
         # 11-13 tests IOS 13-15
@@ -43,3 +43,4 @@ jobs:
         action: test # `build`
         code-coverage: true # default = `false`
         warnings-as-errors: false # default = `false`
+        scheme: propromo # Ideally if there is only one scheme you wouldn’t need to specify it, if you think we could have figured it out but didn’t please open a ticket. (xcschememanagement.plist)
