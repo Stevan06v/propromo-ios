@@ -18,10 +18,13 @@ jobs:
         platform:
           - iOS
         xcode:
-          - ^15
+          - ^14
         # https://flatgithub.com/mxcl/.github/?filename=versions.json&sha=7f6f9803a64ce8a542970f9f04eb1b39b8b76946
         # https://github.com/actions/runner-images/blob/main/images/macos/macos-11-Readme.md#xcode
-
+        scheme:
+          - UnitTests
+          - UiTests
+        
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
@@ -49,4 +52,4 @@ jobs:
         action: test # `build`
         code-coverage: false # default = `false`
         warnings-as-errors: false # default = `false`
-        scheme: Tests
+        scheme: ${{ matrix.scheme }}
