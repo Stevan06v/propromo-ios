@@ -18,13 +18,7 @@ jobs:
         platform:
           - iOS
         xcode:
-          #- ^11
-          #- ^12
-          - ^13
-          # Not supported yet:
-          - ^14
-          #- ^15
-        # 11-13 tests IOS 13-15
+          - ^15
         # https://flatgithub.com/mxcl/.github/?filename=versions.json&sha=7f6f9803a64ce8a542970f9f04eb1b39b8b76946
         # https://github.com/actions/runner-images/blob/main/images/macos/macos-11-Readme.md#xcode
 
@@ -53,6 +47,6 @@ jobs:
         xcode: ${{ matrix.xcode }}
         platform: ${{ matrix.platform }}
         action: test # `build`
-        code-coverage: true # default = `false`
+        code-coverage: false # default = `false`
         warnings-as-errors: false # default = `false`
-        scheme: propromo # Ideally if there is only one scheme you wouldn’t need to specify it, if you think we could have figured it out but didn’t please open a ticket. (xcschememanagement.plist)
+        scheme: Tests
