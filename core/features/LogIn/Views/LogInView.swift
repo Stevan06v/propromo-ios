@@ -12,6 +12,7 @@ struct LogInView: View {
     @State private var email = ""
     @State private var password = ""
     @State private var retypePassword = ""
+    @Binding var selectedView: Int
 
     var body: some View {
         VStack(alignment: .center) {
@@ -53,7 +54,7 @@ struct LogInView: View {
             .padding(.vertical, 15)
             
             HStack {
-                NavigationLink(destination: RegisterView()) {
+                Button(action: registerButtonTapped) {
                     Text("No Account?")
                 }
                 
@@ -61,20 +62,24 @@ struct LogInView: View {
                 
                 Button(action: logInButtonTapped) {
                     Text("Log In")
-                }
-                .buttonStyle(.borderedProminent)
+                }.buttonStyle(.borderedProminent)
             }.padding(.horizontal, 35)
             
             Spacer()
         }
     }
 
+    private func registerButtonTapped() {
+        selectedView = -1
+    }
+    
     private func logInButtonTapped() {
+        selectedView = 1
     }
 }
 
 struct LogInView_Previews: PreviewProvider {
     static var previews: some View {
-        LogInView()
+        LogInView(selectedView: .constant(1))
     }
 }

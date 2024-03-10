@@ -8,13 +8,22 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var selectedView = -1
+
     var body: some View {
         NavigationStack {
-            RegisterView()
+            switch selectedView {
+                case 0:
+                    LogInView(selectedView: $selectedView)
+                case 1:
+                    Text("Logged In")
+                default:
+                    RegisterView(selectedView: $selectedView)
+            }
         }
     }
 }
- 
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()

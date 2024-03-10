@@ -12,6 +12,7 @@ struct RegisterView: View {
     @State private var email = ""
     @State private var password = ""
     @State private var retypePassword = ""
+    @Binding var selectedView: Int
 
     var body: some View {
         VStack(alignment: .center) {
@@ -36,28 +37,28 @@ struct RegisterView: View {
             .padding(.vertical, 15)
             
             HStack {
-                NavigationLink(destination: LogInView()) {
+                Button(action: logInButtonTapped) {
                     Text("Already Registered?")
                 }
                 
                 Spacer()
                 
-                Button(action: registerButtonTapped) {
+                NavigationLink(destination: Text("Next Step")) {
                     Text("Register")
-                }
-                .buttonStyle(.borderedProminent)
+                }.buttonStyle(.borderedProminent)
             }.padding(.horizontal, 35)
             
             Spacer()
         }
     }
 
-    private func registerButtonTapped() {
+    private func logInButtonTapped() {
+        selectedView = 0
     }
 }
 
 struct RegisterView_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterView()
+        RegisterView(selectedView: .constant(1))
     }
 }
