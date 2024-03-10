@@ -33,15 +33,22 @@ targets:
     scheme:
       gatherCoverageData: true
       testTargets:
-        - name: Tests
+        - name: UnitTests
           parallelizable: true
           randomExecutionOrder: true
 
-  Tests:
+    scheme:
+      gatherCoverageData: true
+      testTargets:
+        - name: UiTests
+          parallelizable: true
+          randomExecutionOrder: true
+
+  UnitTests:
     type: bundle.unit-test
     platform: iOS
     sources:
-      - path: ./core/tests
+      - path: ./core/tests/unit
         group: propromo
 
     # Link with ./core target
@@ -52,7 +59,26 @@ targets:
     scheme:
       gatherCoverageData: true
       testTargets:
-        - name: Tests
+        - name: UnitTests
+          parallelizable: true
+          randomExecutionOrder: true
+
+  UiTests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: ./core/tests/ui
+        group: propromo
+
+    # Link with ./core target
+    dependencies:
+      - target: Propromo
+      
+    # Create a new scheme that will be linked and configured for test purposes
+    scheme:
+      gatherCoverageData: true
+      testTargets:
+        - name: UiTests
           parallelizable: true
           randomExecutionOrder: true
 
