@@ -9,6 +9,18 @@ import Foundation
 import SwiftUI
 import WebKit
 
+extension Color {
+    init(hex: Int, opacity: Double = 1) {
+        self.init(
+            .sRGB,
+            red: Double((hex >> 16) & 0xff) / 255,
+            green: Double((hex >> 08) & 0xff) / 255,
+            blue: Double((hex >> 00) & 0xff) / 255,
+            opacity: opacity
+        )
+    }
+}
+
 struct TextFieldPrimaryStyle: TextFieldStyle {
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
@@ -19,6 +31,40 @@ struct TextFieldPrimaryStyle: TextFieldStyle {
                 RoundedRectangle(cornerRadius: 5)
                     .stroke(Color(UIColor.systemGray3), lineWidth: 1)
             )
+    }
+}
+
+struct StepIndicator: View {
+    let currentStep: Int
+    let dotCount: Int
+    
+    var body: some View {
+        HStack(spacing: 4) {
+            ForEach(0..<dotCount, id: \.self) { index in
+                ZStack {
+                    Circle()
+                        .frame(width: 40, height: 40)
+                        .foregroundColor(
+                            index == currentStep - 1 ? Color(hex: 0x9a9a9a) :
+                            index < currentStep - 1 ? Color(hex: 0x0D3269) : Color(hex: 0xcccccc))
+                    if index < dotCount - 1 {
+                        Rectangle()
+                            .frame(width: 8, height: 5)
+                            .foregroundColor(
+                                index == currentStep - 1 ? Color(hex: 0x9a9a9a) :
+                                index < currentStep - 1 ? Color(hex: 0x0D3269) : Color(hex: 0xcccccc))
+                            .offset(x: 22)
+                            .zIndex(-1)
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct StepIndicator_Previews: PreviewProvider {
+    static var previews: some View {
+        StepIndicator(currentStep: 2, dotCount: 3)
     }
 }
 

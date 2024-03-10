@@ -16,6 +16,14 @@ struct RegisterView: View {
 
     var body: some View {
         VStack(alignment: .center) {
+            HStack {
+                StepIndicator(currentStep: 1, dotCount: 3)
+                    .padding(.leading, 35)
+                    .padding(.top, 35)
+                
+                Spacer()
+            }
+            
             Form {
                 Section {
                     TextField("E-Mail", text: $email)
