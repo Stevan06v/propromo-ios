@@ -39,17 +39,17 @@ struct StepIndicator: View {
     let dotCount: Int
     
     var body: some View {
-        HStack(spacing: 4) {
+        HStack(spacing: 6) {
             ForEach(0..<dotCount, id: \.self) { index in
                 ZStack {
                     Circle()
-                        .frame(width: 40, height: 40)
+                        .frame(width: 30, height: 50)
                         .foregroundColor(
                             index == currentStep - 1 ? Color(hex: 0x9a9a9a) :
                             index < currentStep - 1 ? Color(hex: 0x0D3269) : Color(hex: 0xcccccc))
                     if index < dotCount - 1 {
                         Rectangle()
-                            .frame(width: 8, height: 5)
+                            .frame(width: 30, height: 5)
                             .foregroundColor(
                                 index == currentStep - 1 ? Color(hex: 0x9a9a9a) :
                                 index < currentStep - 1 ? Color(hex: 0x0D3269) : Color(hex: 0xcccccc))
@@ -59,12 +59,6 @@ struct StepIndicator: View {
                 }
             }
         }
-    }
-}
-
-struct StepIndicator_Previews: PreviewProvider {
-    static var previews: some View {
-        StepIndicator(currentStep: 2, dotCount: 3)
     }
 }
 
@@ -100,5 +94,11 @@ struct WebView: UIViewRepresentable {
                 }
             }
         }
+    }
+}
+
+struct Components_Previews: PreviewProvider {
+    static var previews: some View {
+        StepIndicator(currentStep: 2, dotCount: 3)
     }
 }

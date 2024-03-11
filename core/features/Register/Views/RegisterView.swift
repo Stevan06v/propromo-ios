@@ -51,7 +51,7 @@ struct RegisterView: View {
                 
                 Spacer()
                 
-                NavigationLink(destination: Text("Next Step")) {
+                NavigationLink(destination: ChooseProviderView(selectedView: $selectedView)) {
                     Text("Register")
                 }.buttonStyle(.borderedProminent)
             }.padding(.horizontal, 35)
