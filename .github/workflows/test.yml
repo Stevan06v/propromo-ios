@@ -45,7 +45,7 @@ jobs:
     # https://xcodereleases.com/
     # https://developer.apple.com/support/xcode/
     - name: Xcode Tests
-      uses: mxcl/xcodebuild@v1
+      uses: mxcl/xcodebuild@v2
       with:
         xcode: ${{ matrix.xcode }}
         platform: ${{ matrix.platform }}
