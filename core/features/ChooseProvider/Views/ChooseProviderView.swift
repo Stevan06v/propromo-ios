@@ -45,13 +45,9 @@ struct ChooseProviderView: View {
                 .padding(.horizontal, 35)
             
             HStack {
-                Button(action: registerButtonTapped) {
-                    Text("Back")
-                }
-                
                 Spacer()
                 
-                NavigationLink(destination: Text("Next Step")) {
+                NavigationLink(destination: CreateMonitorView(selectedView: $selectedView)) {
                     Text("Choose")
                 }.buttonStyle(.borderedProminent)
             }.padding(.horizontal, 35)

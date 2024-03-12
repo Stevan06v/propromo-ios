@@ -46,13 +46,9 @@ struct CreateMonitorView: View {
                 .padding(.horizontal, 35)
             
             HStack {
-                NavigationLink(destination: ChooseProviderView(selectedView: $selectedView)) {
-                    Text("Back")
-                }
-                
                 Spacer()
                 
-                NavigationLink(destination: Text("ConfirmationView")) {
+                NavigationLink(destination: MonitorAuthenticationView(selectedView: $selectedView)) {
                     Text("Create")
                 }.buttonStyle(.borderedProminent)
             }.padding(.horizontal, 35)
