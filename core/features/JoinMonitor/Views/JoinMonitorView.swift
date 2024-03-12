@@ -8,16 +8,14 @@
 import Foundation
 import SwiftUI
 
-struct RegisterView: View {
-    @State private var email = ""
-    @State private var password = ""
-    @State private var retypePassword = ""
+struct JoinMonitorView: View {
+    @State private var monitorId = ""
     @Binding var selectedView: Int
 
     var body: some View {
         VStack(alignment: .center) {
             HStack {
-                StepIndicator(currentStep: 1, dotCount: 3)
+                StepIndicator(currentStep: 2, dotCount: 3)
                     .padding(.leading, 35)
                     .padding(.top, 35)
                 
@@ -26,47 +24,54 @@ struct RegisterView: View {
             
             Form {
                 Section {
-                    TextField("E-Mail", text: $email)
-                        .textFieldStyle(TextFieldPrimaryStyle())
-                    
-                    SecureField("Password", text: $password)
-                        .textFieldStyle(TextFieldPrimaryStyle())
-                    
-                    SecureField("Retype Password", text: $retypePassword)
+                    TextField("Monitor-ID", text: $monitorId)
                         .textFieldStyle(TextFieldPrimaryStyle())
                 }
             }
             .formStyle(.columns)
             .navigationBarTitleDisplayMode(.large)
-            .navigationTitle("Register")
+            .navigationTitle("Join Monitor")
             .listSectionSpacing(0)
             .scrollContentBackground(.hidden)
             .padding(.horizontal, 35)
             .padding(.vertical, 15)
             
+            Rectangle()
+                .fill(Color.gray)
+                .frame(height: 150)
+                .padding(.horizontal, 35)
+            
             HStack {
-                Button(action: logInButtonTapped) {
-                    Text("Already Registered?")
+                Button(action: logInDashboardButtonTapped) {
+                    Text("Skip")
                 }
                 
                 Spacer()
                 
-                NavigationLink(destination: JoinMonitorView(selectedView: $selectedView)) {
-                    Text("Register")
+                NavigationLink(destination: Text("ConfirmationView")) {
+                    Text("Join")
                 }.buttonStyle(.borderedProminent)
             }.padding(.horizontal, 35)
             
             Spacer()
+            
+            HStack {
+                NavigationLink(destination: ChooseProviderView(selectedView: $selectedView)) {
+                    Text("Create one instead")
+                }.padding(.horizontal, 35)
+                
+                Spacer()
+            }
         }
     }
-
-    private func logInButtonTapped() {
-        selectedView = 0
+    
+    private func logInDashboardButtonTapped() { // register action => login action => home
+        selectedView = 1
     }
 }
 
-struct RegisterView_Previews: PreviewProvider {
+struct JoinMonitor_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterView(selectedView: .constant(1))
+        JoinMonitorView(selectedView: .constant(1))
     }
 }
