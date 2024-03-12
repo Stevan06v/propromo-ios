@@ -94,7 +94,7 @@ struct CopiableMonitorIdTextField: View {
             }) {
                 Image(systemName: "doc.on.clipboard")
                     .imageScale(.large)
-                    .frame(height: 40)
+                    .frame(height: 40) // .infinity
             }
             .buttonStyle(.bordered)
             .alert(isPresented: $showCopyAlert) {

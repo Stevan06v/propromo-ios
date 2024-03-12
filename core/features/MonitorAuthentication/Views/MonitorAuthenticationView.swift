@@ -11,7 +11,7 @@ import SwiftUI
 struct MonitorAuthenticationView: View {
     @State private var monitorToken = ""
     @State private var authenticationAppInstallId = "" // appInstallId is reserved :skull:
-    @State private var authenticationView = 0 // -1
+    @State private var authenticationView = -1
     @Binding var selectedView: Int
 
     var body: some View {
