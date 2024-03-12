@@ -48,7 +48,7 @@ struct JoinMonitorView: View {
                 
                 Spacer()
                 
-                NavigationLink(destination: Text("ConfirmationView")) {
+                NavigationLink(destination: MonitorConfirmationView(selectedView: $selectedView)) {
                     Text("Join")
                 }.buttonStyle(.borderedProminent)
             }.padding(.horizontal, 35)

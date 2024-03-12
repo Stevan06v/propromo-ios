@@ -46,7 +46,7 @@ struct MonitorAuthenticationView: View {
                 HStack {
                     Spacer()
                     
-                    NavigationLink(destination: Text("ConfirmationView")) {
+                    NavigationLink(destination: MonitorConfirmationView(selectedView: $selectedView)) {
                         Text("Authenticate")
                     }.buttonStyle(.borderedProminent)
                 }.padding(.horizontal, 35)

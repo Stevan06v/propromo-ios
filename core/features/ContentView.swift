@@ -16,7 +16,7 @@ struct ContentView: View {
                 case 0:
                     LogInView(selectedView: $selectedView)
                 case 1:
-                    Text("Logged In")
+                    Text("Home")
                 default:
                     RegisterView(selectedView: $selectedView)
             }
