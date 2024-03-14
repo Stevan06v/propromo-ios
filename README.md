@@ -24,6 +24,14 @@ brew install xcodegen
 
 ## Setup (Generate) Project (`.xcodeproj`)
 
+### Using The Swift Package
+
+```bash
+swift run xcodegen --project ../propromo.ios/ --spec ../propromo.ios/project.yml
+```
+
+### With Global Installation
+
 ```bash
 xcodegen generate
 ```
