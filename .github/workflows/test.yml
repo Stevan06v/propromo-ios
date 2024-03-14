@@ -21,9 +21,9 @@ jobs:
         #  - ^14
         # https://flatgithub.com/mxcl/.github/?filename=versions.json&sha=7f6f9803a64ce8a542970f9f04eb1b39b8b76946
         # https://github.com/actions/runner-images/blob/main/images/macos/macos-11-Readme.md#xcode
-        swift:
-          - ^4
-          - ^5
+        #swift:
+        #  - ^4
+        #  - ^5
         scheme:
           - UnitTests
           - UiTests
@@ -52,7 +52,7 @@ jobs:
       with:
         #xcode: ${{ matrix.xcode }}
         platform: ${{ matrix.platform }}
-        swift: ${{ matrix.swift }}
+        # swift: ${{ matrix.swift }}
         action: test # `build`
         code-coverage: false # default = `false`
         warnings-as-errors: false # default = `false`
