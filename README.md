@@ -8,10 +8,6 @@
 git clone https://github.com/yonaskolb/XcodeGen.git && cd XcodeGen
 ```
 
-```bash
-swift run xcodegen
-```
-
 ### As Globally Available CLI-App
 
 ```bash
