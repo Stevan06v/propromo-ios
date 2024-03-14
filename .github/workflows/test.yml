@@ -17,10 +17,13 @@ jobs:
       matrix:
         platform:
           - iOS
-        xcode:
-          - ^14
+        #xcode:
+        #  - ^14
         # https://flatgithub.com/mxcl/.github/?filename=versions.json&sha=7f6f9803a64ce8a542970f9f04eb1b39b8b76946
         # https://github.com/actions/runner-images/blob/main/images/macos/macos-11-Readme.md#xcode
+        swift:
+          - ^4
+          - ^5
         scheme:
           - UnitTests
           - UiTests
@@ -47,8 +50,9 @@ jobs:
     - name: Xcode Tests
       uses: mxcl/xcodebuild@v2
       with:
-        xcode: ${{ matrix.xcode }}
+        #xcode: ${{ matrix.xcode }}
         platform: ${{ matrix.platform }}
+        swift: ${{ matrix.swift }}
         action: test # `build`
         code-coverage: false # default = `false`
         warnings-as-errors: false # default = `false`
