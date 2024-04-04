@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var selectedView = 1 // -1
+    @State private var selectedView = -1 // -1
 
     var body: some View {
         NavigationStack {
@@ -34,7 +34,6 @@ struct ContentView: View {
                         }.tabItem() {
                             Label("Chat", systemImage: "text.bubble.fill")
                         }
-                        
                         VStack {
                             Text("Settings")
                         }.tabItem() {

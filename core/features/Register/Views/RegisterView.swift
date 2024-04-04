@@ -1,20 +1,16 @@
-//
-//  RegisterView.swift
-//  Propromo
-//
-//  Created by Jonas Fröller on 09.03.24.
-//
 
 import Foundation
 import SwiftUI
 
+
 struct RegisterView: View {
-    @State private var email = ""
-    @State private var password = ""
-    @State private var retypePassword = ""
+    
+    @StateObject var registerViewModel: RegisterViewModel = RegisterViewModel()
+    
     @Binding var selectedView: Int
 
     var body: some View {
+        
         VStack(alignment: .center) {
             HStack {
                 StepIndicator(currentStep: 1, dotCount: 3)
@@ -26,13 +22,16 @@ struct RegisterView: View {
             
             Form {
                 Section {
-                    TextField("E-Mail", text: $email)
+                    TextField("Name", text: $registerViewModel.name)
+                        .textFieldStyle(TextFieldPrimaryStyle()) .autocapitalization(.none)
+                    
+                    TextField("E-Mail", text: $registerViewModel.email)
+                        .textFieldStyle(TextFieldPrimaryStyle()) .autocapitalization(.none)
+                    
+                    SecureField("Password", text: $registerViewModel.password)
                         .textFieldStyle(TextFieldPrimaryStyle())
                     
-                    SecureField("Password", text: $password)
-                        .textFieldStyle(TextFieldPrimaryStyle())
-                    
-                    SecureField("Retype Password", text: $retypePassword)
+                    SecureField("Retype Password", text: $registerViewModel.retypedPassword)
                         .textFieldStyle(TextFieldPrimaryStyle())
                 }
             }
@@ -51,9 +50,8 @@ struct RegisterView: View {
                 
                 Spacer()
                 
-                NavigationLink(destination: JoinMonitorView(selectedView: $selectedView)) {
-                    Text("Register")
-                }.buttonStyle(.borderedProminent)
+                Button("Register", action: registerViewModel.register).buttonStyle(.borderedProminent)
+                
             }.padding(.horizontal, 35)
             
             Spacer()
@@ -61,7 +59,7 @@ struct RegisterView: View {
     }
 
     private func logInButtonTapped() {
-        selectedView = 0
+        selectedView = 1
     }
 }
 
