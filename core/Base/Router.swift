@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 // singleton-pattern
-final class Router: ObservableObject{
+final class Router: ObservableObject {
     
     public enum Destination: Codable, Hashable {
         case home

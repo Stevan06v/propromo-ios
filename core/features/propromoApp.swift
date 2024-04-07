@@ -8,26 +8,27 @@ struct propromoApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $router.navPath) {
-                HomeView()
+                ContentView()
                     .navigationDestination(for: Router.Destination.self) { destination in
                         switch destination {
-                            case .home:
-                                HomeView()
-                            case .login:
-                                LogInView()
-                            case .joinMonitor:
-                                JoinMonitorView()
-                            case .registration:
-                                RegistrationView()
-                            case .chooseProvider:
-                                ChooseProviderView()
-                            default:
-                                HomeView()
+                        case .home:
+                            HomeView()
+                        case .login:
+                            LogInView()
+                        case .joinMonitor:
+                            JoinMonitorView()
+                        case .registration:
+                            RegistrationView(router: router)
+                        case .chooseProvider:
+                            ChooseProviderView()
+                        default:
+                            ContentView()
                         }
-                            
+
                     }
+                    .environmentObject(router)
             }
-            .environmentObject(router)
         }
     }
 }
+

@@ -4,9 +4,13 @@ import SwiftUI
 
 
 struct RegistrationView: View {
+    @EnvironmentObject var router: Router
+    @ObservedObject var registerViewModel: RegisterViewModel
     
-    @StateObject var registerViewModel: RegisterViewModel = RegisterViewModel()
-
+    init(router: Router){
+        _registerViewModel = ObservedObject(wrappedValue: RegisterViewModel(router: router))
+    }
+    
     var body: some View {
         
         VStack(alignment: .center) {
@@ -20,14 +24,25 @@ struct RegistrationView: View {
             
             Form {
                 Section {
-                    TextField("Name", text: $registerViewModel.name)
-                        .textFieldStyle(TextFieldPrimaryStyle()) .autocapitalization(.none)
+                    TextField("Name", text: Binding(get: {
+                        registerViewModel.name
+                    }, set: {
+                        registerViewModel.dataChanged(name: $0)
+                    })).textFieldStyle(TextFieldPrimaryStyle()) .autocapitalization(.none)
                     
-                    TextField("E-Mail", text: $registerViewModel.email)
-                        .textFieldStyle(TextFieldPrimaryStyle()) .autocapitalization(.none)
+                    TextField("E-Mail", text: Binding(get: {
+                        registerViewModel.email
+                    }, set: {
+                        registerViewModel.dataChanged(email: $0)
+                    }))
+                    .textFieldStyle(TextFieldPrimaryStyle()) .autocapitalization(.none)
                     
-                    SecureField("Password", text: $registerViewModel.password)
-                        .textFieldStyle(TextFieldPrimaryStyle())
+                    SecureField("Password", text: Binding(get: {
+                        registerViewModel.password
+                    }, set: {
+                        registerViewModel.dataChanged(password: $0)
+                    }))
+                    .textFieldStyle(TextFieldPrimaryStyle())
                     
                     SecureField("Retype Password", text: $registerViewModel.retypedPassword)
                         .textFieldStyle(TextFieldPrimaryStyle())
@@ -43,24 +58,22 @@ struct RegistrationView: View {
             
             HStack {
                 Button(action: {
-                  print("fdfasd")
+                    registerViewModel.login()
                 }, label: {
-                  Text("Already registered?")
+                    Text("Already registered?")
                 })
                 Spacer()
                 
-                Button("Register", action: registerViewModel.register).buttonStyle(.borderedProminent)
+                Button(action: {
+                    registerViewModel.register()
+                }, label: {
+                    Text("Register")
+                }).buttonStyle(.borderedProminent)
                 
             }.padding(.horizontal, 35)
             
             Spacer()
         }
     }
-
-}
-
-struct RegistrationView_Previews: PreviewProvider {
-    static var previews: some View {
-        RegistrationView()
-    }
+    
 }

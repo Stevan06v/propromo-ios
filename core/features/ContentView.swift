@@ -1,10 +1,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @EnvironmentObject var router: Router
     var body: some View {
         TabView {
             VStack {
-               HomeView()
+                RegistrationView(router: router)
             }.tabItem() {
                 Label("Home", systemImage: "house")
             }.padding()
@@ -29,7 +31,6 @@ struct ContentView: View {
         }
     }
 }
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()

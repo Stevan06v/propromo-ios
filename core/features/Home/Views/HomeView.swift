@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject var router: Router
     @State private var monitorUrl = ""
 
     var body: some View {
@@ -39,11 +40,11 @@ struct HomeView: View {
                 TextField("Monitor-ID", text: $monitorUrl)
                     .textFieldStyle(TextFieldPrimaryStyle())
                 
-                NavigationLink(destination: JoinMonitorView()) {
+                Button(action: {
+                    router.navigate(to: .joinMonitor)
+                }, label: {
                     Text("Join")
-                        .frame(maxHeight: 40)
-                    // TODO: should have no skip option, if navigated to from home or settings
-                }
+                })
                 .buttonStyle(.borderedProminent)
             }
             .padding(.horizontal, 35)
