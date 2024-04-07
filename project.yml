@@ -19,11 +19,13 @@ targets:
     deploymentTarget: "17.0"
 
     sources:
-      - path: ./core/features
+      - path: ./core/Features
         group: propromo
-      - path: ./core/resources
+      - path: ./core/Resources
         group: propromo
-      - path: ./core/services
+      - path: ./core/Services
+        group: propromo
+      - path: ./core/Base
         group: propromo
 
     dependencies:
