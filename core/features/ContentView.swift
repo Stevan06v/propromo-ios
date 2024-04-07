@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  propromo
-//
-//  Created by Stevan Vlajic on 08.02.24.
-//
-
 import SwiftUI
 
 struct ContentView: View {
