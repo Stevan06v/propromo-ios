@@ -10,7 +10,6 @@ import SwiftUI
 
 struct ChooseProviderView: View {
     @State private var selectedProvider = 1
-    @Binding var selectedView: Int
 
     var body: some View {
         VStack(alignment: .center) {
@@ -47,7 +46,7 @@ struct ChooseProviderView: View {
             HStack {
                 Spacer()
                 
-                NavigationLink(destination: CreateMonitorView(selectedView: $selectedView)) {
+                NavigationLink(destination: CreateMonitorView()) {
                     Text("Choose")
                 }.buttonStyle(.borderedProminent)
             }.padding(.horizontal, 35)
@@ -55,14 +54,10 @@ struct ChooseProviderView: View {
             Spacer()
         }
     }
-
-    private func registerButtonTapped() {
-        selectedView = -1
-    }
 }
 
 struct ChooseProviderView_Previews: PreviewProvider {
     static var previews: some View {
-        ChooseProviderView(selectedView: .constant(1))
+        ChooseProviderView()
     }
 }

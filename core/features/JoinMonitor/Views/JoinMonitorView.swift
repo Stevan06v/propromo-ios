@@ -10,8 +10,7 @@ import SwiftUI
 
 struct JoinMonitorView: View {
     @State private var monitorId = ""
-    @Binding var selectedView: Int
-
+    
     var body: some View {
         VStack(alignment: .center) {
             HStack {
@@ -42,13 +41,15 @@ struct JoinMonitorView: View {
                 .padding(.horizontal, 35)
             
             HStack {
-                Button(action: logInDashboardButtonTapped) {
-                    Text("Skip")
+                Button {
+                    print("button clicked...")
+                } label: {
+                    Text("skip")
                 }
-                
+
                 Spacer()
                 
-                NavigationLink(destination: MonitorConfirmationView(selectedView: $selectedView)) {
+                NavigationLink(destination: MonitorConfirmationView()) {
                     Text("Join")
                 }.buttonStyle(.borderedProminent)
             }.padding(.horizontal, 35)
@@ -56,7 +57,7 @@ struct JoinMonitorView: View {
             Spacer()
             
             HStack {
-                NavigationLink(destination: ChooseProviderView(selectedView: $selectedView)) {
+                NavigationLink(destination: ChooseProviderView()) {
                     Text("Create one instead")
                 }.padding(.horizontal, 35)
                 
@@ -65,13 +66,10 @@ struct JoinMonitorView: View {
         }
     }
     
-    private func logInDashboardButtonTapped() { // register action => login action => home
-        selectedView = 1
-    }
 }
 
 struct JoinMonitor_Previews: PreviewProvider {
     static var previews: some View {
-        JoinMonitorView(selectedView: .constant(1))
+        JoinMonitorView()
     }
 }

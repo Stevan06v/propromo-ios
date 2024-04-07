@@ -11,7 +11,6 @@ import SwiftUI
 struct CreateMonitorView: View {
     @State private var monitorName = ""
     @State private var monitorUrl = ""
-    @Binding var selectedView: Int
 
     var body: some View {
         VStack(alignment: .center) {
@@ -48,7 +47,7 @@ struct CreateMonitorView: View {
             HStack {
                 Spacer()
                 
-                NavigationLink(destination: MonitorAuthenticationView(selectedView: $selectedView)) {
+                NavigationLink(destination: MonitorAuthenticationView()) {
                     Text("Create")
                 }.buttonStyle(.borderedProminent)
             }.padding(.horizontal, 35)
@@ -56,7 +55,7 @@ struct CreateMonitorView: View {
             Spacer()
             
             HStack {
-                NavigationLink(destination: JoinMonitorView(selectedView: $selectedView)) {
+                NavigationLink(destination: JoinMonitorView()) {
                     Text("Join one instead")
                 }.padding(.horizontal, 35)
                 
@@ -68,6 +67,6 @@ struct CreateMonitorView: View {
 
 struct CreateMonitor_Previews: PreviewProvider {
     static var previews: some View {
-        CreateMonitorView(selectedView: .constant(1))
+        CreateMonitorView()
     }
 }

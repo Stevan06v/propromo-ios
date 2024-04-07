@@ -15,7 +15,6 @@ struct MonitorConfirmationView: View {
     @State private var monitorAuthentication = ""
     @State private var monitorProvider = 1
     @State private var monitorUrl = ""
-    @Binding var selectedView: Int
 
     var body: some View {
         VStack(alignment: .center) {
@@ -111,6 +110,6 @@ struct CopiableMonitorIdTextField: View {
 
 struct MonitorConfirmationView_Previews: PreviewProvider {
     static var previews: some View {
-        MonitorConfirmationView(selectedView: .constant(1))
+        MonitorConfirmationView()
     }
 }

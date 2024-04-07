@@ -10,7 +10,6 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var monitorUrl = ""
-    @Binding var selectedView: Int
 
     var body: some View {
         VStack(alignment: .center) {
@@ -40,7 +39,7 @@ struct HomeView: View {
                 TextField("Monitor-ID", text: $monitorUrl)
                     .textFieldStyle(TextFieldPrimaryStyle())
                 
-                NavigationLink(destination: JoinMonitorView(selectedView: $selectedView)) {
+                NavigationLink(destination: JoinMonitorView()) {
                     Text("Join")
                         .frame(maxHeight: 40)
                     // TODO: should have no skip option, if navigated to from home or settings
@@ -57,6 +56,6 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(selectedView: .constant(1))
+        HomeView()
     }
 }
