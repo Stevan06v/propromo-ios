@@ -3,11 +3,9 @@ import Foundation
 import SwiftUI
 
 
-struct RegisterView: View {
+struct RegistrationView: View {
     
     @StateObject var registerViewModel: RegisterViewModel = RegisterViewModel()
-    
-    @Binding var selectedView: Int
 
     var body: some View {
         
@@ -44,10 +42,11 @@ struct RegisterView: View {
             .padding(.vertical, 15)
             
             HStack {
-                Button(action: logInButtonTapped) {
-                    Text("Already Registered?")
-                }
-                
+                Button(action: {
+                  print("fdfasd")
+                }, label: {
+                  Text("Already registered?")
+                })
                 Spacer()
                 
                 Button("Register", action: registerViewModel.register).buttonStyle(.borderedProminent)
@@ -58,14 +57,10 @@ struct RegisterView: View {
         }
     }
 
-    private func logInButtonTapped() {
-        selectedView = 1
-    }
 }
 
-struct RegisterView_Previews: PreviewProvider {
+struct RegistrationView_Previews: PreviewProvider {
     static var previews: some View {
-
-        RegisterView(selectedView: .constant(1))
+        RegistrationView()
     }
 }

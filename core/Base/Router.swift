@@ -3,31 +3,27 @@ import SwiftUI
 
 // singleton-pattern
 final class Router: ObservableObject{
+    
     public enum Destination: Codable, Hashable {
         case home
         case login
         case register
         case joinMonitor
-        case register
+        case registration
         case chooseProvider
     }
     
-    @Published var navPath  = NavigationPath()
+    @Published var navPath = NavigationPath()
     
-    
-    func navigate(to destination: Destination){
+    func navigate(to destination: Destination) {
         navPath.append(destination)
     }
     
-    func navigateBack(){
+    func navigateBack() {
         navPath.removeLast()
     }
     
-    func navigateBack(){
-        navPath.removeLast()
-    }
-    
-    func navigateToRoot(){
+    func navigateToRoot() {
         navPath.removeLast(navPath.count)
     }
 }
