@@ -6,9 +6,13 @@ class RegisterViewModel: ObservableObject{
     @AppStorage("AUTH_KEY") var authenticated: Bool = false
     @AppStorage("USER_KEY") var userKey: String = ""
     
-    
     @Published private (set) var registerRequest: RegisterRequest = RegisterRequest()
+    
     private var router: Router
+    
+    // alerts
+    @Published public var showAlert: Bool = false
+    @Published public var message: String = ""
     
     var email: String {
         get  {
@@ -21,19 +25,19 @@ class RegisterViewModel: ObservableObject{
             registerRequest.name
         }
     }
+    
     var password: String {
         get {
             registerRequest.password
         }
     }
+    
     var retypedPassword: String = ""
     var invalid: Bool = false
     
     
     func dataChanged(name: String? = nil, email: String? = nil, password: String? = nil){
         registerRequest.dataChanged(name: name, email: email, password: password)
-        
-        print(registerRequest)
     }
     
     init(router: Router) {
@@ -54,7 +58,8 @@ class RegisterViewModel: ObservableObject{
                     self.router.navigate(to: .home)
                     
                 case .failure(let error):
-                    print("Registration failed: \(error.localizedDescription)")
+                    self.message = "\(error.localizedDescription)"
+                    self.showAlert = true
                 }
             }
         }else{

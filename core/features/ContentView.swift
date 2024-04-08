@@ -5,15 +5,17 @@ import Combine
 struct ContentView: View {
     @EnvironmentObject var router: Router
     @AppStorage("AUTH_KEY") var authenticated: Bool = false
-
+    
     
     var body: some View {
-
-        if !authenticated {
+        
+    // if !authenticated {
             RegistrationView(router: router)
-        } else {
+    //   } else {
+            /*
             TabView {
-                HomeView()
+                RegistrationView(router: router)
+                
                 VStack {
                 }.tabItem() {
                     Label("Home", systemImage: "house")
@@ -37,13 +39,13 @@ struct ContentView: View {
                 }
                 
             }
-        }
+        }*/
         
     }
 }
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let router = Router()
-                ContentView().environmentObject(router)
+        ContentView().environmentObject(router)
     }
 }

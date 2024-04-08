@@ -69,6 +69,14 @@ struct RegistrationView: View {
                 }, label: {
                     Text("Register")
                 }).buttonStyle(.borderedProminent)
+                    .alert(isPresented: $registerViewModel.showAlert)
+                {
+                    Alert(
+                        title: Text("Registration Error"),
+                        message: Text(registerViewModel.message)
+                    )
+                }
+                
                 
             }.padding(.horizontal, 35)
             
