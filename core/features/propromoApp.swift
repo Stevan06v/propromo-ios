@@ -14,7 +14,7 @@ struct propromoApp: App {
                         case .home:
                             HomeView()
                         case .login:
-                            LogInView()
+                            LogInView(router: router)
                         case .joinMonitor:
                             JoinMonitorView()
                         case .registration:

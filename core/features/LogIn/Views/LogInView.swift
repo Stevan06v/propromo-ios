@@ -9,10 +9,14 @@ import Foundation
 import SwiftUI
 
 struct LogInView: View {
-    @State private var email = ""
-    @State private var password = ""
-    @State private var retypePassword = ""
-
+    
+    @EnvironmentObject var router: Router
+    @ObservedObject var loginViewModel: LoginViewModel
+    
+    init(router: Router){
+        _loginViewModel = ObservedObject(wrappedValue: LoginViewModel(router: router))
+    }
+    
     var body: some View {
         VStack(alignment: .center) {
             HStack {
@@ -25,11 +29,19 @@ struct LogInView: View {
             
             Form {
                 Section {
-                    TextField("E-Mail", text: $email)
-                        .textFieldStyle(TextFieldPrimaryStyle())
+                    TextField("E-Mail", text: Binding(get: {
+                        loginViewModel.email
+                    }, set: {
+                        loginViewModel.dataChanged(email: $0)
+                    }))
+                    .textFieldStyle(TextFieldPrimaryStyle())
                     
-                    SecureField("Password", text: $password)
-                        .textFieldStyle(TextFieldPrimaryStyle())
+                    SecureField("Password",  text: Binding(get: {
+                        loginViewModel.password
+                    }, set: {
+                        loginViewModel.dataChanged(password: $0)
+                    }))
+                    .textFieldStyle(TextFieldPrimaryStyle())
                 }
                 
                 HStack {
@@ -70,7 +82,7 @@ struct LogInView: View {
                 Spacer()
                 
                 Button(action: {
-                        print("login tapped")
+                    loginViewModel.login()
                 }) {
                     Text("Log In")
                 }.buttonStyle(.borderedProminent)
@@ -78,13 +90,5 @@ struct LogInView: View {
             
             Spacer()
         }
-    }
-
- 
-}
-
-struct LogInView_Previews: PreviewProvider {
-    static var previews: some View {
-        LogInView()
     }
 }
