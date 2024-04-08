@@ -1,0 +1,20 @@
+meta {
+  name: POST USER
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://propromo.test/api/v1/users
+  body: json
+  auth: basic
+}
+
+body:json {
+  {
+    "auth_type": "PROPROMO",
+    "name": "Stevan Vlajic",
+    "email": "stevanvlajic@gmail.com",
+    "password": "Hallo Welt"
+  }
+}

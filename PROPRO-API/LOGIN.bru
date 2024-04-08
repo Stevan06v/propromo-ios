@@ -1,0 +1,18 @@
+meta {
+  name: LOGIN
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://propromo.test/api/v1/users/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "stevanvl.aji@gmail.com",
+    "password": "Stevan-20060901!"
+  }
+}
