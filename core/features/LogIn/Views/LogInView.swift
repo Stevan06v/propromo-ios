@@ -34,8 +34,8 @@ struct LogInView: View {
                     }, set: {
                         loginViewModel.dataChanged(email: $0)
                     }))
-                    .textFieldStyle(TextFieldPrimaryStyle())
-                    
+                    .textFieldStyle(TextFieldPrimaryStyle()) .autocapitalization(.none)
+
                     SecureField("Password",  text: Binding(get: {
                         loginViewModel.password
                     }, set: {
@@ -74,7 +74,7 @@ struct LogInView: View {
             
             HStack {
                 Button(action: {
-                    print("Register tapped")
+                    loginViewModel.register()
                 }) {
                     Text("No Account?")
                 }
@@ -86,6 +86,14 @@ struct LogInView: View {
                 }) {
                     Text("Log In")
                 }.buttonStyle(.borderedProminent)
+                    .alert(isPresented: $loginViewModel.showAlert)
+                {
+                    Alert(
+                        title: Text("Login Error"),
+                        message: Text(loginViewModel.message)
+                    )
+                }
+                
             }.padding(.horizontal, 35)
             
             Spacer()

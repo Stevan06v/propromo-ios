@@ -10,11 +10,12 @@ struct ContentView: View {
     var body: some View {
         
     // if !authenticated {
+        //RegistrationView(router: router)
             LogInView(router: router)
     //   } else {
             /*
             TabView {
-                RegistrationView(router: router)
+                
                 
                 VStack {
                 }.tabItem() {

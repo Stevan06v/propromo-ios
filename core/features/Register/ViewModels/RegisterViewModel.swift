@@ -63,7 +63,8 @@ class RegisterViewModel: ObservableObject{
                 }
             }
         }else{
-            print("passwor incorrect")
+            self.message = "Passwords do not match!"
+            self.showAlert = true
         }
     }
     
