@@ -18,6 +18,12 @@ targets:
     platform: iOS
     deploymentTarget: "17.0"
 
+    info:
+        path: ./Propromo-Info.plist
+        properties:
+            NSAppTransportSecurity:
+                NSAllowsArbitraryLoads: true
+
     sources:
       - path: ./core/Features
         group: propromo
