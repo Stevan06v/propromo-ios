@@ -13,5 +13,8 @@ struct LoginReponse: Decodable {
     private (set) var message: String = ""
     private (set) var user: User = User()
     
+    
+    
+    
     init(){}
 }

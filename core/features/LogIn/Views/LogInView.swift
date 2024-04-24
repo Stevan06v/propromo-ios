@@ -1,10 +1,3 @@
-//
-//  RegisterView.swift
-//  Propromo
-//
-//  Created by Jonas Fröller on 09.03.24.
-//
-
 import Foundation
 import SwiftUI
 
@@ -26,7 +19,6 @@ struct LogInView: View {
                 
                 Spacer()
             }
-            
             Form {
                 Section {
                     TextField("E-Mail", text: Binding(get: {

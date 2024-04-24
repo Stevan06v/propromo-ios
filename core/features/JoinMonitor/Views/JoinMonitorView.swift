@@ -1,15 +1,14 @@
-//
-//  RegisterView.swift
-//  Propromo
-//
-//  Created by Jonas Fröller on 09.03.24.
-//
-
 import Foundation
 import SwiftUI
 
 struct JoinMonitorView: View {
-    @State private var monitorId = ""
+    
+    @ObservedObject var joinMonitorViewModel: JoinMonitorViewModel
+    
+    
+    init(router: Router){
+        _joinMonitorViewModel = ObservedObject(wrappedValue: JoinMonitorViewModel(router: router))
+    }
     
     var body: some View {
         VStack(alignment: .center) {
@@ -23,7 +22,11 @@ struct JoinMonitorView: View {
             
             Form {
                 Section {
-                    TextField("Monitor-ID", text: $monitorId)
+                    TextField("Monitor-ID", text: Binding(get: {
+                        joinMonitorViewModel.monitorHash
+                    }, set: {
+                        joinMonitorViewModel.dataChanged(monitorHash: $0)
+                    }))
                         .textFieldStyle(TextFieldPrimaryStyle())
                 }
             }
@@ -42,16 +45,20 @@ struct JoinMonitorView: View {
             
             HStack {
                 Button {
-                    print("button clicked...")
+                    joinMonitorViewModel.joinMonitor()
                 } label: {
                     Text("skip")
                 }
 
                 Spacer()
                 
-                NavigationLink(destination: MonitorConfirmationView()) {
-                    Text("Join")
+                Button {
+                    print("jfhdhhdf")
+                }label: {
+                    Text("skip")
                 }.buttonStyle(.borderedProminent)
+                
+                
             }.padding(.horizontal, 35)
             
             Spacer()
@@ -64,12 +71,5 @@ struct JoinMonitorView: View {
                 Spacer()
             }
         }
-    }
-    
-}
-
-struct JoinMonitor_Previews: PreviewProvider {
-    static var previews: some View {
-        JoinMonitorView()
     }
 }

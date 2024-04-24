@@ -10,12 +10,19 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var router: Router
-    @State private var monitorUrl = ""
+    @ObservedObject var joinMonitorViewModel: JoinMonitorViewModel
+    static let tag: String? = "Home"
+
+    @SceneStorage("selectedView") var selectedView: String?
+
+    init(router: Router){
+        _joinMonitorViewModel = ObservedObject(wrappedValue: JoinMonitorViewModel(router: router))
+    }
 
     var body: some View {
         VStack(alignment: .center) {
-            WebView(svgString: SVGIcons.logo())
-                .frame(height: 380)
+           /* WebView(svgString: SVGIcons.logo())
+                .frame(height: 380)*/
             
             Text("Propromo")
                 .bold()
@@ -37,26 +44,32 @@ struct HomeView: View {
                 .padding(.bottom, 40)
             
             HStack {
-                TextField("Monitor-ID", text: $monitorUrl)
+                TextField("Monitor-ID", text: Binding(get: {
+                    joinMonitorViewModel.monitorHash
+                }, set: {
+                    joinMonitorViewModel.dataChanged(monitorHash: $0)
+                }))
                     .textFieldStyle(TextFieldPrimaryStyle())
                 
                 Button(action: {
-                    router.navigate(to: .joinMonitor)
+                    joinMonitorViewModel.joinMonitor()
+                    self.selectedView = MonitorsView.tag
                 }, label: {
                     Text("Join")
-                })
-                .buttonStyle(.borderedProminent)
+                }).buttonStyle(.borderedProminent)
+                    .alert(isPresented: $joinMonitorViewModel.showAlert)
+                {
+                    Alert(
+                        title: Text("Login Error"),
+                        message: Text(joinMonitorViewModel.message)
+                    )
+                }
+
             }
             .padding(.horizontal, 35)
             .padding(.vertical, 15)
             
             Spacer()
         }
-    }
-}
-
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
     }
 }

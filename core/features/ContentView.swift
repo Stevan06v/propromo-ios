@@ -5,23 +5,27 @@ import Combine
 struct ContentView: View {
     @EnvironmentObject var router: Router
     @AppStorage("AUTH_KEY") var authenticated: Bool = false
+    @SceneStorage("selectedView") var selectedView: String?
+
+    
     
     var body: some View {
         ZStack{
             if !authenticated {
                 RegistrationView(router: router)
             } else {
-                TabView {
+                TabView(selection: $selectedView) {
                     VStack {
-                        HomeView()
+                        HomeView(router: router)
                     }.tabItem() {
                         Label("Home", systemImage: "house")
                     }.padding()
+                        .tag(HomeView.tag)
                     VStack {
-                        Text("Projects")
+                        MonitorsView()
                     }.tabItem() {
-                        Label("Projects", systemImage: "square.stack.3d.up")
-                    }.badge(69)
+                        Label("Monitors", systemImage: "square.stack.3d.up")
+                    }.tag(MonitorsView.tag)
                     
                     VStack {
                         Text("Chat")

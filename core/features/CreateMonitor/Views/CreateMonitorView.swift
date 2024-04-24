@@ -1,10 +1,3 @@
-//
-//  RegisterView.swift
-//  Propromo
-//
-//  Created by Jonas Fröller on 09.03.24.
-//
-
 import Foundation
 import SwiftUI
 
@@ -55,7 +48,7 @@ struct CreateMonitorView: View {
             Spacer()
             
             HStack {
-                NavigationLink(destination: JoinMonitorView()) {
+                NavigationLink(destination: MonitorAuthenticationView()) {
                     Text("Join one instead")
                 }.padding(.horizontal, 35)
                 

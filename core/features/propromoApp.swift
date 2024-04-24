@@ -12,11 +12,11 @@ struct propromoApp: App {
                     .navigationDestination(for: Router.Destination.self) { destination in
                         switch destination {
                         case .home:
-                            HomeView()
+                            HomeView(router: router)
                         case .login:
                             LogInView(router: router)
                         case .joinMonitor:
-                            JoinMonitorView()
+                            JoinMonitorView(router: router)
                         case .registration:
                             RegistrationView(router: router)
                         case .chooseProvider:
