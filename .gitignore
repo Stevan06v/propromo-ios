@@ -51,9 +51,7 @@ Temporary Items
 
 ### Swift ###
 # Xcode
-#
-# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
-Propromo.xcodeproj
+Propromo-Info.plist
 
 ## User settings
 xcuserdata/
