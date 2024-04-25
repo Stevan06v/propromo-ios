@@ -15,15 +15,15 @@ struct MonitorsView: View {
 
     var body: some View {
         NavigationStack {
-                List(monitorsViewModel.monitorsResponse.monitors){ monitor in
+            List(monitorsViewModel.monitorsModel.monitors){ monitor in
                     NavigationLink(monitor.title!, value: monitor)
                 }.navigationDestination(for: Monitor.self) { monitor in
-                    MonitorDetails(monitor: monitor)
+                    MonitorDetailsView(monitor: monitor)
                 }
-            }.navigationTitle("Test")
+            }.navigationTitle("Monitors")
             .task {
                 monitorsViewModel.getMonitors()
-            }.navigationTitle("Monitors")
+            }
     }
 
 }

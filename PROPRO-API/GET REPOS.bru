@@ -1,0 +1,22 @@
+meta {
+  name: GET REPOS
+  type: http
+  seq: 8
+}
+
+get {
+  url: https://rest-microservice.onrender.com/v1/github/orgs/propromo-software/projects/1/repositories/milestones/issues?rootPageSize=10&milestonesPageSize=10&issuesPageSize=100&issues_states=open,closed
+  body: none
+  auth: bearer
+}
+
+query {
+  rootPageSize: 10
+  milestonesPageSize: 10
+  issuesPageSize: 100
+  issues_states: open,closed
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwcm9wcm9tbyIsImF1dGhfdHlwZSI6IlRPS0VOIiwiYXV0aCI6ImdocF9PNVJjWjY2S3BhMXMwUExEUnVVa09TQlQ5UTZ3U0Y0RWxUS3IiLCJpYXQiOjE3MTM5ODE0MjV9.OHVRADdIuhyTMr82r5TBlBvAZzGDK1WQRENuuxBXHWA
+}

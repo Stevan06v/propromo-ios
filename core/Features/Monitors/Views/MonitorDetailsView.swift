@@ -1,8 +1,10 @@
 import SwiftUI
 
-struct MonitorDetails: View {
-    
+struct MonitorDetailsView: View {
+
     var monitor: Monitor
+    @ObservedObject var monitorsViewModel: MonitorsViewModel = MonitorsViewModel()
+
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -15,6 +17,10 @@ struct MonitorDetails: View {
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.leading)
+            RepositoryListView(repositories: monitor.repositories)
+                .task {
+                    monitorsViewModel.getRepositories(monitor: monitor)
+                }
         }
         .padding()
     }
