@@ -8,24 +8,14 @@
 import SwiftUI
 
 struct MonitorsView: View {
-    
     static let tag: String? = "Monitors"
     @ObservedObject var monitorsViewModel: MonitorsViewModel = MonitorsViewModel()
     
-
     var body: some View {
-        NavigationStack {
-            List(monitorsViewModel.monitorsModel.monitors){ monitor in
-                    NavigationLink(monitor.title!, value: monitor)
-                }.navigationDestination(for: Monitor.self) { monitor in
-                    MonitorDetailsView(monitor: monitor)
-                }
-            }.navigationTitle("Monitors")
+        MonitorListView(monitors: monitorsViewModel.monitorsModel.monitors)
             .task {
                 monitorsViewModel.getMonitors()
             }
     }
-
 }
-
 

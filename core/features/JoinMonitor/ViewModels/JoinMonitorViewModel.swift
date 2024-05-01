@@ -29,7 +29,7 @@ class JoinMonitorViewModel: ObservableObject {
     func joinMonitor(){
         MonitorService().joinMonitor(joinMonitorRequest: joinMonitorRequest) { result in
             switch result {
-            case .success(let joinMonitorResponse):
+            case .success(_):
                 self.selectedView = "Monitors"
             case .failure(let error):
                 print(error)
