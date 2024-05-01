@@ -20,6 +20,5 @@ struct RepositoryListView: View {
         }detail: {
             Text("Select a repository")
         }
-        .navigationTitle("Repositories")
     }
 }

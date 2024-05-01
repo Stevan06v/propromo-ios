@@ -91,24 +91,23 @@ struct MonitorDetailsView: View {
             .frame(maxWidth: .infinity, alignment: .top)
         }
     
+}
+struct MonitorDetailsView_Previews: PreviewProvider {
+    static var monitor: Monitor = {
+        Monitor(id: 1,
+                type: ["Type A", "Type B", "Type C"].randomElement(),
+                readme: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                title: "Random Monitor",
+                login_name: "random_user",
+                pat_token: "random_token",
+                short_description: "This is a random monitor.",
+                organization_name: "Random Org",
+                project_identification: Int.random(in: 1000...9999),
+                monitor_hash: UUID().uuidString,
+                repositories: [])
+    }()
     
-    struct MonitorDetailsView_Previews: PreviewProvider {
-        static var monitor: Monitor = {
-            Monitor(id: 1,
-                    type: ["Type A", "Type B", "Type C"].randomElement(),
-                    readme: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                    title: "Random Monitor",
-                    login_name: "random_user",
-                    pat_token: "random_token",
-                    short_description: "This is a random monitor.",
-                    organization_name: "Random Org",
-                    project_identification: Int.random(in: 1000...9999),
-                    monitor_hash: UUID().uuidString,
-                    repositories: [])
-        }()
-        
-        static var previews: some View {
-            MonitorDetailsView(monitor: monitor)
-        }
+    static var previews: some View {
+        MonitorDetailsView(monitor: monitor)
     }
 }
