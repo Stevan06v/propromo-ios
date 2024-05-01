@@ -1,26 +1,25 @@
-//
-//  Repositories.swift
-//  Propromo
-//
-//  Created by Stevan Vlajic on 25.04.24.
-//
-
 import SwiftUI
 
 struct RepositoryListView: View {
-
     var repositories: [Repository]
     
     var body: some View {
-        NavigationStack {
-            List{
-                ForEach(0 ..< self.repositories.count) { index in
-                    var repository: Repository = self.repositories[index]
-                    NavigationLink(repository.name!, value: repository)
-                }.navigationDestination(for: Repository.self) { repository in
-                    RepositoryDetailsView(repository: repository)
+        NavigationSplitView {
+            if repositories.isEmpty {
+                Text("No repositories available")
+                    .foregroundColor(.secondary)
+            } else {
+                List(repositories, id: \.id) { repository in
+                    NavigationLink {
+                        RepositoryDetailsView(repository: repository)
+                    } label: {
+                        RepositoryRowView(repository: repository)
+                    }
                 }
             }
-        }.navigationTitle("Repositories")
+        }detail: {
+            Text("Select a repository")
+        }
+        .navigationTitle("Repositories")
     }
 }

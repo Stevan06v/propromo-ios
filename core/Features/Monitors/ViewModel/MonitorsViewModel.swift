@@ -15,6 +15,8 @@ class MonitorsViewModel: ObservableObject {
     @Published public var showAlert: Bool = false
     @Published public var message: String = ""
     @Published public var monitorsModel: MonitorsModel = MonitorsModel()
+    @Published public var repositoryModel: RepositoryModel = RepositoryModel()
+
     
     public func getMonitors() {
         MonitorService().getMonitorsByEmail(email: self.userKey) { result in
@@ -29,11 +31,11 @@ class MonitorsViewModel: ObservableObject {
         }
     }
     
-    public func getRepositories(monitor: Monitor) {
-        RepositoryService().getRepositoriesBy(monitor: monitor) { result in
+    public func getRepositoriesByMonitorId(monitorId: Int) {
+        RepositoryService().getRepositoriesByMonitorId(monitorId: monitorId) { result in
             switch result {
             case .success(let repositoryResponse):
-                self.monitorsModel.setMonitorRepositories(monitor: monitor, repositories:  repositoryResponse.data.organization.projectV2.repositories.nodes)
+                self.repositoryModel.setRepositories(repositories: repositoryResponse.repositories)
             case .failure(let error):
                 print(error)
                 self.message = "\(error.localizedDescription)"

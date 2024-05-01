@@ -47,16 +47,18 @@
 		C65ACF181190475C444F5364 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87AEE83CF8D3151D608AEEED /* LoginService.swift */; };
 		C65F1C873F394DD66FD06A23 /* JoinMonitorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77825C67F60D056C2D0EF1 /* JoinMonitorView.swift */; };
 		C7A45594C8FB8BC972D18905 /* MonitorService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801119912090AB281F59B252 /* MonitorService.swift */; };
-		C9D49BFF4BBE1BF379AE95B3 /* RepositoryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2BFB49CF9D52366FD12B85 /* RepositoryDetailsView.swift */; };
 		E228C171B52F33DEAE22A4DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55952475861DA772C4F255BD /* Assets.xcassets */; };
 		E966A9250A5115A4D1010928 /* JoinMonitorRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5CBBF429F48603D927A11C /* JoinMonitorRequest.swift */; };
 		EC9102A0DFA148BD0AC10CE7 /* RepositoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763FE42BEDAD03F5084EF05B /* RepositoryResponse.swift */; };
 		EDE237872BE2D20800732601 /* MonitorRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE237862BE2D20800732601 /* MonitorRowView.swift */; };
 		EDE237892BE2D21600732601 /* MonitorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE237882BE2D21600732601 /* MonitorListView.swift */; };
+		EDE2378D2BE2F1C400732601 /* RepositoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE2378C2BE2F1C400732601 /* RepositoryModel.swift */; };
+		EDE2378F2BE2F3C500732601 /* RepositoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE2378E2BE2F3C500732601 /* RepositoryListView.swift */; };
+		EDE237912BE2F3E100732601 /* RepositoryRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE237902BE2F3E100732601 /* RepositoryRowView.swift */; };
+		EDE237932BE2F3F900732601 /* RepositoryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE237922BE2F3F900732601 /* RepositoryDetailsView.swift */; };
 		F340B55DF40B153A34DEF816 /* MonitorsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CEE38D818A2856F156C8EE1 /* MonitorsResponse.swift */; };
 		F4CC89B61EBE53D8C4129D89 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCD74EC2D1E2AFD4F5B8683 /* Response.swift */; };
 		F593FCBFB976113A4D8854BB /* RegisterRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341684C235A658725B40D497 /* RegisterRequest.swift */; };
-		FB67E21A72E7B976A3E3F640 /* RepositoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1B3CD65015933F9E342DB1 /* RepositoryListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,14 +139,16 @@
 		DD2C64888470ABA5AD8EBFBE /* RegisterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterResponse.swift; sourceTree = "<group>"; };
 		E201262D9E544FB388F05DC7 /* keep */ = {isa = PBXFileReference; lastKnownFileType = text; path = keep; sourceTree = "<group>"; };
 		E626DA43337374B50D097E9F /* JoinMonitorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinMonitorResponse.swift; sourceTree = "<group>"; };
-		EB1B3CD65015933F9E342DB1 /* RepositoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryListView.swift; sourceTree = "<group>"; };
 		EDE237862BE2D20800732601 /* MonitorRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorRowView.swift; sourceTree = "<group>"; };
 		EDE237882BE2D21600732601 /* MonitorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorListView.swift; sourceTree = "<group>"; };
+		EDE2378C2BE2F1C400732601 /* RepositoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryModel.swift; sourceTree = "<group>"; };
+		EDE2378E2BE2F3C500732601 /* RepositoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryListView.swift; sourceTree = "<group>"; };
+		EDE237902BE2F3E100732601 /* RepositoryRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryRowView.swift; sourceTree = "<group>"; };
+		EDE237922BE2F3F900732601 /* RepositoryDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryDetailsView.swift; sourceTree = "<group>"; };
 		EF7EA4C36017C60688AAA5BE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F056FFA519640695A992D982 /* MonitorsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorsRequest.swift; sourceTree = "<group>"; };
 		FB713BE57642D6BEA9ED1028 /* MonitorAuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorAuthenticationView.swift; sourceTree = "<group>"; };
 		FB75B0B379499D2A66BE7888 /* ChooseProviderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseProviderView.swift; sourceTree = "<group>"; };
-		FC2BFB49CF9D52366FD12B85 /* RepositoryDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryDetailsView.swift; sourceTree = "<group>"; };
 		FD77825C67F60D056C2D0EF1 /* JoinMonitorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinMonitorView.swift; sourceTree = "<group>"; };
 		FDABA56B7FB73C004A47D1C2 /* keep */ = {isa = PBXFileReference; lastKnownFileType = text; path = keep; sourceTree = "<group>"; };
 		FDCD74EC2D1E2AFD4F5B8683 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
@@ -434,6 +438,7 @@
 			isa = PBXGroup;
 			children = (
 				763FE42BEDAD03F5084EF05B /* RepositoryResponse.swift */,
+				EDE2378C2BE2F1C400732601 /* RepositoryModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -541,8 +546,9 @@
 		E7000370D48850A2809F607C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				FC2BFB49CF9D52366FD12B85 /* RepositoryDetailsView.swift */,
-				EB1B3CD65015933F9E342DB1 /* RepositoryListView.swift */,
+				EDE2378E2BE2F3C500732601 /* RepositoryListView.swift */,
+				EDE237902BE2F3E100732601 /* RepositoryRowView.swift */,
+				EDE237922BE2F3F900732601 /* RepositoryDetailsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -774,6 +780,7 @@
 				B6142CC657378B9B288C91B7 /* Monitor.swift in Sources */,
 				71AA5E2930AFE21D162ED558 /* MonitorAuthenticationView.swift in Sources */,
 				A76A696F6F4EDB51044F61D5 /* MonitorConfirmationView.swift in Sources */,
+				EDE2378D2BE2F1C400732601 /* RepositoryModel.swift in Sources */,
 				74C53AB6B86B5883C063AC0B /* MonitorDetailsView.swift in Sources */,
 				C7A45594C8FB8BC972D18905 /* MonitorService.swift in Sources */,
 				05E0F89D5CF7F1C04F214F9B /* MonitorsModel.swift in Sources */,
@@ -788,15 +795,16 @@
 				311E6A389777489118BFDC56 /* RegisterViewModel.swift in Sources */,
 				4377F269637D82B5E2608DA1 /* RegistrationView.swift in Sources */,
 				2692979550F97BD0EB53BB12 /* Repository.swift in Sources */,
-				C9D49BFF4BBE1BF379AE95B3 /* RepositoryDetailsView.swift in Sources */,
-				FB67E21A72E7B976A3E3F640 /* RepositoryListView.swift in Sources */,
 				EC9102A0DFA148BD0AC10CE7 /* RepositoryResponse.swift in Sources */,
 				5DDBF05D14010E0933980FE7 /* RepositoryService.swift in Sources */,
 				F4CC89B61EBE53D8C4129D89 /* Response.swift in Sources */,
 				994F7960D75794FD5D793A84 /* Router.swift in Sources */,
 				8E1A10E1964C668D9646F06D /* User.swift in Sources */,
+				EDE2378F2BE2F3C500732601 /* RepositoryListView.swift in Sources */,
 				999A34DF0251866991AB41DD /* Views.swift in Sources */,
+				EDE237932BE2F3F900732601 /* RepositoryDetailsView.swift in Sources */,
 				A5021F893F6506D17BFED561 /* propromoApp.swift in Sources */,
+				EDE237912BE2F3E100732601 /* RepositoryRowView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
