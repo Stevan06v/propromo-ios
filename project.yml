@@ -23,6 +23,8 @@ targets:
         properties:
             NSAppTransportSecurity:
                 NSAllowsArbitraryLoads: true
+            UILaunchScreen:
+                UIColorName: systemBackground
 
     sources:
       - path: ./core/Features
