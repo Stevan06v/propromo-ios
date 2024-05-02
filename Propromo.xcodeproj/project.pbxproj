@@ -50,6 +50,13 @@
 		E228C171B52F33DEAE22A4DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55952475861DA772C4F255BD /* Assets.xcassets */; };
 		E966A9250A5115A4D1010928 /* JoinMonitorRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5CBBF429F48603D927A11C /* JoinMonitorRequest.swift */; };
 		EC9102A0DFA148BD0AC10CE7 /* RepositoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763FE42BEDAD03F5084EF05B /* RepositoryResponse.swift */; };
+		EDE1D3212BE308EA00160871 /* MilestoneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE1D3202BE308EA00160871 /* MilestoneModel.swift */; };
+		EDE1D3232BE309A400160871 /* MilestoneResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE1D3222BE309A400160871 /* MilestoneResponse.swift */; };
+		EDE1D3262BE309F600160871 /* MilestoneListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE1D3252BE309F600160871 /* MilestoneListView.swift */; };
+		EDE1D3282BE30A0500160871 /* MilestoneRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE1D3272BE30A0500160871 /* MilestoneRowView.swift */; };
+		EDE1D32A2BE30A1500160871 /* MilestoneDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE1D3292BE30A1500160871 /* MilestoneDetailView.swift */; };
+		EDE1D32C2BE30C6600160871 /* MilestoneService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE1D32B2BE30C6600160871 /* MilestoneService.swift */; };
+		EDE1D32E2BE310C800160871 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDE1D32D2BE310C800160871 /* Storyboard.storyboard */; };
 		EDE237872BE2D20800732601 /* MonitorRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE237862BE2D20800732601 /* MonitorRowView.swift */; };
 		EDE237892BE2D21600732601 /* MonitorListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE237882BE2D21600732601 /* MonitorListView.swift */; };
 		EDE2378D2BE2F1C400732601 /* RepositoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE2378C2BE2F1C400732601 /* RepositoryModel.swift */; };
@@ -117,7 +124,7 @@
 		87AEE83CF8D3151D608AEEED /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		8B5CBBF429F48603D927A11C /* JoinMonitorRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinMonitorRequest.swift; sourceTree = "<group>"; };
 		9B1F573B1DBA80E2BCA5312E /* Icons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icons.swift; sourceTree = "<group>"; };
-		A2554D185044782885B5D878 /* Propromo.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Propromo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2554D185044782885B5D878 /* Propromo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Propromo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3E5014D3E4DA9BEAE9C23C1 /* MonitorsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorsView.swift; sourceTree = "<group>"; };
 		A9403338696C25E986950E07 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
 		AA4F86B6CE64DB4E5A9FC971 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -139,6 +146,13 @@
 		DD2C64888470ABA5AD8EBFBE /* RegisterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterResponse.swift; sourceTree = "<group>"; };
 		E201262D9E544FB388F05DC7 /* keep */ = {isa = PBXFileReference; lastKnownFileType = text; path = keep; sourceTree = "<group>"; };
 		E626DA43337374B50D097E9F /* JoinMonitorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinMonitorResponse.swift; sourceTree = "<group>"; };
+		EDE1D3202BE308EA00160871 /* MilestoneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneModel.swift; sourceTree = "<group>"; };
+		EDE1D3222BE309A400160871 /* MilestoneResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneResponse.swift; sourceTree = "<group>"; };
+		EDE1D3252BE309F600160871 /* MilestoneListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneListView.swift; sourceTree = "<group>"; };
+		EDE1D3272BE30A0500160871 /* MilestoneRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneRowView.swift; sourceTree = "<group>"; };
+		EDE1D3292BE30A1500160871 /* MilestoneDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneDetailView.swift; sourceTree = "<group>"; };
+		EDE1D32B2BE30C6600160871 /* MilestoneService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MilestoneService.swift; path = core/services/MilestoneService.swift; sourceTree = SOURCE_ROOT; };
+		EDE1D32D2BE310C800160871 /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		EDE237862BE2D20800732601 /* MonitorRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorRowView.swift; sourceTree = "<group>"; };
 		EDE237882BE2D21600732601 /* MonitorListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorListView.swift; sourceTree = "<group>"; };
 		EDE2378C2BE2F1C400732601 /* RepositoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryModel.swift; sourceTree = "<group>"; };
@@ -201,6 +215,7 @@
 				5555A3421670504A28FDD5CE /* RegisterService.swift */,
 				64A5DF294A4AF277A0784810 /* RepositoryService.swift */,
 				FDCD74EC2D1E2AFD4F5B8683 /* Response.swift */,
+				EDE1D32B2BE30C6600160871 /* MilestoneService.swift */,
 			);
 			name = Services;
 			path = core/Services;
@@ -241,6 +256,7 @@
 		32EA3E835249F999B91E18BE = {
 			isa = PBXGroup;
 			children = (
+				EDE1D32D2BE310C800160871 /* Storyboard.storyboard */,
 				F3386E4714F4C2D0EE8FE567 /* propromo */,
 				EDBC7B28C9DC02A58DB6E33B /* Products */,
 			);
@@ -342,6 +358,7 @@
 		8CDEDFBF4F19DC6333558F5D /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				EDE1D31D2BE308C400160871 /* Milestones */,
 				55952475861DA772C4F255BD /* Assets.xcassets */,
 				120BA95D4808A25B4649AC31 /* Components.swift */,
 				EF7EA4C36017C60688AAA5BE /* ContentView.swift */,
@@ -573,6 +590,34 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		EDE1D31D2BE308C400160871 /* Milestones */ = {
+			isa = PBXGroup;
+			children = (
+				EDE1D31F2BE308D400160871 /* Model */,
+				EDE1D31E2BE308CD00160871 /* View */,
+			);
+			path = Milestones;
+			sourceTree = "<group>";
+		};
+		EDE1D31E2BE308CD00160871 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				EDE1D3252BE309F600160871 /* MilestoneListView.swift */,
+				EDE1D3272BE30A0500160871 /* MilestoneRowView.swift */,
+				EDE1D3292BE30A1500160871 /* MilestoneDetailView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		EDE1D31F2BE308D400160871 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EDE1D3202BE308EA00160871 /* MilestoneModel.swift */,
+				EDE1D3222BE309A400160871 /* MilestoneResponse.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		EDE2378A2BE2DEDA00732601 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -749,6 +794,7 @@
 			files = (
 				E228C171B52F33DEAE22A4DB /* Assets.xcassets in Resources */,
 				A95991E499F568E1767225A5 /* Preview Assets.xcassets in Resources */,
+				EDE1D32E2BE310C800160871 /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -760,6 +806,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5CAFE377C58B12E8748C0207 /* ChooseProviderView.swift in Sources */,
+				EDE1D3232BE309A400160871 /* MilestoneResponse.swift in Sources */,
 				C3FC9390506430B1B80DB7B3 /* Components.swift in Sources */,
 				763EA7C8670322F97DEB3AD3 /* ContentView.swift in Sources */,
 				8A0622DD38FF3A2C1D566DC6 /* CreateMonitorView.swift in Sources */,
@@ -771,6 +818,8 @@
 				4392756DE2F4E41F9C85AF28 /* JoinMonitorViewModel.swift in Sources */,
 				EDE237872BE2D20800732601 /* MonitorRowView.swift in Sources */,
 				299C1BB9ED40DE29A7CA97EB /* LogInView.swift in Sources */,
+				EDE1D32A2BE30A1500160871 /* MilestoneDetailView.swift in Sources */,
+				EDE1D32C2BE30C6600160871 /* MilestoneService.swift in Sources */,
 				C285634A067BA0211785F366 /* LoginRequest.swift in Sources */,
 				41AAB9DEEC69486A8DDECC42 /* LoginResponse.swift in Sources */,
 				C65ACF181190475C444F5364 /* LoginService.swift in Sources */,
@@ -781,7 +830,9 @@
 				71AA5E2930AFE21D162ED558 /* MonitorAuthenticationView.swift in Sources */,
 				A76A696F6F4EDB51044F61D5 /* MonitorConfirmationView.swift in Sources */,
 				EDE2378D2BE2F1C400732601 /* RepositoryModel.swift in Sources */,
+				EDE1D3212BE308EA00160871 /* MilestoneModel.swift in Sources */,
 				74C53AB6B86B5883C063AC0B /* MonitorDetailsView.swift in Sources */,
+				EDE1D3262BE309F600160871 /* MilestoneListView.swift in Sources */,
 				C7A45594C8FB8BC972D18905 /* MonitorService.swift in Sources */,
 				05E0F89D5CF7F1C04F214F9B /* MonitorsModel.swift in Sources */,
 				28C775A88BBFFB6B0D993DB2 /* MonitorsRequest.swift in Sources */,
@@ -802,6 +853,7 @@
 				8E1A10E1964C668D9646F06D /* User.swift in Sources */,
 				EDE2378F2BE2F3C500732601 /* RepositoryListView.swift in Sources */,
 				999A34DF0251866991AB41DD /* Views.swift in Sources */,
+				EDE1D3282BE30A0500160871 /* MilestoneRowView.swift in Sources */,
 				EDE237932BE2F3F900732601 /* RepositoryDetailsView.swift in Sources */,
 				A5021F893F6506D17BFED561 /* propromoApp.swift in Sources */,
 				EDE237912BE2F3E100732601 /* RepositoryRowView.swift in Sources */,
@@ -863,6 +915,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Propromo-Info.plist";
+				INFOPLIST_KEY_UILaunchStoryboardName = Storyboard.storyboard;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1051,6 +1104,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Propromo-Info.plist";
+				INFOPLIST_KEY_UILaunchStoryboardName = Storyboard.storyboard;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

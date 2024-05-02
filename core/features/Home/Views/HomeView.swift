@@ -21,8 +21,8 @@ struct HomeView: View {
 
     var body: some View {
         VStack(alignment: .center) {
-           /* WebView(svgString: SVGIcons.logo())
-                .frame(height: 380)*/
+            WebView(svgString: SVGIcons.logo())
+                .frame(height: 380)
             
             Text("Propromo")
                 .bold()

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RepositoryDetailsView: View {
     var repository: Repository
+    @ObservedObject var monitorsViewModel: MonitorsViewModel = MonitorsViewModel()
     
     var body: some View {
         VStack {
@@ -17,9 +18,12 @@ struct RepositoryDetailsView: View {
                     .font(.title)
                     .fontWeight(.bold)
                     .foregroundColor(.primary)
-                
                     .multilineTextAlignment(.center)
                 
+                MilestoneListView(milestones: monitorsViewModel.milestoneModel.milestones)
+                    .task {
+                        monitorsViewModel.getMilestonesByRepositoryId(repositoryId: repository.id)
+                    }
             }
             .padding()
             .frame(maxWidth: .infinity)

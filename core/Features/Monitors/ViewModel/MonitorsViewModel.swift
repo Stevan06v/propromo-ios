@@ -16,6 +16,7 @@ class MonitorsViewModel: ObservableObject {
     @Published public var message: String = ""
     @Published public var monitorsModel: MonitorsModel = MonitorsModel()
     @Published public var repositoryModel: RepositoryModel = RepositoryModel()
+    @Published public var milestoneModel: MilestoneModel = MilestoneModel()
 
     
     public func getMonitors() {
@@ -36,6 +37,20 @@ class MonitorsViewModel: ObservableObject {
             switch result {
             case .success(let repositoryResponse):
                 self.repositoryModel.setRepositories(repositories: repositoryResponse.repositories)
+            case .failure(let error):
+                print(error)
+                self.message = "\(error.localizedDescription)"
+                self.showAlert = true
+            }
+        }
+    }
+    
+    
+    public func getMilestonesByRepositoryId(repositoryId: Int) {
+        MilestoneService().getMilestonesByRepositoryId(repositoryId: repositoryId) { result in
+            switch result {
+            case .success(let milestoneResponse):
+                self.milestoneModel.setMilestones(milestones: milestoneResponse.milestones)
             case .failure(let error):
                 print(error)
                 self.message = "\(error.localizedDescription)"

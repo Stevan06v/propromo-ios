@@ -95,7 +95,7 @@ struct MonitorDetailsView: View {
 struct MonitorDetailsView_Previews: PreviewProvider {
     static var monitor: Monitor = {
         Monitor(id: 1,
-                type: ["Type A", "Type B", "Type C"].randomElement(),
+                type: ["USER", "ORGANIZATION"].randomElement(),
                 readme: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                 title: "Random Monitor",
                 login_name: "random_user",
