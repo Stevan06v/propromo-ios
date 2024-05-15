@@ -15,11 +15,13 @@ struct ChatLoginRequest: Encodable {
     let monitorId: String
 }
 
+let url = "propromo-chat-c575fve9ssfr.deno.dev"
+
 class ChatService {
-    let url = "https://propromo-chat-c575fve9ssfr.deno.dev"
+    var webSocketManager: WebSocketManager?
     
-    func login(loginRequest: ChatLoginRequest, completion: @escaping (Result<String, Error>) -> Void) { // returns token for chat
-        AF.request(url + "/login",
+    func loginAndConnect(loginRequest: ChatLoginRequest, completion: @escaping (Result<String, Error>) -> Void) { // returns token for chat
+        AF.request("https://" + url + "/login",
                    method: .post,
                    parameters: loginRequest, // body as json
                    encoder: JSONParameterEncoder.default).response { response in
@@ -41,6 +43,91 @@ class ChatService {
             }
 
             completion(.success(responseString))
+            
+            self.webSocketManager = WebSocketManager(monitorId: loginRequest.monitorId, token: responseString)
+            self.webSocketManager?.connect()
+        }
+    }
+    
+    func sendMessage(_ message: String) {
+        self.webSocketManager?.sendMessage(message)
+    }
+    
+    func disconnect() {
+        self.webSocketManager?.disconnect()
+    }
+}
+
+class WebSocketManager: NSObject, WebSocketDelegate {
+    func didReceive(event: Starscream.WebSocketEvent, client: Starscream.WebSocketClient) { // self.webSocket.onEvent = { event in switch event {}
+        switch event {
+        case .connected(let headers):
+            self.isConnected = true
+            print("websocket is connected: \(headers)")
+        case .disconnected(let reason, let code):
+            self.isConnected = false
+            print("websocket is disconnected: \(reason) with code: \(code)")
+        case .text(let string):
+            print("Received text: \(string)")
+        case .binary(let data):
+            print("Received data: \(data.count)")
+        case .ping(_):
+            break
+        case .pong(_):
+            break
+        case .viabilityChanged(_):
+            break
+        case .reconnectSuggested(_):
+            break
+        case .cancelled:
+            self.isConnected = false
+        case .error(let error):
+            self.isConnected = false
+            self.handleError(error)
+        case .peerClosed:
+            break
+        }
+    }
+    
+    var urlRequest: URLRequest
+    var webSocket: Starscream.WebSocket
+    var monitorId: String
+    var token: String
+    var isConnected: Bool = false
+
+    init(monitorId: String, token: String) {
+        self.monitorId = monitorId
+        self.token = token
+        
+        self.urlRequest = URLRequest(url: URL(string: "wss://\(url)/chat/\(self.monitorId)?auth=\(self.token)")!)
+        self.urlRequest.timeoutInterval = 5
+        self.webSocket = Starscream.WebSocket(request: self.urlRequest)
+        
+        super.init()
+        self.webSocket.delegate = self
+    }
+
+    func connect() {
+        webSocket.connect()
+    }
+
+    func disconnect() {
+        webSocket.disconnect()
+    }
+
+    func sendMessage(_ message: String) {
+        if (self.isConnected) {
+            webSocket.write(string: message)
+        }
+    }
+
+    func handleError(_ error: Error?) {
+        if let e = error as? WSError {
+            print("websocket encountered an error: \(e.message)")
+        } else if let e = error {
+            print("websocket encountered an error: \(e.localizedDescription)")
+        } else {
+            print("websocket encountered an error")
         }
     }
 }
