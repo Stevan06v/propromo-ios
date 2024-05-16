@@ -2,17 +2,19 @@
 import SwiftUI
 class RegisterViewModel: ObservableObject{
     
+    private var viewModel: ViewModel
+
     // app-storage values
     @AppStorage("AUTH_KEY") var authenticated: Bool = false
     @AppStorage("USER_KEY") var userKey: String = ""
     
     @Published private (set) var registerRequest: RegisterRequest = RegisterRequest()
-    
-    private var router: Router
-    
+        
     // alerts
     @Published public var showAlert: Bool = false
     @Published public var message: String = ""
+    
+    
     
     var email: String {
         get  {
@@ -40,10 +42,7 @@ class RegisterViewModel: ObservableObject{
         registerRequest.dataChanged(name: name, email: email, password: password)
     }
     
-    init(router: Router) {
-        self.router = router
-    }
-    
+
     func register() {
         if (registerRequest.password == retypedPassword){
             RegisterService().register(registerRequest: registerRequest) { result in
@@ -55,7 +54,9 @@ class RegisterViewModel: ObservableObject{
                     self.authenticated = true
                     
                     // jump to home if authenticated
-                    self.router.navigate(to: .home)
+                    // self.router.navigate(to: .home)
+                    
+                    self.viewModel.showAuthenticationView = false
                     
                 case .failure(let error):
                     self.message = "\(error.localizedDescription)"
@@ -69,10 +70,15 @@ class RegisterViewModel: ObservableObject{
     }
     
     func login(){
-        router.navigate(to: .login)
+       // router.navigate(to: .login)
     }
     
     func registerPressed() {
         print("Register Pressed")
     }
+    
+    
+    init(viewModel: ViewModel) {
+           self.viewModel = viewModel
+   }
 }

@@ -3,20 +3,22 @@ import Combine
 
 
 struct ContentView: View {
-    @EnvironmentObject var router: Router
     @AppStorage("AUTH_KEY") var authenticated: Bool = false
     @SceneStorage("selectedView") var selectedView: String?
+    
+    @ObservedObject var viewModel: ViewModel
+    
+    init(){
+        _viewModel = ObservedObject(wrappedValue: ViewModel())
+    }
 
-    
-    
     var body: some View {
-        ZStack{
-            if !authenticated {
-                RegistrationView(router: router)
+        if !authenticated && viewModel.showAuthenticationView {
+            AuthenticationView().environmentObject(viewModel)
             } else {
                 TabView(selection: $selectedView) {
                     VStack {
-                        HomeView(router: router)
+                        HomeView()
                     }.tabItem() {
                         Label("Home", systemImage: "house")
                     }.padding()
@@ -40,11 +42,9 @@ struct ContentView: View {
                 }
             }
         }
-    }
 }
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        let router = Router()
-        ContentView().environmentObject(router)
+        ContentView()
     }
 }

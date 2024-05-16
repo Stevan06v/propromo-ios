@@ -15,8 +15,8 @@ struct HomeView: View {
 
     @SceneStorage("selectedView") var selectedView: String?
 
-    init(router: Router){
-        _joinMonitorViewModel = ObservedObject(wrappedValue: JoinMonitorViewModel(router: router))
+    init(){
+        _joinMonitorViewModel = ObservedObject(wrappedValue: JoinMonitorViewModel())
     }
 
     var body: some View {

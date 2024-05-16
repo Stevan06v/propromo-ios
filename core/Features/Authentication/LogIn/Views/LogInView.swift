@@ -3,11 +3,11 @@ import SwiftUI
 
 struct LogInView: View {
     
-    @EnvironmentObject var router: Router
     @ObservedObject var loginViewModel: LoginViewModel
+    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel;
     
-    init(router: Router){
-        _loginViewModel = ObservedObject(wrappedValue: LoginViewModel(router: router))
+    init(viewModel: ViewModel){
+        _loginViewModel = ObservedObject(wrappedValue: LoginViewModel(viewModel: viewModel))
     }
     
     var body: some View {
@@ -66,7 +66,7 @@ struct LogInView: View {
             
             HStack {
                 Button(action: {
-                    loginViewModel.register()
+                    authenticationViewModel.showLogin = false
                 }) {
                     Text("No Account?")
                 }

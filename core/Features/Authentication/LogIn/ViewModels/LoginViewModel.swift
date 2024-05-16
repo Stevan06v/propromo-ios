@@ -3,14 +3,16 @@ import SwiftUI
 
 class LoginViewModel: ObservableObject {
     
-    private var router: Router
     
+    private var viewModel: ViewModel
     @AppStorage("AUTH_KEY") var authenticated: Bool = false
     @AppStorage("USER_KEY") var userKey: String = ""
     
     // alerts
     @Published public var showAlert: Bool = false
     @Published public var message: String = ""
+    
+    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     
     @Published private (set) var loginRequest: LoginRequest = LoginRequest()
     
@@ -42,7 +44,9 @@ class LoginViewModel: ObservableObject {
                 print(loginResponse)
                 
                 // jump to home if authenticated
-                self.router.navigate(to: .home)
+               // self.router.navigate(to: .home)
+                
+                self.viewModel.showAuthenticationView = false
             case .failure(let error):
                 self.message = "\(error.localizedDescription)"
                 self.showAlert = true
@@ -51,12 +55,9 @@ class LoginViewModel: ObservableObject {
        
     }
     
-    func register(){
-        router.navigate(to: .register)
-    }
-    
-    init(router: Router) {
-        self.router = router
-    }
+    init(viewModel: ViewModel) {
+           self.viewModel = viewModel
+   }
+   
     
 }

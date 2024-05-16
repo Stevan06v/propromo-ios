@@ -4,11 +4,12 @@ import SwiftUI
 
 
 struct RegistrationView: View {
-    @EnvironmentObject var router: Router
     @ObservedObject var registerViewModel: RegisterViewModel
+    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel;
+
     
-    init(router: Router){
-        _registerViewModel = ObservedObject(wrappedValue: RegisterViewModel(router: router))
+    init(viewModel: ViewModel){
+        _registerViewModel = ObservedObject(wrappedValue: RegisterViewModel(viewModel: viewModel))
     }
     
     var body: some View {
@@ -58,7 +59,7 @@ struct RegistrationView: View {
             
             HStack {
                 Button(action: {
-                    registerViewModel.login()
+                    authenticationViewModel.showLogin = true
                 }, label: {
                     Text("Already registered?")
                 })

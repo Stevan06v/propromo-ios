@@ -2,9 +2,7 @@ import Foundation
 import SwiftUI
 
 class JoinMonitorViewModel: ObservableObject {
-        
-    private var router: Router
-    
+            
     @AppStorage("USER_KEY") var userKey: String = ""
     
     // alerts
@@ -39,8 +37,5 @@ class JoinMonitorViewModel: ObservableObject {
         }
     }
     
-    init(router: Router) {
-        self.router = router
-    }
-    
+        
 }

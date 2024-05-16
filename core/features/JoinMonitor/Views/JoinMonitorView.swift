@@ -6,8 +6,8 @@ struct JoinMonitorView: View {
     @ObservedObject var joinMonitorViewModel: JoinMonitorViewModel
     
     
-    init(router: Router){
-        _joinMonitorViewModel = ObservedObject(wrappedValue: JoinMonitorViewModel(router: router))
+    init(){
+        _joinMonitorViewModel = ObservedObject(wrappedValue: JoinMonitorViewModel())
     }
     
     var body: some View {
