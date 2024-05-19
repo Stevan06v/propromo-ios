@@ -30,7 +30,7 @@ struct ContentView: View {
                     }.tag(MonitorsView.tag)
                     
                     VStack {
-                        Text("Chat")
+                        ChatView()
                     }.tabItem() {
                         Label("Chat", systemImage: "text.bubble.fill")
                     }

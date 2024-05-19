@@ -20,12 +20,13 @@ let url = "propromo-chat-c575fve9ssfr.deno.dev"
 class ChatService {
     var webSocketManager: WebSocketManager?
     
-    func loginAndConnect(loginRequest: ChatLoginRequest, completion: @escaping (Result<String, Error>) -> Void) { // returns token for chat
-        AF.request("https://" + url + "/login",
+    func loginAndConnect(loginRequest: ChatLoginRequest, completion: @escaping (Result<[ChatMessage], Error>) -> Void) { // returns token for chat
+        AF.request("https://\(url)/login",
                    method: .post,
                    parameters: loginRequest, // body as json
                    encoder: JSONParameterEncoder.default).response { response in
             if let error = response.error {
+                print(error)
                 completion(.failure(error))
                 return
             }
@@ -35,17 +36,17 @@ class ChatService {
                 completion(.failure(error))
                 return
             }
-
+            
             guard let responseString = String(data: responseData, encoding: .utf8) else {
                 let error = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Response data could not be converted to a string"])
                 completion(.failure(error))
                 return
             }
-
-            completion(.success(responseString))
             
             self.webSocketManager = WebSocketManager(monitorId: loginRequest.monitorId, token: responseString)
             self.webSocketManager?.connect()
+            
+            completion(.success(self.webSocketManager?.messages ?? [])) // TODO: make messages observable
         }
     }
     
@@ -69,6 +70,13 @@ class WebSocketManager: NSObject, WebSocketDelegate {
             print("websocket is disconnected: \(reason) with code: \(code)")
         case .text(let string):
             print("Received text: \(string)")
+            
+            if let data = string.data(using: .utf8) {
+                let decoder = JSONDecoder()
+                if let message = try? decoder.decode(ChatMessage.self, from: data) {
+                    self.messages.append(message)
+                }
+            }
         case .binary(let data):
             print("Received data: \(data.count)")
         case .ping(_):
@@ -93,6 +101,8 @@ class WebSocketManager: NSObject, WebSocketDelegate {
     var webSocket: Starscream.WebSocket
     var monitorId: String
     var token: String
+    
+    var messages: [ChatMessage] = []
     var isConnected: Bool = false
 
     init(monitorId: String, token: String) {
