@@ -13,7 +13,7 @@ struct JoinMonitorView: View {
     var body: some View {
         VStack(alignment: .center) {
             HStack {
-                StepIndicator(currentStep: 2, dotCount: 3)
+                StepIndicator(currentStep: 1, dotCount: 1)
                     .padding(.leading, 35)
                     .padding(.top, 35)
                 

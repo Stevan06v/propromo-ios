@@ -1,28 +1,24 @@
-//
-//  MonitorListView.swift
-//  Propromo
-//
-//  Created by Stevan Vlajic on 01.05.24.
-//
-
 import SwiftUI
 
 struct MonitorListView: View {
     var monitors: [Monitor]
     var body: some View {
         NavigationSplitView {
-            List(monitors, id: \.id){ monitor in
-                NavigationLink {
-                    MonitorDetailsView(monitor: monitor)
-                } label: {
-                    MonitorRowView(monitor: monitor)
+            ScrollView {
+                VStack(spacing: 10) {
+                    ForEach(monitors, id: \.id) { monitor in
+                        NavigationLink(destination: MonitorDetailsView(monitor: monitor)) {
+                            MonitorRowView(monitor: monitor)
+                                
+                        }
+                        .buttonStyle(PlainButtonStyle()) // Remove default button styling
+                    }
                 }
-            }.navigationTitle("Monitors")
+                .padding()
+            }
+            .navigationTitle("Monitors")
         } detail: {
             Text("Select a monitor")
         }
-       
     }
 }
-
-

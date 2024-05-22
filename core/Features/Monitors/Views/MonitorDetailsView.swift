@@ -5,93 +5,47 @@ struct MonitorDetailsView: View {
     @ObservedObject var monitorsViewModel: MonitorsViewModel = MonitorsViewModel()
     
     var body: some View {
-            VStack {
-                VStack(alignment: .leading, spacing: 20) {
-                    Text(monitor.title ?? "Untitled")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundColor(.primary)
-                        .multilineTextAlignment(.center)
+        VStack(alignment: .leading) {
+            VStack(alignment: .leading) {
+                Text(monitor.title?.uppercased() ?? "Untitled")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(Color("primary"))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                HStack(spacing: 10) {
+                    Image(systemName: "info.circle")
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                        .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 1) // Add shadow effect
                     
                     Text(monitor.short_description ?? "No description available")
                         .font(.body)
                         .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                    
-                    Divider()
-                    
-                    HStack {
-                        Text("Type:")
-                            .font(.headline)
-                            .foregroundColor(.primary)
-                        
-                        Text(monitor.type ?? "Unknown")
-                            .foregroundColor(.primary)
-                            .alignmentGuide(HorizontalAlignment.leading) { _ in
-                                0
-                            }
-                    }
-                    
-                    HStack {
-                        Text("Monitor Hash:")
-                            .font(.headline)
-                            .foregroundColor(.primary)
-                        
-                        Text("\(monitor.monitor_hash)")
-                            .foregroundColor(.primary)
-                            .alignmentGuide(HorizontalAlignment.leading) { _ in
-                                0 // Align to leading edge of parent
-                            }
-                    }
-                    
-                    HStack {
-                        if let loginName = monitor.login_name {
-                            Text("Login Name:")
-                                .font(.headline)
-                                .foregroundColor(.primary)
-                            
-                            Text(loginName)
-                                .foregroundColor(.primary)
-                                .alignmentGuide(HorizontalAlignment.leading) { _ in
-                                    0 // Align to leading edge of parent
-                                }
-                        } else if let organizationName = monitor.organization_name {
-                            Text("Organization Name:")
-                                .font(.headline)
-                                .foregroundColor(.primary)
-                            
-                            Text(organizationName)
-                                .font(.headline)
-                                .foregroundColor(.primary)
-                                .alignmentGuide(HorizontalAlignment.leading) { _ in
-                                    0 // Align to leading edge of parent
-                                }
-                        } else {
-                            Text("Unknown")
-                                .font(.headline)
-                                .foregroundColor(.primary)
-                                .alignmentGuide(HorizontalAlignment.leading) { _ in
-                                    0 // Align to leading edge of parent
-                                }
-                        }
-                    }
-                    
-                    Divider()
-                    
-                    RepositoryListView(repositories: monitorsViewModel.repositoryModel.repositories).task {
-                        monitorsViewModel.getRepositoriesByMonitorId(monitorId: monitor.id!)
-                    }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .lineLimit(2) // Limit the number of lines to 2
+                        .padding(.trailing, 10) // Add padding to the trailing edge
                 }
                 .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color.white)
-                .padding(.horizontal, 20)
-                Spacer()
+                .background(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color("border"), lineWidth: 2)
+                )
             }
-            .frame(maxWidth: .infinity, alignment: .top)
+            .padding()
+            
+            RepositoryListView(repositories: monitorsViewModel.repositoryModel.repositories)
+                .task {
+                    monitorsViewModel.getRepositoriesByMonitorId(monitorId: monitor.id!)
+                }
         }
-    
+        .padding()
+        .frame(maxWidth: .infinity)
+        .background(Color.white)
+        Spacer()
+    }
 }
+
 struct MonitorDetailsView_Previews: PreviewProvider {
     static var monitor: Monitor = {
         Monitor(id: 1,

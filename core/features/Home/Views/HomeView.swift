@@ -53,14 +53,13 @@ struct HomeView: View {
                 
                 Button(action: {
                     joinMonitorViewModel.joinMonitor()
-                    self.selectedView = MonitorsView.tag
                 }, label: {
                     Text("Join")
                 }).buttonStyle(.borderedProminent)
                     .alert(isPresented: $joinMonitorViewModel.showAlert)
                 {
                     Alert(
-                        title: Text("Login Error"),
+                        title: Text("Joining Error"),
                         message: Text(joinMonitorViewModel.message)
                     )
                 }

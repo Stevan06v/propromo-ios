@@ -1,24 +1,26 @@
-//
-//  MonitorRowView.swift
-//  Propromo
-//
-//  Created by Stevan Vlajic on 01.05.24.
-//
-
 import SwiftUI
-
 struct MonitorRowView: View {
     var monitor: Monitor
     var body: some View {
-        HStack{
-            Text(monitor.title!)
+        HStack {
+            Image(systemName: "eye.square.fill")
+                .foregroundColor(Color("secondary"))
+                .padding()
+
+            Text(monitor.title?.prefix(13) ?? "Unknown")
+                .font(.headline)
+                .foregroundColor(Color("secondary"))
+                .lineLimit(1)
+                .padding()
+
             Spacer()
         }
+        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(Color("border"), lineWidth: 2)
+        )
+        .padding(.vertical, 5)
+        .padding(.horizontal)
     }
 }
-
-
-
-
-
-

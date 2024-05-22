@@ -12,17 +12,20 @@ struct MilestoneListView: View {
     
     var body: some View {
         NavigationSplitView {
-            List(milestones, id: \.id){ milestone in
-                NavigationLink {
-                    MilestoneDetailView(milestone: milestone)
-                } label: {
-                    MilestoneRowView(milestone: milestone)
+            ScrollView {
+                VStack(spacing: 10) {
+                    ForEach(milestones, id: \.id) { milestone in
+                        NavigationLink(destination: MilestoneDetailView(milestone: milestone)) {
+                            MilestoneRowView(milestone: milestone)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
                 }
+                .padding()
             }
-        }detail: {
-            Text("Select a monitor")
+            .navigationTitle("Milestones")
+        } detail: {
+            Text("Select a milestone")
         }
     }
 }
-
-

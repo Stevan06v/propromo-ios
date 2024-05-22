@@ -22,13 +22,11 @@ struct ContentView: View {
                     }.tabItem() {
                         Label("Home", systemImage: "house")
                     }.padding()
-                        .tag(HomeView.tag)
                     VStack {
                         MonitorsView()
                     }.tabItem() {
                         Label("Monitors", systemImage: "square.stack.3d.up")
-                    }.tag(MonitorsView.tag)
-                    
+                    }
                     VStack {
                         ChatView()
                     }.tabItem() {
