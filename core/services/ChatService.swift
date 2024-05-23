@@ -38,10 +38,10 @@ class ChatService {
             
             self.webSocketManager = WebSocketManager(monitorId: loginRequest.monitor_id, token: responseString)
             self.webSocketManager?.connect()
-            
-            Thread.sleep(forTimeInterval: 2) // temporary
-            
-            completion(.success(self.webSocketManager?.messages ?? []))
+
+            self.webSocketManager?.onConnected = {
+                completion(.success([])) // messages are sent in multiple chuncks and not one, meaning the chats have to be updated in .text on didReceive
+            }
         }
     }
     
@@ -60,6 +60,7 @@ class WebSocketManager: NSObject, WebSocketDelegate {
         case .connected(let headers):
             self.isConnected = true
             print("websocket is connected: \(headers)")
+            onConnected?()
         case .disconnected(let reason, let code):
             self.isConnected = false
             print("websocket is disconnected: \(reason) with code: \(code)")
@@ -93,6 +94,7 @@ class WebSocketManager: NSObject, WebSocketDelegate {
         }
     }
     
+    var onConnected: (() -> Void)?
     var onMessageReceived: ((ChatMessage, String) -> Void)?
     
     var urlRequest: URLRequest

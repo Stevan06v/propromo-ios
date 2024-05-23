@@ -41,7 +41,7 @@ class ChatViewModel: ObservableObject {
     }
     
     func updateChatWithNewMessage(_ message: ChatMessage, monitor_hash: String) {
-        if var chat = chatsModel.chats.first(where: { $0.id == monitor_hash }) {
+        if var chat = chatsModel.chats.first(where: { $0.monitor_hash == monitor_hash }) {
             chat.setMessages(messages: chat.messages ?? [] + [message])
             self.chatsModel.setChats(chats: self.chatsModel.chats)
             print("chat messages updated")
