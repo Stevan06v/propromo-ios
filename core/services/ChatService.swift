@@ -12,8 +12,13 @@ let url = "localhost:6969" // production URL: https://propromo-chat.deno.dev
 
 class ChatService {
     var webSocketManager: WebSocketManager?
+    var monitorId = ""
+
+    public var onMessage: ((_ message: ChatMessage, _ monitorId: String) -> Void)?
     
     func loginAndConnect(loginRequest: ChatLoginRequest, completion: @escaping (Result<[ChatMessage], Error>) -> Void) { // returns token for chat
+        self.monitorId = loginRequest.monitor_id;
+        
         AF.request("http://\(url)/login",
                    method: .post,
                    parameters: loginRequest, // body as json
@@ -36,11 +41,18 @@ class ChatService {
                 return
             }
             
-            self.webSocketManager = WebSocketManager(monitorId: loginRequest.monitor_id, token: responseString)
+            self.webSocketManager = WebSocketManager(monitorId: loginRequest.monitor_id, token: responseString) { message, monitorId in
+                print("Received message: \(message)")
+                self.onMessage!(message, monitorId)
+            }
             self.webSocketManager?.connect()
 
             self.webSocketManager?.onConnected = {
                 completion(.success([])) // messages are sent in multiple chuncks and not one, meaning the chats have to be updated in .text on didReceive
+            }
+            self.webSocketManager?.onError = { error in
+                let errorFallback = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Something went wrong."])
+                completion(.failure(error ?? errorFallback))
             }
         }
     }
@@ -70,7 +82,9 @@ class WebSocketManager: NSObject, WebSocketDelegate {
             if let data = string.data(using: .utf8) {
                 let decoder = JSONDecoder()
                 if let message = try? decoder.decode(ChatMessage.self, from: data) {
+                    print("appending message to chat")
                     self.messages.append(message)
+                    print("messages: \(self.messages)")
                     onMessageReceived?(message, self.monitorId)
                 }
             }
@@ -89,11 +103,13 @@ class WebSocketManager: NSObject, WebSocketDelegate {
         case .error(let error):
             self.isConnected = false
             self.handleError(error)
+            onError?(error)
         case .peerClosed:
             break
         }
     }
     
+    var onError: ((Error?) -> Void)?
     var onConnected: (() -> Void)?
     var onMessageReceived: ((ChatMessage, String) -> Void)?
     
@@ -108,6 +124,19 @@ class WebSocketManager: NSObject, WebSocketDelegate {
     init(monitorId: String, token: String) {
         self.monitorId = monitorId
         self.token = token
+        
+        self.urlRequest = URLRequest(url: URL(string: "ws://\(url)/chat/\(self.monitorId)?auth=\(self.token)")!)
+        self.urlRequest.timeoutInterval = 5
+        self.webSocket = Starscream.WebSocket(request: self.urlRequest)
+        
+        super.init()
+        self.webSocket.delegate = self
+    }
+    
+    init(monitorId: String, token: String, onMessageReceived: @escaping (ChatMessage, String) -> Void) {
+        self.monitorId = monitorId
+        self.token = token
+        self.onMessageReceived = onMessageReceived
         
         self.urlRequest = URLRequest(url: URL(string: "ws://\(url)/chat/\(self.monitorId)?auth=\(self.token)")!)
         self.urlRequest.timeoutInterval = 5

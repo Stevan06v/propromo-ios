@@ -12,8 +12,9 @@ class ChatViewModel: ObservableObject {
     let chatService = ChatService()
     
     init() {
-        chatService.webSocketManager?.onMessageReceived = { [weak self] message, monitor_hash in
-            self?.updateChatWithNewMessage(message, monitor_hash: monitor_hash)
+        chatService.onMessage = { message, monitorId in
+            print("updating chat messages ...")
+            self.updateChatWithNewMessage(message, monitor_hash: monitorId)
         }
     }
 
@@ -42,6 +43,8 @@ class ChatViewModel: ObservableObject {
     
     func updateChatWithNewMessage(_ message: ChatMessage, monitor_hash: String) {
         if var chat = chatsModel.chats.first(where: { $0.monitor_hash == monitor_hash }) {
+            print("chat to update: \(chat)")
+            
             chat.setMessages(messages: chat.messages ?? [] + [message])
             self.chatsModel.setChats(chats: self.chatsModel.chats)
             print("chat messages updated")
