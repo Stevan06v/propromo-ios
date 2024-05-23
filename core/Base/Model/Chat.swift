@@ -1,10 +1,3 @@
-//
-//  Chat.swift
-//  Propromo
-//
-//  Created by Jonas Fröller on 16.05.24.
-//
-
 import Foundation
 
 struct Chat: Decodable, Identifiable, Hashable {

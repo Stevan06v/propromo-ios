@@ -1,10 +1,3 @@
-//
-//  ChatService.swift
-//  Propromo
-//
-//  Created by Jonas Fröller on 02.05.24.
-//
-
 import Foundation
 import Alamofire
 import Starscream
@@ -12,16 +5,16 @@ import Starscream
 struct ChatLoginRequest: Encodable {
     let email: String
     let password: String
-    let monitorId: String
+    let monitor_id: String
 }
 
-let url = "propromo-chat-c575fve9ssfr.deno.dev"
+let url = "localhost:6969" // production URL: https://propromo-chat.deno.dev
 
 class ChatService {
     var webSocketManager: WebSocketManager?
     
     func loginAndConnect(loginRequest: ChatLoginRequest, completion: @escaping (Result<[ChatMessage], Error>) -> Void) { // returns token for chat
-        AF.request("https://\(url)/login",
+        AF.request("http://\(url)/login",
                    method: .post,
                    parameters: loginRequest, // body as json
                    encoder: JSONParameterEncoder.default).response { response in
@@ -43,10 +36,12 @@ class ChatService {
                 return
             }
             
-            self.webSocketManager = WebSocketManager(monitorId: loginRequest.monitorId, token: responseString)
+            self.webSocketManager = WebSocketManager(monitorId: loginRequest.monitor_id, token: responseString)
             self.webSocketManager?.connect()
             
-            completion(.success(self.webSocketManager?.messages ?? [])) // TODO: make messages observable
+            Thread.sleep(forTimeInterval: 2) // temporary
+            
+            completion(.success(self.webSocketManager?.messages ?? []))
         }
     }
     
@@ -75,6 +70,7 @@ class WebSocketManager: NSObject, WebSocketDelegate {
                 let decoder = JSONDecoder()
                 if let message = try? decoder.decode(ChatMessage.self, from: data) {
                     self.messages.append(message)
+                    onMessageReceived?(message, self.monitorId)
                 }
             }
         case .binary(let data):
@@ -97,6 +93,8 @@ class WebSocketManager: NSObject, WebSocketDelegate {
         }
     }
     
+    var onMessageReceived: ((ChatMessage, String) -> Void)?
+    
     var urlRequest: URLRequest
     var webSocket: Starscream.WebSocket
     var monitorId: String
@@ -109,7 +107,7 @@ class WebSocketManager: NSObject, WebSocketDelegate {
         self.monitorId = monitorId
         self.token = token
         
-        self.urlRequest = URLRequest(url: URL(string: "wss://\(url)/chat/\(self.monitorId)?auth=\(self.token)")!)
+        self.urlRequest = URLRequest(url: URL(string: "ws://\(url)/chat/\(self.monitorId)?auth=\(self.token)")!)
         self.urlRequest.timeoutInterval = 5
         self.webSocket = Starscream.WebSocket(request: self.urlRequest)
         
@@ -124,10 +122,11 @@ class WebSocketManager: NSObject, WebSocketDelegate {
     func disconnect() {
         webSocket.disconnect()
     }
-
+    
     func sendMessage(_ message: String) {
         if (self.isConnected) {
             webSocket.write(string: message)
+            // INFO: message is persisted in .text, because every message is coming back from the server with an id and a timestamp
         }
     }
 
