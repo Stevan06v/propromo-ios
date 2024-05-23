@@ -30,7 +30,7 @@ targets:
                 UIColorName: white
 
     sources:
-      - path: ./core/feat
+      - path: ./core/features
         group: propromo
       - path: ./core/resources
         group: propromo
