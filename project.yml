@@ -30,13 +30,13 @@ targets:
                 UIColorName: white
 
     sources:
-      - path: ./core/Features
+      - path: ./core/feat
         group: propromo
-      - path: ./core/Resources
+      - path: ./core/resources
         group: propromo
-      - path: ./core/Services
+      - path: ./core/services
         group: propromo
-      - path: ./core/Base
+      - path: ./core/main
         group: propromo
 
     dependencies:
