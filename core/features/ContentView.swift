@@ -13,7 +13,7 @@ struct ContentView: View {
     }
 
     var body: some View {
-        if !authenticated && viewModel.showAuthenticationView {
+        if authenticated && viewModel.showAuthenticationView {
             AuthenticationView().environmentObject(viewModel)
             } else {
                 TabView(selection: $selectedView) {

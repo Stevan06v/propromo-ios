@@ -1,6 +1,6 @@
 import Foundation
 
-class ChatMessageViewModel: ObservableObject, Identifiable, Hashable {
+class ChatMessageViewModel: ObservableObject {
     let id: String
     @Published var message: ChatMessage
 
