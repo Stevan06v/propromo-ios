@@ -2,7 +2,7 @@ import SwiftUI
 import Alamofire
 
 class LoginService {
-    let url = "http://propromo.test/api/v1/users/login"
+    let url = "https://propromo-d08144c627d3.herokuapp.com/api/v1/users/login"
     
     // https://www.tutorialspoint.com/what-is-a-completion-handler-in-swift
     func register(loginRequest: LoginRequest, completion: @escaping (Result<LoginReponse, Error>) -> Void) {

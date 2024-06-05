@@ -5,7 +5,7 @@ class MonitorService {
     
     // https://www.tutorialspoint.com/what-is-a-completion-handler-in-swift
     func joinMonitor(joinMonitorRequest: JoinMonitorRequest, completion: @escaping (Result<JoinMonitorResponse, Error>) -> Void) {
-                let url = "http://propromo.test/api/v1/join-monitor"
+                let url = "https://propromo-d08144c627d3.herokuapp.com/api/v1/join-monitor"
                 AF.request(url,
                            method: .post,
                            parameters: joinMonitorRequest,
@@ -32,7 +32,7 @@ class MonitorService {
             }
         
         func getMonitorsByEmail(email: String, completion: @escaping (Result<MonitorsResponse, Error>)->Void) {
-            let url = "http://propromo.test/api/v1/monitors/\(email)"
+            let url = "https://propromo-d08144c627d3.herokuapp.com/api/v1/monitors/\(email)"
             
             AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).response { response in
                 if let error = response.error {

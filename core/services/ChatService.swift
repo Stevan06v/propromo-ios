@@ -8,7 +8,7 @@ struct ChatLoginRequest: Encodable {
     let monitor_id: String
 }
 
-let url = "localhost:6969" // production URL: https://propromo-chat.deno.dev
+let url = "propromo-chat.deno.dev" // production URL: https://propromo-chat.deno.dev
 
 class ChatService {
     var webSocketManager: WebSocketManager?
@@ -19,10 +19,18 @@ class ChatService {
     func loginAndConnect(loginRequest: ChatLoginRequest, completion: @escaping (Result<[ChatMessage], Error>) -> Void) { // returns token for chat
         self.monitorId = loginRequest.monitor_id;
         
-        AF.request("http://\(url)/login",
+        // let loginURL = URLRequest(url: URL(string: "https://\(url)/login")!, cachePolicy: .reloadIgnoringLocalCacheData) // wrong type
+        
+        let loginURL = URL(string: "https://\(url)/login")!
+        let headers: HTTPHeaders = [
+            "Cache-Control": "no-cache"
+        ]
+        
+        AF.request((loginURL),
                    method: .post,
                    parameters: loginRequest, // body as json
-                   encoder: JSONParameterEncoder.default).response { response in
+                   encoder: JSONParameterEncoder.default,
+                   headers: headers).response { response in
             if let error = response.error {
                 print(error)
                 completion(.failure(error))
@@ -138,7 +146,7 @@ class WebSocketManager: NSObject, WebSocketDelegate {
         self.token = token
         self.onMessageReceived = onMessageReceived
         
-        self.urlRequest = URLRequest(url: URL(string: "ws://\(url)/chat/\(self.monitorId)?auth=\(self.token)")!)
+        self.urlRequest = URLRequest(url: URL(string: "wss://\(url)/chat/\(self.monitorId)?auth=\(self.token)")!)
         self.urlRequest.timeoutInterval = 5
         self.webSocket = Starscream.WebSocket(request: self.urlRequest)
         

@@ -25,7 +25,6 @@ class RepositoryService {
                 completion(.failure(error))
                 return
             }
-            
             do {
                 let repositoryResponse = try JSONDecoder().decode(RepositoryResponse.self, from: responseData)
                 completion(.success(repositoryResponse))
@@ -35,7 +34,7 @@ class RepositoryService {
         }
     }
     func getRepositoriesByMonitorId(monitorId: Int, completion: @escaping (Result<RepositoryResponse, Error>)->Void) {
-        let url = "http://propromo.test/api/v1/repositories/\(monitorId)"
+        let url = "https://propromo-d08144c627d3.herokuapp.com/api/v1/repositories/\(monitorId)"
         
         AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).response { response in
             if let error = response.error {
