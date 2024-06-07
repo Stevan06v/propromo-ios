@@ -49,7 +49,7 @@ struct HomeView: View {
                 }, set: {
                     joinMonitorViewModel.dataChanged(monitorHash: $0)
                 }))
-                    .textFieldStyle(TextFieldPrimaryStyle())
+                .textFieldStyle(.roundedBorder)
                 
                 Button(action: {
                     joinMonitorViewModel.joinMonitor()
@@ -70,5 +70,11 @@ struct HomeView: View {
             
             Spacer()
         }
+    }
+}
+
+struct HomeView_Preview: PreviewProvider {
+    static var previews: some View {
+        ContentView()
     }
 }
