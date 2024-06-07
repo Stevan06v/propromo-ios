@@ -1,10 +1,3 @@
-//
-//  RegisterView.swift
-//  Propromo
-//
-//  Created by Jonas Fröller on 09.03.24.
-//
-
 import Foundation
 import SwiftUI
 
@@ -17,10 +10,10 @@ struct ChooseProviderView: View {
                 StepIndicator(currentStep: 2, dotCount: 3)
                     .padding(.leading, 35)
                     .padding(.top, 35)
-                
+
                 Spacer()
             }
-            
+
             Form {
                 Section {
                     Picker("Select a provider", selection: $selectedProvider) {
@@ -37,20 +30,20 @@ struct ChooseProviderView: View {
             .scrollContentBackground(.hidden)
             .padding(.horizontal, 35)
             .padding(.vertical, 15)
-            
+
             Rectangle()
                 .fill(Color.gray)
                 .frame(height: 150)
                 .padding(.horizontal, 35)
-            
+
             HStack {
                 Spacer()
-                
+
                 NavigationLink(destination: CreateMonitorView()) {
                     Text("Choose")
                 }.buttonStyle(.borderedProminent)
             }.padding(.horizontal, 35)
-            
+
             Spacer()
         }
     }

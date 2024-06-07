@@ -1,14 +1,6 @@
-//
-//  propromoUITestsLaunchTests.swift
-//  propromoUITests
-//
-//  Created by Stevan Vlajic on 08.02.24.
-//
-
 import XCTest
 
 final class propromoUITestsLaunchTests: XCTestCase {
-
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
     }

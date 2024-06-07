@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ChatView: View {
     static let tag: String? = "Chat"
-    @ObservedObject var chatViewModel: ChatViewModel = ChatViewModel()
+    @ObservedObject var chatViewModel: ChatViewModel = .init()
     @State private var monitorId: String = "w32tgse"
 
     var body: some View {

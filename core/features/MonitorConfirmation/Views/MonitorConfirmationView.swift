@@ -1,10 +1,3 @@
-//
-//  RegisterView.swift
-//  Propromo
-//
-//  Created by Jonas Fröller on 09.03.24.
-//
-
 import Foundation
 import SwiftUI
 import UniformTypeIdentifiers
@@ -22,10 +15,10 @@ struct MonitorConfirmationView: View {
                 StepIndicator(currentStep: 2, dotCount: 3)
                     .padding(.leading, 35)
                     .padding(.top, 35)
-                
+
                 Spacer()
             }
-            
+
             Form {
                 Section {
                     Picker("Select a provider", selection: $monitorProvider) {
@@ -33,10 +26,10 @@ struct MonitorConfirmationView: View {
                         Text("Jira").tag(2)
                     }
                     .pickerStyle(SegmentedPickerStyle())
-                    
+
                     TextField("Project (Monitor) URL", text: $monitorUrl)
                         .textFieldStyle(TextFieldPrimaryStyle())
-                    
+
                     TextField("Authentication", text: $monitorAuthentication)
                         .textFieldStyle(TextFieldPrimaryStyle())
                 }
@@ -48,23 +41,23 @@ struct MonitorConfirmationView: View {
             .scrollContentBackground(.hidden)
             .padding(.horizontal, 35)
             .padding(.vertical, 15)
-            
+
             HStack {
                 Spacer()
-                
+
                 NavigationLink(destination: Text("Home")) {
                     Text("Confirm")
                 }.buttonStyle(.borderedProminent)
             }.padding(.horizontal, 35)
-            
+
             Spacer()
-            
+
             VStack {
                 Form {
                     Section {
                         TextField("Name", text: $monitorName)
                             .textFieldStyle(TextFieldPrimaryStyle())
-                        
+
                         CopiableMonitorIdTextField(text: $monitorId)
                     }
                 }
@@ -101,10 +94,10 @@ struct CopiableMonitorIdTextField: View {
             }
         }
     }
-    
+
     private func copyToClipboard() {
         UIPasteboard.general.setValue(text,
-                    forPasteboardType: UTType.utf8PlainText.identifier)
+                                      forPasteboardType: UTType.utf8PlainText.identifier)
     }
 }
 

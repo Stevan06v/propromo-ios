@@ -1,10 +1,3 @@
-//
-//  TextFieldStyle.swift
-//  Propromo
-//
-//  Created by Jonas Fröller on 09.03.24.
-//
-
 import Foundation
 import SwiftUI
 
@@ -15,7 +8,7 @@ struct HomeView: View {
 
     @SceneStorage("selectedView") var selectedView: String?
 
-    init(){
+    init() {
         _joinMonitorViewModel = ObservedObject(wrappedValue: JoinMonitorViewModel())
     }
 
@@ -23,12 +16,12 @@ struct HomeView: View {
         VStack(alignment: .center) {
             WebView(svgString: SVGIcons.logo())
                 .frame(height: 380)
-            
+
             Text("Propromo")
                 .bold()
                 .font(.largeTitle)
                 .textCase(.uppercase)
-            
+
             Text("Project Progress Monitoring")
                 .bold()
                 .font(.subheadline)
@@ -42,7 +35,7 @@ struct HomeView: View {
                 .foregroundStyle(Color.gray)
                 .textCase(.uppercase)
                 .padding(.bottom, 40)
-            
+
             HStack {
                 TextField("Monitor-ID", text: Binding(get: {
                     joinMonitorViewModel.monitorHash
@@ -50,24 +43,22 @@ struct HomeView: View {
                     joinMonitorViewModel.dataChanged(monitorHash: $0)
                 }))
                 .textFieldStyle(.roundedBorder)
-                
+
                 Button(action: {
                     joinMonitorViewModel.joinMonitor()
                 }, label: {
                     Text("Join")
                 }).buttonStyle(.borderedProminent)
-                    .alert(isPresented: $joinMonitorViewModel.showAlert)
-                {
-                    Alert(
-                        title: Text("Joining Error"),
-                        message: Text(joinMonitorViewModel.message)
-                    )
-                }
-
+                    .alert(isPresented: $joinMonitorViewModel.showAlert) {
+                        Alert(
+                            title: Text("Joining Error"),
+                            message: Text(joinMonitorViewModel.message)
+                        )
+                    }
             }
             .padding(.horizontal, 35)
             .padding(.vertical, 15)
-            
+
             Spacer()
         }
     }

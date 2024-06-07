@@ -2,24 +2,22 @@ import Foundation
 import SwiftUI
 
 struct JoinMonitorView: View {
-    
     @ObservedObject var joinMonitorViewModel: JoinMonitorViewModel
-    
-    
-    init(){
+
+    init() {
         _joinMonitorViewModel = ObservedObject(wrappedValue: JoinMonitorViewModel())
     }
-    
+
     var body: some View {
         VStack(alignment: .center) {
             HStack {
                 StepIndicator(currentStep: 1, dotCount: 1)
                     .padding(.leading, 35)
                     .padding(.top, 35)
-                
+
                 Spacer()
             }
-            
+
             Form {
                 Section {
                     TextField("Monitor-ID", text: Binding(get: {
@@ -27,7 +25,7 @@ struct JoinMonitorView: View {
                     }, set: {
                         joinMonitorViewModel.dataChanged(monitorHash: $0)
                     }))
-                        .textFieldStyle(TextFieldPrimaryStyle())
+                    .textFieldStyle(TextFieldPrimaryStyle())
                 }
             }
             .formStyle(.columns)
@@ -37,12 +35,12 @@ struct JoinMonitorView: View {
             .scrollContentBackground(.hidden)
             .padding(.horizontal, 35)
             .padding(.vertical, 15)
-            
+
             Rectangle()
                 .fill(Color.gray)
                 .frame(height: 150)
                 .padding(.horizontal, 35)
-            
+
             HStack {
                 Button {
                     joinMonitorViewModel.joinMonitor()
@@ -51,23 +49,22 @@ struct JoinMonitorView: View {
                 }
 
                 Spacer()
-                
+
                 Button {
                     print("jfhdhhdf")
-                }label: {
+                } label: {
                     Text("skip")
                 }.buttonStyle(.borderedProminent)
-                
-                
+
             }.padding(.horizontal, 35)
-            
+
             Spacer()
-            
+
             HStack {
                 NavigationLink(destination: ChooseProviderView()) {
                     Text("Create one instead")
                 }.padding(.horizontal, 35)
-                
+
                 Spacer()
             }
         }

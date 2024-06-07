@@ -1,84 +1,73 @@
 
 import SwiftUI
-class RegisterViewModel: ObservableObject{
-    
+
+class RegisterViewModel: ObservableObject {
     private var viewModel: ViewModel
 
     // app-storage values
     @AppStorage("AUTH_KEY") var authenticated: Bool = false
     @AppStorage("USER_KEY") var userKey: String = ""
-    
-    @Published private (set) var registerRequest: RegisterRequest = RegisterRequest()
-        
+
+    @Published private(set) var registerRequest: RegisterRequest = .init()
+
     // alerts
     @Published public var showAlert: Bool = false
     @Published public var message: String = ""
-    
-    
-    
+
     var email: String {
-        get  {
-            registerRequest.email
-        }
+        registerRequest.email
     }
-    
+
     var name: String {
-        get {
-            registerRequest.name
-        }
+        registerRequest.name
     }
-    
+
     var password: String {
-        get {
-            registerRequest.password
-        }
+        registerRequest.password
     }
-    
+
     var retypedPassword: String = ""
     var invalid: Bool = false
-    
-    
-    func dataChanged(name: String? = nil, email: String? = nil, password: String? = nil){
+
+    func dataChanged(name: String? = nil, email: String? = nil, password: String? = nil) {
         registerRequest.dataChanged(name: name, email: email, password: password)
     }
-    
 
     func register() {
-        if (registerRequest.password == retypedPassword){
+        if registerRequest.password == retypedPassword {
             RegisterService().register(registerRequest: registerRequest) { result in
                 switch result {
-                case .success(let registerResponse):
-                    
+                case let .success(registerResponse):
+
                     // set app-keys
                     self.userKey = registerResponse.data.email
                     self.authenticated = true
-                    
+
                     // jump to home if authenticated
                     // self.router.navigate(to: .home)
-                    
+
                     self.viewModel.showAuthenticationView = false
-                    
-                case .failure(let error):
+
+                case let .failure(error):
                     self.message = "\(error.localizedDescription)"
                     self.showAlert = true
                 }
             }
-        }else{
-            self.message = "Passwords do not match!"
-            self.showAlert = true
+        } else {
+            message = "Passwords do not match!"
+            showAlert = true
         }
     }
-    
-    func login(){
-       // router.navigate(to: .login)
+
+    func login() {
+        // router.navigate(to: .login)
     }
-    
+
     func registerPressed() {
         print("Register Pressed")
     }
-    
-    
+
     init(viewModel: ViewModel) {
-           self.viewModel = viewModel
-   }
+        self.viewModel = viewModel
+    }
 }

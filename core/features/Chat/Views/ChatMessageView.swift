@@ -1,10 +1,10 @@
-import SwiftUI
 import Foundation
+import SwiftUI
 
 struct ChatMessageView: View {
     @ObservedObject var chatViewModel: ChatViewModel
     // @StateObject private var messageViewModel = ChatMessageViewModel(message: ChatMessage())
-    
+
     @State private var messageText: String = ""
 
     var body: some View {

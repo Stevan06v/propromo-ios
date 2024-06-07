@@ -1,4 +1,5 @@
 import SwiftUI
+
 struct MonitorRowView: View {
     var monitor: Monitor
     var body: some View {

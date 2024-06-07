@@ -1,5 +1,5 @@
-import SwiftUI
 import Foundation
+import SwiftUI
 
 @main
 struct propromoApp: App {
@@ -9,4 +9,3 @@ struct propromoApp: App {
         }
     }
 }
-

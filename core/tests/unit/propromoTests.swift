@@ -1,15 +1,7 @@
-//
-//  propromoTests.swift
-//  propromoTests
-//
-//  Created by Stevan Vlajic on 08.02.24.
-//
-
-import XCTest
 @testable import Propromo
+import XCTest
 
 final class propromoTests: XCTestCase {
-
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -28,9 +20,8 @@ final class propromoTests: XCTestCase {
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
-        self.measure {
+        measure {
             // Put the code you want to measure the time of here.
         }
     }
-
 }

@@ -1,10 +1,3 @@
-//
-//  RegisterView.swift
-//  Propromo
-//
-//  Created by Jonas Fröller on 09.03.24.
-//
-
 import Foundation
 import SwiftUI
 
@@ -13,7 +6,7 @@ struct MonitorAuthenticationView: View {
     @State private var authenticationAppInstallId = "" // appInstallId is reserved :skull:
 
     var body: some View {
-        Text("dffdasfds");
+        Text("dffdasfds")
     }
 }
 

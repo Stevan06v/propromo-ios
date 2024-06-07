@@ -9,7 +9,6 @@ struct MonitorListView: View {
                     ForEach(monitors, id: \.id) { monitor in
                         NavigationLink(destination: MonitorDetailsView(monitor: monitor)) {
                             MonitorRowView(monitor: monitor)
-                                
                         }
                         .buttonStyle(PlainButtonStyle()) // Remove default button styling
                     }

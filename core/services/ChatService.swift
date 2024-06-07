@@ -1,5 +1,5 @@
-import Foundation
 import Alamofire
+import Foundation
 import Starscream
 
 struct ChatLoginRequest: Encodable {
@@ -15,18 +15,18 @@ class ChatService {
     var monitorId = ""
 
     public var onMessage: ((_ message: ChatMessage, _ monitorId: String) -> Void)?
-    
+
     func loginAndConnect(loginRequest: ChatLoginRequest, completion: @escaping (Result<[ChatMessage], Error>) -> Void) { // returns token for chat
-        self.monitorId = loginRequest.monitor_id;
-        
+        monitorId = loginRequest.monitor_id
+
         // let loginURL = URLRequest(url: URL(string: "https://\(url)/login")!, cachePolicy: .reloadIgnoringLocalCacheData) // wrong type
-        
+
         let loginURL = URL(string: "https://\(url)/login")!
         let headers: HTTPHeaders = [
-            "Cache-Control": "no-cache"
+            "Cache-Control": "no-cache",
         ]
-        
-        AF.request((loginURL),
+
+        AF.request(loginURL,
                    method: .post,
                    parameters: loginRequest, // body as json
                    encoder: JSONParameterEncoder.default,
@@ -36,19 +36,19 @@ class ChatService {
                 completion(.failure(error))
                 return
             }
-            
+
             guard let responseData = response.data else {
                 let error = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Response data is nil"])
                 completion(.failure(error))
                 return
             }
-            
+
             guard let responseString = String(data: responseData, encoding: .utf8) else {
                 let error = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Response data could not be converted to a string"])
                 completion(.failure(error))
                 return
             }
-            
+
             self.webSocketManager = WebSocketManager(monitorId: loginRequest.monitor_id, token: responseString) { message, monitorId in
                 print("Received message: \(message)")
                 self.onMessage!(message, monitorId)
@@ -64,94 +64,94 @@ class ChatService {
             }
         }
     }
-    
+
     func sendMessage(_ message: String) {
-        self.webSocketManager?.sendMessage(message)
+        webSocketManager?.sendMessage(message)
     }
-    
+
     func disconnect() {
-        self.webSocketManager?.disconnect()
+        webSocketManager?.disconnect()
     }
 }
 
 class WebSocketManager: NSObject, WebSocketDelegate {
-    func didReceive(event: Starscream.WebSocketEvent, client: Starscream.WebSocketClient) { // self.webSocket.onEvent = { event in switch event {}
+    func didReceive(event: Starscream.WebSocketEvent, client _: Starscream.WebSocketClient) { // self.webSocket.onEvent = { event in switch event {}
         switch event {
-        case .connected(let headers):
-            self.isConnected = true
+        case let .connected(headers):
+            isConnected = true
             print("websocket is connected: \(headers)")
             onConnected?()
-        case .disconnected(let reason, let code):
-            self.isConnected = false
+        case let .disconnected(reason, code):
+            isConnected = false
             print("websocket is disconnected: \(reason) with code: \(code)")
-        case .text(let string):
+        case let .text(string):
             print("Received text: \(string)")
-            
+
             if let data = string.data(using: .utf8) {
                 let decoder = JSONDecoder()
                 if let message = try? decoder.decode(ChatMessage.self, from: data) {
                     print("appending message to chat")
-                    self.messages.append(message)
-                    print("messages: \(self.messages)")
-                    onMessageReceived?(message, self.monitorId)
+                    messages.append(message)
+                    print("messages: \(messages)")
+                    onMessageReceived?(message, monitorId)
                 }
             }
-        case .binary(let data):
+        case let .binary(data):
             print("Received data: \(data.count)")
-        case .ping(_):
+        case .ping:
             break
-        case .pong(_):
+        case .pong:
             break
-        case .viabilityChanged(_):
+        case .viabilityChanged:
             break
-        case .reconnectSuggested(_):
+        case .reconnectSuggested:
             break
         case .cancelled:
-            self.isConnected = false
-        case .error(let error):
-            self.isConnected = false
-            self.handleError(error)
+            isConnected = false
+        case let .error(error):
+            isConnected = false
+            handleError(error)
             onError?(error)
         case .peerClosed:
             break
         }
     }
-    
+
     var onError: ((Error?) -> Void)?
     var onConnected: (() -> Void)?
     var onMessageReceived: ((ChatMessage, String) -> Void)?
-    
+
     var urlRequest: URLRequest
     var webSocket: Starscream.WebSocket
     var monitorId: String
     var token: String
-    
+
     var messages: [ChatMessage] = []
     var isConnected: Bool = false
 
     init(monitorId: String, token: String) {
         self.monitorId = monitorId
         self.token = token
-        
-        self.urlRequest = URLRequest(url: URL(string: "ws://\(url)/chat/\(self.monitorId)?auth=\(self.token)")!)
-        self.urlRequest.timeoutInterval = 5
-        self.webSocket = Starscream.WebSocket(request: self.urlRequest)
-        
+
+        urlRequest = URLRequest(url: URL(string: "ws://\(url)/chat/\(self.monitorId)?auth=\(self.token)")!)
+        urlRequest.timeoutInterval = 5
+        webSocket = Starscream.WebSocket(request: urlRequest)
+
         super.init()
-        self.webSocket.delegate = self
+        webSocket.delegate = self
     }
-    
+
     init(monitorId: String, token: String, onMessageReceived: @escaping (ChatMessage, String) -> Void) {
         self.monitorId = monitorId
         self.token = token
         self.onMessageReceived = onMessageReceived
-        
-        self.urlRequest = URLRequest(url: URL(string: "wss://\(url)/chat/\(self.monitorId)?auth=\(self.token)")!)
-        self.urlRequest.timeoutInterval = 5
-        self.webSocket = Starscream.WebSocket(request: self.urlRequest)
-        
+
+        urlRequest = URLRequest(url: URL(string: "wss://\(url)/chat/\(self.monitorId)?auth=\(self.token)")!)
+        urlRequest.timeoutInterval = 5
+        webSocket = Starscream.WebSocket(request: urlRequest)
+
         super.init()
-        self.webSocket.delegate = self
+        webSocket.delegate = self
     }
 
     func connect() {
@@ -161,9 +161,9 @@ class WebSocketManager: NSObject, WebSocketDelegate {
     func disconnect() {
         webSocket.disconnect()
     }
-    
+
     func sendMessage(_ message: String) {
-        if (self.isConnected) {
+        if isConnected {
             webSocket.write(string: message)
             // INFO: message is persisted in .text, because every message is coming back from the server with an id and a timestamp
         }

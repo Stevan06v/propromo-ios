@@ -1,17 +1,17 @@
 import Foundation
 
 struct ChatModel {
-    private (set) var chats: [Chat] = []
+    private(set) var chats: [Chat] = []
 
-    mutating func setChats(chats: [Chat]){
+    mutating func setChats(chats: [Chat]) {
         print("setting chats")
         self.chats = chats
     }
 
     func getChats() -> [Chat] {
         print("getting chats")
-        return self.chats.map { $0 }
+        return chats.map { $0 }
     }
 
-    init(){}
+    init() {}
 }

@@ -1,4 +1,5 @@
 import SwiftUI
+
 struct RepositoryRowView: View {
     var repository: Repository
 

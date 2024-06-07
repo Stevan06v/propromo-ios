@@ -5,7 +5,7 @@ class ChatMessageViewModel: ObservableObject {
     @Published var message: ChatMessage
 
     init(message: ChatMessage) {
-        self.id = message.id ?? UUID().uuidString
+        id = message.id ?? UUID().uuidString
         self.message = message
     }
 
