@@ -3,7 +3,7 @@ import SwiftUI
 struct ChatView: View {
     static let tag: String? = "Chat"
     @ObservedObject var chatViewModel: ChatViewModel = .init()
-    @State private var monitorId: String = "w32tgse"
+    @State private var monitorId: String = "$2y$12$W3pHWdAtePn1wjCm4.t4xO9lY9jOcu8/5SC0bDEsaAfSB8pKA5k.K"
 
     var body: some View {
         NavigationSplitView {
@@ -13,7 +13,7 @@ struct ChatView: View {
                     .padding()
 
                 Button(action: {
-                    chatViewModel.connect(password: "password", monitor_id: monitorId)
+                    chatViewModel.connect(monitor_id: monitorId)
                 }) {
                     Text("Connect")
                 }

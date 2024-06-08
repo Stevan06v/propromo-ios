@@ -8,7 +8,7 @@ struct ChatLoginRequest: Encodable {
     let monitor_id: String
 }
 
-let url = "propromo-chat.deno.dev" // production URL: https://propromo-chat.deno.dev
+let url = "propromo-chat.deno.dev" // 127.0.0.1:6969, production URL: chat-app-latest-m6ht.onrender.com | propromo-chat.deno.dev
 
 class ChatService {
     var webSocketManager: WebSocketManager?
@@ -21,14 +21,14 @@ class ChatService {
 
         // let loginURL = URLRequest(url: URL(string: "https://\(url)/login")!, cachePolicy: .reloadIgnoringLocalCacheData) // wrong type
 
-        let loginURL = URL(string: "https://\(url)/login")!
+        let loginURL = URL(string: "http://\(url)/login")!
         let headers: HTTPHeaders = [
             "Cache-Control": "no-cache",
         ]
 
         AF.request(loginURL,
                    method: .post,
-                   parameters: loginRequest, // body as json
+                   parameters: loginRequest, // , body as json
                    encoder: JSONParameterEncoder.default,
                    headers: headers).response { response in
             if let error = response.error {
@@ -49,7 +49,17 @@ class ChatService {
                 return
             }
 
-            self.webSocketManager = WebSocketManager(monitorId: loginRequest.monitor_id, token: responseString) { message, monitorId in
+            guard let statusCode = response.response?.statusCode, (200 ..< 300) ~= statusCode else {
+                let error = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not login to the specified monitor. (response of server: \(responseString))"])
+                completion(.failure(error))
+                return
+            }
+
+            print("connected to '\(responseString)'")
+
+            let encodedMonitorId = loginRequest.monitor_id.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!
+            print("encoded monitorID:", encodedMonitorId)
+            self.webSocketManager = WebSocketManager(monitorId: encodedMonitorId, token: responseString) { message, monitorId in
                 print("Received message: \(message)")
                 self.onMessage!(message, monitorId)
             }
@@ -146,7 +156,7 @@ class WebSocketManager: NSObject, WebSocketDelegate {
         self.token = token
         self.onMessageReceived = onMessageReceived
 
-        urlRequest = URLRequest(url: URL(string: "wss://\(url)/chat/\(self.monitorId)?auth=\(self.token)")!)
+        urlRequest = URLRequest(url: URL(string: "ws://\(url)/chat/\(self.monitorId)?auth=\(self.token)")!)
         urlRequest.timeoutInterval = 5
         webSocket = Starscream.WebSocket(request: urlRequest)
 

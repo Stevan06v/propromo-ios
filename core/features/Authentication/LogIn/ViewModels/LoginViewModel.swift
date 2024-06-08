@@ -12,7 +12,7 @@ class LoginViewModel: ObservableObject {
 
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
 
-    @Published private(set) var loginRequest: LoginRequest = .init()
+    @Published private(set) var loginRequest: LoginRequest = .init(email: "username@domain.tld", password: "password")
 
     var email: String {
         loginRequest.email
