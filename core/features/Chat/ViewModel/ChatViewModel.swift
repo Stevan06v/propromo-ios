@@ -40,18 +40,21 @@ class ChatViewModel: ObservableObject {
     public func sendMessage(_ message: String) {
         chatService.sendMessage(message)
     }
-
+    
     func updateChatWithNewMessage(_ message: ChatMessage, monitor_hash: String) {
-        if var chat = chatsModel.chats.first(where: { $0.monitor_hash == monitor_hash }) {
-            print("chat to update: \(chat)")
-
-            chat.setMessages(messages: chat.messages ?? [] + [message])
-            chatsModel.setChats(chats: chatsModel.chats)
-            print("chat messages updated")
-            print(chatsModel.chats)
-        } else {
-            print("no chat with correct monitor_hash (\(monitor_hash)) found")
+        guard let chatIndex = chatsModel.chats.firstIndex(where: { $0.monitor_hash == monitor_hash }) else {
+            print("no chat with correct monitorHash (\(monitor_hash)) found")
             print("failed to add '\(message)' to chat")
+            return
         }
+
+        var updatedChats = chatsModel.chats
+        var updatedChat = updatedChats[chatIndex]
+        updatedChat.setMessages(messages: (updatedChat.messages ?? []) + [message])
+        updatedChats[chatIndex] = updatedChat
+
+        chatsModel.setChats(chats: updatedChats)
+        print("chat messages updated")
+        print(chatsModel.chats)
     }
 }
