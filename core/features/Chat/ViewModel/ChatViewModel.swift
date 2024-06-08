@@ -49,6 +49,9 @@ class ChatViewModel: ObservableObject {
             chatsModel.setChats(chats: chatsModel.chats)
             print("chat messages updated")
             print(chatsModel.chats)
+        } else {
+            print("no chat with correct monitor_hash (\(monitor_hash)) found")
+            print("failed to add '\(message)' to chat")
         }
     }
 }
