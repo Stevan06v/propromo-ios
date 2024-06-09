@@ -6,7 +6,7 @@ struct RepositoryListView: View {
     var body: some View {
         NavigationView {
             if repositories.isEmpty {
-                Text("No monitors available")
+                Text("No repositories available")
                     .foregroundColor(.gray)
                     .padding()
             } else {
