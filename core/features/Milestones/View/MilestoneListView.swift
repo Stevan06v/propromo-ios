@@ -6,15 +6,21 @@ struct MilestoneListView: View {
     var body: some View {
         NavigationSplitView {
             ScrollView {
-                VStack(spacing: 10) {
-                    ForEach(milestones, id: \.id) { milestone in
-                        NavigationLink(destination: MilestoneDetailView(milestone: milestone)) {
-                            MilestoneRowView(milestone: milestone)
+                if milestones.isEmpty {
+                    Text("No milestones available")
+                        .foregroundColor(.gray)
+                        .padding()
+                } else {
+                    VStack(spacing: 10) {
+                        ForEach(milestones, id: \.id) { milestone in
+                            NavigationLink(destination: MilestoneDetailView(milestone: milestone)) {
+                                MilestoneRowView(milestone: milestone)
+                            }
+                            .buttonStyle(PlainButtonStyle()) // Remove default button styling
                         }
-                        .buttonStyle(PlainButtonStyle())
                     }
+                    .padding()
                 }
-                .padding()
             }
             .navigationTitle("Milestones")
         } detail: {

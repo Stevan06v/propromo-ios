@@ -2,18 +2,25 @@ import SwiftUI
 
 struct MonitorListView: View {
     var monitors: [Monitor]
+
     var body: some View {
         NavigationSplitView {
             ScrollView {
-                VStack(spacing: 10) {
-                    ForEach(monitors, id: \.id) { monitor in
-                        NavigationLink(destination: MonitorDetailsView(monitor: monitor)) {
-                            MonitorRowView(monitor: monitor)
+                if monitors.isEmpty {
+                    Text("No monitors available")
+                        .foregroundColor(.gray)
+                        .padding()
+                } else {
+                    VStack(spacing: 10) {
+                        ForEach(monitors, id: \.id) { monitor in
+                            NavigationLink(destination: MonitorDetailsView(monitor: monitor)) {
+                                MonitorRowView(monitor: monitor)
+                            }
+                            .buttonStyle(PlainButtonStyle()) // Remove default button styling
                         }
-                        .buttonStyle(PlainButtonStyle()) // Remove default button styling
                     }
+                    .padding()
                 }
-                .padding()
             }
             .navigationTitle("Monitors")
         } detail: {

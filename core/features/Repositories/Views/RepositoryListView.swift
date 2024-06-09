@@ -6,8 +6,9 @@ struct RepositoryListView: View {
     var body: some View {
         NavigationView {
             if repositories.isEmpty {
-                Text("No repositories available")
-                    .foregroundColor(.secondary)
+                Text("No monitors available")
+                    .foregroundColor(.gray)
+                    .padding()
             } else {
                 ScrollView {
                     VStack(spacing: 10) {
