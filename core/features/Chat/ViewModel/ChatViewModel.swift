@@ -19,15 +19,23 @@ class ChatViewModel: ObservableObject {
     }
 
     public func connect() {
-        let loginRequest = ChatLoginRequest(email: "username@domain.tld", password: "password", monitor_id: "$2y$12$W3pHWdAtePn1wjCm4.t4xO9lY9jOcu8/5SC0bDEsaAfSB8pKA5k.K")
+        let loginRequest = ChatLoginRequest(email: "username@domain.tld", password: "password")
+        
         chatService.loginAndConnect(loginRequest: loginRequest) { result in
             switch result {
             case let .success(response):
-                do {
-                    let chat = Chat(id: loginRequest.monitor_id, monitor_hash: loginRequest.monitor_id, login_name: loginRequest.email, short_description: "", messages: response)
-                    var currentChats = self.chatsModel.getChats()
-                    currentChats.append(chat)
-                    self.chatsModel.setChats(chats: currentChats)
+                
+                for monitorId in self.chatService.getMonitorIds() {
+                    if let existingChatIndex = self.chatsModel.chats.firstIndex(where: { $0.monitor_hash == monitorId }) {
+                        var updatedChats = self.chatsModel.chats
+                        updatedChats[existingChatIndex].setMessages(messages: response)
+                        self.chatsModel.setChats(chats: updatedChats)
+                    } else {
+                        let chat = Chat(id: monitorId, monitor_hash: monitorId, login_name: loginRequest.email, short_description: "", messages: response)
+                        var currentChats = self.chatsModel.getChats()
+                        currentChats.append(chat)
+                        self.chatsModel.setChats(chats: currentChats)
+                    }
                 }
             case let .failure(error):
                 print(error)
@@ -36,9 +44,15 @@ class ChatViewModel: ObservableObject {
             }
         }
     }
+    
+    public func disconnect() {
+        for monitorId in self.chatService.getMonitorIds() {
+            self.chatService.disconnect(from: monitorId)
+        }
+    }
 
-    public func sendMessage(_ message: String) {
-        chatService.sendMessage(message)
+    public func sendMessage(_ message: String, to monitor_hash: String) {
+        chatService.sendMessage(message, to: monitor_hash)
     }
     
     func updateChatWithNewMessage(_ message: ChatMessage, monitor_hash: String) {
@@ -55,6 +69,6 @@ class ChatViewModel: ObservableObject {
 
         chatsModel.setChats(chats: updatedChats)
         print("chat messages updated")
-        print(chatsModel.chats)
+        print("chat count", chatsModel.chats.endIndex)
     }
 }

@@ -5,26 +5,24 @@ import Starscream
 struct ChatLoginRequest: Encodable {
     let email: String
     let password: String
-    let monitor_id: String
 }
 
 let url = "propromo-chat.deno.dev" // 127.0.0.1:6969, production URL: chat-app-latest-m6ht.onrender.com | propromo-chat.deno.dev
 
 class ChatService {
-    var webSocketManager: WebSocketManager?
-    var monitorId = ""
+    var webSocketManagers: [String: WebSocketManager] = [:]
 
     public var onMessage: ((_ message: ChatMessage, _ monitorId: String) -> Void)?
 
     func loginAndConnect(loginRequest: ChatLoginRequest, completion: @escaping (Result<[ChatMessage], Error>) -> Void) { // returns token for chat
-        monitorId = loginRequest.monitor_id
-
         // let loginURL = URLRequest(url: URL(string: "https://\(url)/login")!, cachePolicy: .reloadIgnoringLocalCacheData) // wrong type
 
         let loginURL = URL(string: "https://\(url)/login")! // TODO, remove monitor_id from req obj and load all chats that login returns in .chats
         let headers: HTTPHeaders = [
             "Cache-Control": "no-cache",
         ]
+        
+        print(loginRequest)
 
         AF.request(loginURL,
                    method: .post,
@@ -64,21 +62,26 @@ class ChatService {
                 }
 
                 if let token = jsonObject["token"] as? String, let chats = jsonObject["chats"] as? [String] {
-                    print("Token: \(token)")
+                    // print("Token: \(token)")
                     print("Chats: \(chats)") // TODO, loop and connect to all (chats is an array of monitorIds)
                     
-                    self.webSocketManager = WebSocketManager(monitorId: loginRequest.monitor_id, token: token) { message, monitorId in
-                        print("Received message: \(message)")
-                        self.onMessage!(message, monitorId)
-                    }
-                    self.webSocketManager?.connect()
-
-                    self.webSocketManager?.onConnected = {
-                        completion(.success([])) // messages are sent in multiple chuncks and not one, meaning the chats have to be updated in .text on didReceive
-                    }
-                    self.webSocketManager?.onError = { error in
-                        let errorFallback = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Something went wrong."])
-                        completion(.failure(error ?? errorFallback))
+                    for monitorId in chats {
+                        let webSocketManager = WebSocketManager(monitorId: monitorId, token: token) { message, monitorId in
+                            print("Received message: \(message)")
+                            self.onMessage?(message, monitorId)
+                        }
+                        
+                        webSocketManager.connect()
+                        
+                        webSocketManager.onConnected = {
+                            completion(.success([])) // messages are sent in multiple chuncks and not one, meaning the chats have to be updated in .text on didReceive
+                        }
+                        webSocketManager.onError = { error in
+                            let errorFallback = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Something went wrong."])
+                            completion(.failure(error ?? errorFallback))
+                        }
+                        
+                        self.webSocketManagers[monitorId] = webSocketManager
                     }
                     
                     completion(.success([]))
@@ -92,13 +95,21 @@ class ChatService {
             }
         }
     }
-
-    func sendMessage(_ message: String) {
-        webSocketManager?.sendMessage(message)
+    
+    func sendMessage(_ message: String, to monitorId: String) {
+        if let webSocketManager = webSocketManagers[monitorId] {
+            webSocketManager.sendMessage(message)
+        }
     }
 
-    func disconnect() {
-        webSocketManager?.disconnect()
+    func disconnect(from monitorId: String) {
+        if let webSocketManager = webSocketManagers[monitorId] {
+            webSocketManager.disconnect()
+        }
+    }
+
+    func getMonitorIds() -> [String] {
+        return Array(webSocketManagers.keys)
     }
 }
 

@@ -9,16 +9,19 @@ struct ChatView: View {
             VStack {
                 List(chatViewModel.chatsModel.chats, id: \.id) { chat in
                     NavigationLink {
-                        ChatMessageView(chatViewModel: chatViewModel)
+                        ChatMessageView(chatViewModel: chatViewModel, selectedChat: chat)
                     } label: {
-                        Text("\(chat.login_name ?? "")")
+                        Text(chat.monitor_hash)
                     }
                 }
             }
         } detail: {
             Text("Select a chatroom")
         }.task {
+            chatViewModel.chatsModel.setChats(chats: [])
             chatViewModel.connect()
+        }.onDisappear {
+            chatViewModel.disconnect()
         }.badge(0)
     }
 }
