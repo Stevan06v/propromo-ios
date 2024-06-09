@@ -12,10 +12,8 @@ struct SettingsView: View {
     
     @ObservedObject private var settingsViewModel: SettingsViewModel = SettingsViewModel()
 
-    
-
-    init(settingsViewModel: SettingsViewModel){
-        _settingsViewModel = ObservedObject(wrappedValue: SettingsViewModel(settingsViewModel: settingsViewModel))
+    init(){
+        _settingsViewModel = ObservedObject(wrappedValue: SettingsViewModel())
     }
     
 
