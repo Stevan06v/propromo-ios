@@ -21,7 +21,7 @@ class ChatService {
 
         // let loginURL = URLRequest(url: URL(string: "https://\(url)/login")!, cachePolicy: .reloadIgnoringLocalCacheData) // wrong type
 
-        let loginURL = URL(string: "https://\(url)/login")!
+        let loginURL = URL(string: "https://\(url)/login")! // TODO, remove monitor_id from req obj and load all chats that login returns in .chats
         let headers: HTTPHeaders = [
             "Cache-Control": "no-cache",
         ]
@@ -54,21 +54,41 @@ class ChatService {
                 completion(.failure(error))
                 return
             }
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: responseData, options: [])
+                guard let jsonObject = json as? [String: Any] else {
+                    let error = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Response is not a valid JSON"])
+                    completion(.failure(error))
+                    return
+                }
 
-            print("connected to '\(responseString)'")
+                if let token = jsonObject["token"] as? String, let chats = jsonObject["chats"] as? [String] {
+                    print("Token: \(token)")
+                    print("Chats: \(chats)") // TODO, loop and connect to all (chats is an array of monitorIds)
+                    
+                    self.webSocketManager = WebSocketManager(monitorId: loginRequest.monitor_id, token: token) { message, monitorId in
+                        print("Received message: \(message)")
+                        self.onMessage!(message, monitorId)
+                    }
+                    self.webSocketManager?.connect()
 
-            self.webSocketManager = WebSocketManager(monitorId: loginRequest.monitor_id, token: responseString) { message, monitorId in
-                print("Received message: \(message)")
-                self.onMessage!(message, monitorId)
-            }
-            self.webSocketManager?.connect()
-
-            self.webSocketManager?.onConnected = {
-                completion(.success([])) // messages are sent in multiple chuncks and not one, meaning the chats have to be updated in .text on didReceive
-            }
-            self.webSocketManager?.onError = { error in
-                let errorFallback = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Something went wrong."])
-                completion(.failure(error ?? errorFallback))
+                    self.webSocketManager?.onConnected = {
+                        completion(.success([])) // messages are sent in multiple chuncks and not one, meaning the chats have to be updated in .text on didReceive
+                    }
+                    self.webSocketManager?.onError = { error in
+                        let errorFallback = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Something went wrong."])
+                        completion(.failure(error ?? errorFallback))
+                    }
+                    
+                    completion(.success([]))
+                } else {
+                    let error = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Token or chats is missing in the response"])
+                    completion(.failure(error))
+                }
+            } catch {
+                let error = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to parse JSON response"])
+                completion(.failure(error))
             }
         }
     }

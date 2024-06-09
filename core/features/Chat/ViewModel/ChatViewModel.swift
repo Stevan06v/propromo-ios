@@ -18,7 +18,7 @@ class ChatViewModel: ObservableObject {
         }
     }
 
-    public func connect(monitor_id: String) {
+    public func connect() {
         let loginRequest = ChatLoginRequest(email: "username@domain.tld", password: "password", monitor_id: "$2y$12$W3pHWdAtePn1wjCm4.t4xO9lY9jOcu8/5SC0bDEsaAfSB8pKA5k.K")
         chatService.loginAndConnect(loginRequest: loginRequest) { result in
             switch result {
