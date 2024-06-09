@@ -4,13 +4,13 @@ import SwiftUI
 class RegisterViewModel: ObservableObject {
     private var viewModel: ViewModel
 
-    // app-storage values
     @AppStorage("AUTH_KEY") var authenticated: Bool = false
-    @AppStorage("USER_KEY") var userKey: String = ""
+    @AppStorage("USER_KEY") var userKey: String = ""    
+    @AppStorage("USER_PASSWORD") var userPassword: String = ""
+
 
     @Published private(set) var registerRequest: RegisterRequest = .init()
 
-    // alerts
     @Published public var showAlert: Bool = false
     @Published public var message: String = ""
 
@@ -41,10 +41,9 @@ class RegisterViewModel: ObservableObject {
 
                     // set app-keys
                     self.userKey = registerResponse.data.email
+                    self.userPassword = self.registerRequest.password
                     self.authenticated = true
 
-                    // jump to home if authenticated
-                    // self.router.navigate(to: .home)
 
                     self.viewModel.showAuthenticationView = false
 

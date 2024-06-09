@@ -33,7 +33,7 @@ struct ContentView: View {
                         Label("Chat", systemImage: "text.bubble.fill")
                     }
                     VStack {
-                        Text("Settings")
+                        SettingsView()
                     }.tabItem() {
                         Label("Settings", systemImage: "gear")
                     }

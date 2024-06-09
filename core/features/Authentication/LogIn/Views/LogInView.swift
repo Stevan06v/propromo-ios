@@ -12,20 +12,21 @@ struct LogInView: View {
     var body: some View {
         VStack(alignment: .center) {
             HStack {
-                StepIndicator(currentStep: 1, dotCount: 3)
+                StepIndicator(currentStep: 1, dotCount: 1)
                     .padding(.leading, 35)
                     .padding(.top, 35)
 
                 Spacer()
             }
             Form {
-                Section {
+                Section(header: Text("Log In").font(.largeTitle).bold().padding(.bottom, 5)) {
                     TextField("E-Mail", text: Binding(get: {
                         loginViewModel.email
                     }, set: {
                         loginViewModel.dataChanged(email: $0)
                     }))
-                    .textFieldStyle(TextFieldPrimaryStyle()).autocapitalization(.none)
+                    .textFieldStyle(TextFieldPrimaryStyle())
+                    .autocapitalization(.none)
 
                     SecureField("Password", text: Binding(get: {
                         loginViewModel.password
@@ -33,26 +34,6 @@ struct LogInView: View {
                         loginViewModel.dataChanged(password: $0)
                     }))
                     .textFieldStyle(TextFieldPrimaryStyle())
-                }
-
-                HStack {
-                    Spacer()
-
-                    Text("or")
-
-                    Spacer()
-                }.padding()
-
-                HStack(alignment: .center) {
-                    Spacer()
-
-                    HStack {
-                        WebView(svgString: SVGIcons.google(size: 125))
-                            .padding(.top, 4)
-                        WebView(svgString: SVGIcons.github(size: 150))
-                    }.frame(width: 100.0, height: 50.0)
-
-                    Spacer()
                 }
             }
             .formStyle(.columns)
@@ -76,17 +57,22 @@ struct LogInView: View {
                     loginViewModel.login()
                 }) {
                     Text("Log In")
-                }.buttonStyle(.borderedProminent)
-                    .alert(isPresented: $loginViewModel.showAlert) {
-                        Alert(
-                            title: Text("Login Error"),
-                            message: Text(loginViewModel.message)
-                        )
-                    }
-
-            }.padding(.horizontal, 35)
+                }
+                .buttonStyle(.borderedProminent)
+                .alert(isPresented: $loginViewModel.showAlert) {
+                    Alert(
+                        title: Text("Login Error"),
+                        message: Text(loginViewModel.message)
+                    )
+                }
+            }
+            .padding(.horizontal, 35)
 
             Spacer()
         }
     }
+}
+
+#Preview {
+    LogInView(viewModel: ViewModel())
 }

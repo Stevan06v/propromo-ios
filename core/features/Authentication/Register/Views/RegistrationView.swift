@@ -1,4 +1,3 @@
-
 import Foundation
 import SwiftUI
 
@@ -13,7 +12,7 @@ struct RegistrationView: View {
     var body: some View {
         VStack(alignment: .center) {
             HStack {
-                StepIndicator(currentStep: 1, dotCount: 3)
+                StepIndicator(currentStep: 1, dotCount: 1)
                     .padding(.leading, 35)
                     .padding(.top, 35)
 
@@ -21,19 +20,22 @@ struct RegistrationView: View {
             }
 
             Form {
-                Section {
+                Section(header: Text("Register").font(.largeTitle).bold().padding(.bottom, 5)) {
                     TextField("Name", text: Binding(get: {
                         registerViewModel.name
                     }, set: {
                         registerViewModel.dataChanged(name: $0)
-                    })).textFieldStyle(TextFieldPrimaryStyle()).autocapitalization(.none)
+                    }))
+                    .textFieldStyle(TextFieldPrimaryStyle())
+                    .autocapitalization(.none)
 
                     TextField("E-Mail", text: Binding(get: {
                         registerViewModel.email
                     }, set: {
                         registerViewModel.dataChanged(email: $0)
                     }))
-                    .textFieldStyle(TextFieldPrimaryStyle()).autocapitalization(.none)
+                    .textFieldStyle(TextFieldPrimaryStyle())
+                    .autocapitalization(.none)
 
                     SecureField("Password", text: Binding(get: {
                         registerViewModel.password
@@ -48,7 +50,6 @@ struct RegistrationView: View {
             }
             .formStyle(.columns)
             .navigationBarTitleDisplayMode(.large)
-            .navigationTitle("Register")
             .listSectionSpacing(0)
             .scrollContentBackground(.hidden)
             .padding(.horizontal, 35)
@@ -66,17 +67,22 @@ struct RegistrationView: View {
                     registerViewModel.register()
                 }, label: {
                     Text("Register")
-                }).buttonStyle(.borderedProminent)
-                    .alert(isPresented: $registerViewModel.showAlert) {
-                        Alert(
-                            title: Text("Registration Error"),
-                            message: Text(registerViewModel.message)
-                        )
-                    }
-
-            }.padding(.horizontal, 35)
+                })
+                .buttonStyle(.borderedProminent)
+                .alert(isPresented: $registerViewModel.showAlert) {
+                    Alert(
+                        title: Text("Registration Error"),
+                        message: Text(registerViewModel.message)
+                    )
+                }
+            }
+            .padding(.horizontal, 35)
 
             Spacer()
         }
     }
+}
+
+#Preview {
+    RegistrationView(viewModel: ViewModel())
 }

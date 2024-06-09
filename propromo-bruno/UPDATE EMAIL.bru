@@ -1,0 +1,18 @@
+meta {
+  name: UPDATE EMAIL
+  type: http
+  seq: 10
+}
+
+put {
+  url: http://propromo.test/api/v1/users/update/email
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email":"test@gmail.com",
+    "newEmail":"test1@gmail.com"
+  }
+}

@@ -1,5 +1,3 @@
-
-
 struct JoinMonitorRequest: Encodable {
     private(set) var email: String = ""
     private(set) var monitorHash: String = ""

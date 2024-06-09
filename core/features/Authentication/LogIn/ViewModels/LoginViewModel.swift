@@ -5,6 +5,7 @@ class LoginViewModel: ObservableObject {
     
     private var viewModel: ViewModel
     @AppStorage("AUTH_KEY") var authenticated: Bool = false
+    @AppStorage("USER_PASSWORD") var userPassword: String = ""
     @AppStorage("USER_KEY") var userKey: String = ""
     
     // alerts
@@ -38,12 +39,11 @@ class LoginViewModel: ObservableObject {
                 
                 // set app-keys
                 self.userKey = loginResponse.user.email
+                self.userPassword = self.loginRequest.password
                 self.authenticated = true
                 
                 print(loginResponse)
-                
-                // jump to home if authenticated
-               // self.router.navigate(to: .home)
+            
                 
                 self.viewModel.showAuthenticationView = false
             case .failure(let error):
@@ -55,7 +55,7 @@ class LoginViewModel: ObservableObject {
     }
     
     init(viewModel: ViewModel) {
-           self.viewModel = viewModel
+        self.viewModel = viewModel
    }
    
     

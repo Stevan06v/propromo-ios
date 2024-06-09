@@ -20,9 +20,11 @@ struct ChatView: View {
         }.task {
             chatViewModel.chatsModel.setChats(chats: [])
             chatViewModel.connect()
-        }.onDisappear {
+        }.navigationTitle("Chats")
+        .onDisappear {
             chatViewModel.disconnect()
         }.badge(0)
+        
     }
 }
 
