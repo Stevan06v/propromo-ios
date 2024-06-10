@@ -20,6 +20,12 @@ struct ChatView: View {
         }.task {
             chatViewModel.chatsModel.setChats(chats: [])
             chatViewModel.connect()
+        }
+        .alert(isPresented: $chatViewModel.showAlert) {
+            Alert(
+                title: Text("Login Error"),
+                message: Text(chatViewModel.message)
+            )
         }.navigationTitle("Chats")
         .onDisappear {
             chatViewModel.disconnect()

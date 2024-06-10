@@ -2,7 +2,8 @@ import Foundation
 import SwiftUI
 
 class ChatViewModel: ObservableObject {
-    @AppStorage("USER_KEY") var userKey: String = ""
+    @AppStorage("USER_KEY") var email: String = ""
+    @AppStorage("USER_PASSWORD") var password: String = ""
 
     @Published public var showAlert: Bool = false
     @Published public var message: String = ""
@@ -19,9 +20,8 @@ class ChatViewModel: ObservableObject {
     }
 
     public func connect() {
-        let loginRequest = ChatLoginRequest(email: "username@domain.tld", password: "password")
-        
-        chatService.loginAndConnect(loginRequest: loginRequest) { result in
+        let loginRequest = ChatLoginRequest(email: self.email, password: self.password)
+        self.chatService.loginAndConnect(loginRequest: loginRequest) { result in
             switch result {
             case let .success(response):
                 
