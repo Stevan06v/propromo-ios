@@ -1,13 +1,12 @@
 import SwiftUI
 
 struct SettingsView: View {
-    
     @ObservedObject var settingsViewModel: SettingsViewModel
-    
+
     init() {
         _settingsViewModel = ObservedObject(wrappedValue: SettingsViewModel())
     }
-    
+
     var body: some View {
         NavigationView {
             Form {
@@ -19,7 +18,7 @@ struct SettingsView: View {
                     }))
                     .textFieldStyle(TextFieldPrimaryStyle())
                     .autocapitalization(.none)
-                    
+
                     Button(action: {
                         settingsViewModel.updateEmail()
                     }) {
@@ -33,7 +32,7 @@ struct SettingsView: View {
                     .padding(.top, 10)
                 }
                 .padding(.vertical, 10)
-                
+
                 Section(header: Text("Update Password").font(.headline).padding(.bottom, 5)) {
                     VStack {
                         SecureField("Current Password", text: Binding(get: {
@@ -42,14 +41,14 @@ struct SettingsView: View {
                             settingsViewModel.dataChanged(oldPassword: $0)
                         }))
                         .textFieldStyle(TextFieldPrimaryStyle())
-                        
+
                         SecureField("New Password", text: Binding(get: {
                             settingsViewModel.newPassword
                         }, set: {
                             settingsViewModel.dataChanged(newPassword: $0)
                         }))
                         .textFieldStyle(TextFieldPrimaryStyle())
-                        
+
                         SecureField("Confirm New Password", text: Binding(get: {
                             settingsViewModel.confirmNewPassword
                         }, set: {
@@ -57,7 +56,7 @@ struct SettingsView: View {
                         }))
                         .textFieldStyle(TextFieldPrimaryStyle())
                     }
-                    
+
                     Button(action: {
                         settingsViewModel.updatePassword()
                     }) {
@@ -71,7 +70,6 @@ struct SettingsView: View {
                     .padding(.top, 10)
                 }
                 .padding(.vertical, 10)
-                
             }
             .navigationTitle("Settings")
             .alert(isPresented: $settingsViewModel.showAlert) {

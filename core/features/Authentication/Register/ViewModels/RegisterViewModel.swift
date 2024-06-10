@@ -5,9 +5,8 @@ class RegisterViewModel: ObservableObject {
     private var viewModel: ViewModel
 
     @AppStorage("AUTH_KEY") var authenticated: Bool = false
-    @AppStorage("USER_KEY") var userKey: String = ""    
+    @AppStorage("USER_KEY") var userKey: String = ""
     @AppStorage("USER_PASSWORD") var userPassword: String = ""
-
 
     @Published private(set) var registerRequest: RegisterRequest = .init()
 
@@ -43,7 +42,6 @@ class RegisterViewModel: ObservableObject {
                     self.userKey = registerResponse.data.email
                     self.userPassword = self.registerRequest.password
                     self.authenticated = true
-
 
                     self.viewModel.showAuthenticationView = false
 

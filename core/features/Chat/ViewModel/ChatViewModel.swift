@@ -20,18 +20,23 @@ class ChatViewModel: ObservableObject {
     }
 
     public func connect() {
-        let loginRequest = ChatLoginRequest(email: self.email, password: self.password)
-        self.chatService.loginAndConnect(loginRequest: loginRequest) { result in
+        let loginRequest = ChatLoginRequest(email: email, password: password)
+        chatService.loginAndConnect(loginRequest: loginRequest) { result in
             switch result {
             case let .success(response):
-                
-                for monitorId in self.chatService.getMonitorIds() {
-                    if let existingChatIndex = self.chatsModel.chats.firstIndex(where: { $0.monitor_hash == monitorId }) {
+                for monitor in self.chatService.getMonitors() {
+                    let monitorHash = monitor.key
+                    let monitorBody = monitor.value
+
+                    if let existingChatIndex = self.chatsModel.chats.firstIndex(where: { $0.id == monitorHash }) {
                         var updatedChats = self.chatsModel.chats
                         updatedChats[existingChatIndex].setMessages(messages: response)
                         self.chatsModel.setChats(chats: updatedChats)
                     } else {
-                        let chat = Chat(id: monitorId, monitor_hash: monitorId, login_name: loginRequest.email, short_description: "", messages: response)
+                        let chat = Chat(
+                            id: monitorHash,
+                            monitor: monitorBody
+                        )
                         var currentChats = self.chatsModel.getChats()
                         currentChats.append(chat)
                         self.chatsModel.setChats(chats: currentChats)
@@ -44,19 +49,19 @@ class ChatViewModel: ObservableObject {
             }
         }
     }
-    
+
     public func disconnect() {
-        for monitorId in self.chatService.getMonitorIds() {
-            self.chatService.disconnect(from: monitorId)
+        for monitorId in chatService.getMonitorIds() {
+            chatService.disconnect(from: monitorId)
         }
     }
 
     public func sendMessage(_ message: String, to monitor_hash: String) {
         chatService.sendMessage(message, to: monitor_hash)
     }
-    
+
     func updateChatWithNewMessage(_ message: ChatMessage, monitor_hash: String) {
-        guard let chatIndex = chatsModel.chats.firstIndex(where: { $0.monitor_hash == monitor_hash }) else {
+        guard let chatIndex = chatsModel.chats.firstIndex(where: { $0.id == monitor_hash }) else {
             print("no chat with correct monitorHash (\(monitor_hash)) found")
             print("failed to add '\(message)' to chat")
             return

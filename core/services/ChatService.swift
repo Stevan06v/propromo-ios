@@ -7,10 +7,64 @@ struct ChatLoginRequest: Encodable {
     let password: String
 }
 
+struct ChatBody: Decodable {
+    let team: String
+    let type: String
+    let title: String
+    let description: String
+    let isPublic: Bool
+    let createdAt: Date
+    let updatedAt: Date
+    let projectUrl: String
+}
+
+struct ChatInfo: Decodable {
+    private(set) var monitor_hash: String
+    private(set) var organization_name: String
+    private(set) var type: String
+    private(set) var title: String
+    private(set) var short_description: String
+    private(set) var `public`: Bool
+    private(set) var created_at: String
+    private(set) var updated_at: String
+    private(set) var project_url: String
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        monitor_hash = try container.decode(String.self, forKey: .monitor_hash)
+        organization_name = try container.decode(String.self, forKey: .organization_name)
+        type = try container.decode(String.self, forKey: .type)
+        title = try container.decode(String.self, forKey: .title)
+        short_description = try container.decode(String.self, forKey: .short_description)
+        `public` = try container.decode(Bool.self, forKey: .public)
+        created_at = try container.decode(String.self, forKey: .created_at)
+        updated_at = try container.decode(String.self, forKey: .updated_at)
+        project_url = try container.decode(String.self, forKey: .project_url)
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case monitor_hash
+        case organization_name
+        case type
+        case title
+        case short_description
+        case `public`
+        case created_at
+        case updated_at
+        case project_url
+    }
+}
+
+struct ResponseChats: Decodable {
+    let token: String
+    let chats: [ChatInfo]
+}
+
 let url = "propromo-chat.deno.dev" // 127.0.0.1:6969, production URL: chat-app-latest-m6ht.onrender.com | propromo-chat.deno.dev
 
 class ChatService {
     var webSocketManagers: [String: WebSocketManager] = [:]
+    var chats: [String: ChatBody] = [:]
 
     public var onMessage: ((_ message: ChatMessage, _ monitorId: String) -> Void)?
 
@@ -21,7 +75,7 @@ class ChatService {
         let headers: HTTPHeaders = [
             "Cache-Control": "no-cache",
         ]
-        
+
         print(loginRequest)
 
         AF.request(loginURL,
@@ -52,50 +106,54 @@ class ChatService {
                 completion(.failure(error))
                 return
             }
-            
+
             do {
-                let json = try JSONSerialization.jsonObject(with: responseData, options: [])
-                guard let jsonObject = json as? [String: Any] else {
-                    let error = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Response is not a valid JSON"])
-                    completion(.failure(error))
-                    return
+                let jsonResponseBody = try JSONDecoder().decode(ResponseChats.self, from: responseData)
+                let token = jsonResponseBody.token
+                let chats = jsonResponseBody.chats
+
+                for chat in chats {
+                    let webSocketManager = WebSocketManager(monitorId: chat.monitor_hash, token: token) { message, monitor_hash in
+                        print("Received message: \(message)")
+                        self.onMessage?(message, monitor_hash)
+                    }
+
+                    webSocketManager.connect()
+
+                    webSocketManager.onConnected = {
+                        completion(.success([])) // messages are sent in multiple chuncks and not one, meaning the chats have to be updated in .text on didReceive
+                    }
+                    webSocketManager.onError = { error in
+                        let errorFallback = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Something went wrong."])
+                        completion(.failure(error ?? errorFallback))
+                    }
+
+                    self.webSocketManagers[chat.monitor_hash] = webSocketManager
+
+                    let formatter = ISO8601DateFormatter()
+                    let created_at = formatter.date(from: chat.created_at)
+                    let updated_at = formatter.date(from: chat.updated_at)
+
+                    self.chats[chat.monitor_hash] = ChatBody(
+                        team: chat.organization_name,
+                        type: chat.type,
+                        title: chat.title,
+                        description: chat.short_description,
+                        isPublic: chat.public,
+                        createdAt: created_at ?? Date(),
+                        updatedAt: updated_at ?? Date(),
+                        projectUrl: chat.project_url
+                    )
                 }
 
-                if let token = jsonObject["token"] as? String, let chats = jsonObject["chats"] as? [String] {
-                    // print("Token: \(token)")
-                    print("Chats: \(chats)") // TODO, loop and connect to all (chats is an array of monitorIds)
-                    
-                    for monitorId in chats {
-                        let webSocketManager = WebSocketManager(monitorId: monitorId, token: token) { message, monitorId in
-                            print("Received message: \(message)")
-                            self.onMessage?(message, monitorId)
-                        }
-                        
-                        webSocketManager.connect()
-                        
-                        webSocketManager.onConnected = {
-                            completion(.success([])) // messages are sent in multiple chuncks and not one, meaning the chats have to be updated in .text on didReceive
-                        }
-                        webSocketManager.onError = { error in
-                            let errorFallback = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Something went wrong."])
-                            completion(.failure(error ?? errorFallback))
-                        }
-                        
-                        self.webSocketManagers[monitorId] = webSocketManager
-                    }
-                    
-                    completion(.success([]))
-                } else {
-                    let error = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Token or chats is missing in the response"])
-                    completion(.failure(error))
-                }
+                completion(.success([]))
             } catch {
                 let error = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to parse JSON response"])
                 completion(.failure(error))
             }
         }
     }
-    
+
     func sendMessage(_ message: String, to monitorId: String) {
         if let webSocketManager = webSocketManagers[monitorId] {
             webSocketManager.sendMessage(message)
@@ -110,6 +168,10 @@ class ChatService {
 
     func getMonitorIds() -> [String] {
         return Array(webSocketManagers.keys)
+    }
+
+    func getMonitors() -> [String: ChatBody] {
+        return chats
     }
 }
 

@@ -5,17 +5,16 @@
 //  Created by Stevan Vlajic on 09.06.24.
 //
 
+import Alamofire
 import Foundation
 import SwiftUI
-import Alamofire
 
 class SettingsService {
     let url = "https://propromo-d08144c627d3.herokuapp.com/api/v1/users/update"
-    
+
     func updateEmail(emailChangedRequest: EmailChangedRequest, completion: @escaping (Result<EmailChangedReponse, Error>) -> Void) {
-        
         let url = "\(self.url)/email"
-        
+
         AF.request(url,
                    method: .put,
                    parameters: emailChangedRequest,
@@ -40,11 +39,9 @@ class SettingsService {
         }
     }
 
-    
     func updatePassword(passwordChangedRequest: PasswordChangedRequest, completion: @escaping (Result<PasswordChangedReponse, Error>) -> Void) {
-        
         let url = "\(self.url)/password"
-        
+
         AF.request(url,
                    method: .put,
                    parameters: passwordChangedRequest,
@@ -68,5 +65,4 @@ class SettingsService {
             }
         }
     }
-
 }

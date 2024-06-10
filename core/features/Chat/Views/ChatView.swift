@@ -11,7 +11,7 @@ struct ChatView: View {
                     NavigationLink {
                         ChatMessageView(chatViewModel: chatViewModel, selectedChat: chat)
                     } label: {
-                        Text(chat.monitor_hash)
+                        Text(chat.title ?? chat.id)
                     }
                 }
             }
@@ -30,7 +30,6 @@ struct ChatView: View {
         .onDisappear {
             chatViewModel.disconnect()
         }.badge(0)
-        
     }
 }
 

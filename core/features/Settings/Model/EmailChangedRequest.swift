@@ -7,14 +7,12 @@
 
 import Foundation
 
-
 import Foundation
 import SwiftUI
 
 struct EmailChangedRequest: Encodable {
-    
-    private (set) var newEmail: String = ""
-    private (set) var email: String = ""
+    private(set) var newEmail: String = ""
+    private(set) var email: String = ""
 
     mutating func dataChanged(newEmail: String? = nil, email: String? = nil) {
         if let val = newEmail {

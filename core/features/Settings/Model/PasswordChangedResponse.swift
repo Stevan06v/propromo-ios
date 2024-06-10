@@ -14,4 +14,3 @@ struct PasswordChangedReponse: Decodable {
 
     init() {}
 }
-
