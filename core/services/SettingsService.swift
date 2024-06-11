@@ -1,16 +1,9 @@
-//
-//  SettingsService.swift
-//  Propromo
-//
-//  Created by Stevan Vlajic on 09.06.24.
-//
-
 import Alamofire
 import Foundation
 import SwiftUI
 
 class SettingsService {
-    let url = "https://propromo-d08144c627d3.herokuapp.com/api/v1/users/update"
+    let url = Environment.Services.WEBSITE_API("users/update")
 
     func updateEmail(emailChangedRequest: EmailChangedRequest, completion: @escaping (Result<EmailChangedReponse, Error>) -> Void) {
         let url = "\(self.url)/email"

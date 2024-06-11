@@ -14,7 +14,7 @@ class ChatViewModel: ObservableObject {
 
     init() {
         chatService.onMessage = { message, monitorId in
-            print("updating chat messages ...")
+            if (Environment.isDebug) { print("updating chat messages...") }
             self.updateChatWithNewMessage(message, monitor_hash: monitorId)
         }
     }
@@ -43,7 +43,8 @@ class ChatViewModel: ObservableObject {
                     }
                 }
             case let .failure(error):
-                print(error)
+                if (Environment.isDebug) { print(error) }
+
                 self.message = "\(error.localizedDescription)"
                 self.showAlert = true
             }
@@ -62,8 +63,7 @@ class ChatViewModel: ObservableObject {
 
     func updateChatWithNewMessage(_ message: ChatMessage, monitor_hash: String) {
         guard let chatIndex = chatsModel.chats.firstIndex(where: { $0.id == monitor_hash }) else {
-            print("no chat with correct monitorHash (\(monitor_hash)) found")
-            print("failed to add '\(message)' to chat")
+            if (Environment.isDebug) { print("failed to add '\(message)' to chat. no chat with correct monitorHash (\(monitor_hash)) found") }
             return
         }
 
@@ -73,7 +73,7 @@ class ChatViewModel: ObservableObject {
         updatedChats[chatIndex] = updatedChat
 
         chatsModel.setChats(chats: updatedChats)
-        print("chat messages updated")
-        print("chat count", chatsModel.chats.endIndex)
+        // if (Environment.isDebug) { print("chat messages updated") }
+        // if (Environment.isDebug) { print("chat count", chatsModel.chats.endIndex) }
     }
 }

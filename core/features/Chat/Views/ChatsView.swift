@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ChatView: View {
+struct ChatsView: View {
     static let tag: String? = "Chat"
     @ObservedObject var chatViewModel: ChatViewModel = .init()
 
@@ -20,7 +20,7 @@ struct ChatView: View {
                 VStack {
                     List(chatViewModel.chatsModel.chats, id: \.id) { chat in
                         NavigationLink {
-                            ChatMessageView(chatViewModel: chatViewModel, selectedChat: chat)
+                            ChatMessagesView(chatViewModel: chatViewModel, selectedChat: chat)
                         } label: {
                             Text(chat.title ?? chat.id)
                         }
@@ -46,8 +46,8 @@ struct ChatView: View {
     }
 }
 
-struct ChatView_Preview: PreviewProvider {
+struct ChatsView_Preview: PreviewProvider {
     static var previews: some View {
-        ChatView()
+        ChatsView()
     }
 }

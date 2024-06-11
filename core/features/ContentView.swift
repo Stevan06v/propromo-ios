@@ -27,7 +27,7 @@ struct ContentView: View {
                     Label("Monitors", systemImage: "square.stack.3d.up")
                 }
                 VStack {
-                    ChatView()
+                    ChatsView()
                 }.tabItem {
                     Label("Chat", systemImage: "text.bubble.fill")
                 }

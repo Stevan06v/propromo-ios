@@ -2,11 +2,9 @@ import Alamofire
 import SwiftUI
 
 class RegisterService {
-    let url = "https://propromo-d08144c627d3.herokuapp.com/api/v1/users"
-
     // https://www.tutorialspoint.com/what-is-a-completion-handler-in-swift
     func register(registerRequest: RegisterRequest, completion: @escaping (Result<RegisterResponse, Error>) -> Void) {
-        AF.request(url,
+        AF.request(Environment.Services.WEBSITE_API("users"),
                    method: .post,
                    parameters: registerRequest,
                    encoder: JSONParameterEncoder.default).response { response in

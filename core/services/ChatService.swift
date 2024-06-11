@@ -2,91 +2,30 @@ import Alamofire
 import Foundation
 import Starscream
 
-var isDebug: Bool {
-    #if DEBUG
-        return true
-    #else
-        return false
-    #endif
-}
-
+/* SETTINGS */
 let useSecureProtocol = true
 let sStandsForSecure = useSecureProtocol ? "s" : ""
 let chatServerUrl = useSecureProtocol ? "propromo-chat.deno.dev" : "127.0.0.1:6969" // fallback: chat-app-latest-m6ht.onrender.com
 
-struct ChatLoginRequest: Encodable {
-    let email: String
-    let password: String
-}
-
-struct ChatBody: Decodable {
-    let team: String
-    let type: String
-    let title: String
-    let description: String
-    let isPublic: Bool
-    let createdAt: Date
-    let updatedAt: Date
-    let projectUrl: String
-}
-
-struct ChatInfo: Decodable {
-    private(set) var monitor_hash: String
-    private(set) var organization_name: String
-    private(set) var type: String
-    private(set) var title: String
-    private(set) var short_description: String
-    private(set) var `public`: Bool
-    private(set) var created_at: String
-    private(set) var updated_at: String
-    private(set) var project_url: String
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        monitor_hash = try container.decode(String.self, forKey: .monitor_hash)
-        organization_name = try container.decode(String.self, forKey: .organization_name)
-        type = try container.decode(String.self, forKey: .type)
-        title = try container.decode(String.self, forKey: .title)
-        short_description = try container.decode(String.self, forKey: .short_description)
-        `public` = try container.decode(Bool.self, forKey: .public)
-        created_at = try container.decode(String.self, forKey: .created_at)
-        updated_at = try container.decode(String.self, forKey: .updated_at)
-        project_url = try container.decode(String.self, forKey: .project_url)
-    }
-
-    enum CodingKeys: String, CodingKey {
-        case monitor_hash
-        case organization_name
-        case type
-        case title
-        case short_description
-        case `public`
-        case created_at
-        case updated_at
-        case project_url
-    }
-}
-
-struct ResponseChats: Decodable {
-    let token: String
-    let chats: [ChatInfo]
-}
-
+/* CHAT */
 class ChatService {
     var webSocketManagers: [String: WebSocketManager] = [:]
     var chats: [String: ChatBody] = [:]
 
     public var onMessage: ((_ message: ChatMessage, _ monitorId: String) -> Void)?
 
-    func loginAndConnect(loginRequest: ChatLoginRequest, completion: @escaping (Result<[ChatMessage], Error>) -> Void) { // returns token for chat
+    /**
+     Returns a token and chats. The token can be used to send or receive to or from any chat of the returned chats, the chats the user has access to.
+     */
+    func loginAndConnect(loginRequest: ChatLoginRequest, completion: @escaping (Result<[ChatMessage], Error>) -> Void) {
         // let loginURL = URLRequest(url: URL(string: "https://\(url)/login")!, cachePolicy: .reloadIgnoringLocalCacheData) // wrong type
-
-        let loginURL = URL(string: "http\(sStandsForSecure)://\(chatServerUrl)/login")! // TODO, remove monitor_id from req obj and load all chats that login returns in .chats
+        let loginURL = URL(string: "http\(sStandsForSecure)://\(chatServerUrl)/login")!
+        
         let headers: HTTPHeaders = [
             "Cache-Control": "no-cache",
         ]
 
-        print(loginRequest)
+        if (Environment.isDebug) { print("chatLoginRequest:", loginRequest) }
 
         AF.request(loginURL,
                    method: .post,
@@ -94,44 +33,48 @@ class ChatService {
                    encoder: JSONParameterEncoder.default,
                    headers: headers).response { response in
             if let error = response.error {
-                print(error)
+                if (Environment.isDebug) { print("Request Error: \(error)") }
                 completion(.failure(error))
                 return
             }
 
             guard let responseData = response.data else {
-                let error = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Response data is nil"])
+                let error = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Response is empty."])
+                if (Environment.isDebug) { print("Response data is nil.") }
                 completion(.failure(error))
                 return
             }
 
             guard let responseString = String(data: responseData, encoding: .utf8) else {
-                let error = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Response data could not be converted to a string"])
+                let error = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Response data could not be converted to a string."])
+                if (Environment.isDebug) { print("Response data could not be converted to a string.") }
                 completion(.failure(error))
                 return
             }
 
             guard let statusCode = response.response?.statusCode, (200 ..< 300) ~= statusCode else {
-                let error = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not login to the specified monitor. (response of server: \(responseString))"])
+                let error = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not login to the specified monitor."])
+                if (Environment.isDebug) { print("Could not login to the specified monitor. (response of server: \(responseString))") }
                 completion(.failure(error))
                 return
             }
 
             do {
-                let jsonResponseBody = try JSONDecoder().decode(ResponseChats.self, from: responseData)
+                let jsonResponseBody = try JSONDecoder().decode(ChatLoginResponse.self, from: responseData)
                 let token = jsonResponseBody.token
                 let chats = jsonResponseBody.chats
 
                 for chat in chats {
                     let webSocketManager = WebSocketManager(monitorId: chat.monitor_hash, token: token) { message, monitor_hash in
-                        print("Received message: \(message)")
+                        if (Environment.isDebug) { print("Received message: \(String(describing: message.text))") }
                         self.onMessage?(message, monitor_hash)
                     }
 
                     webSocketManager.connect()
 
+                    // INFO: messages are sent in multiple chuncks and not one, meaning the chats have to be updated in .text on didReceive
                     webSocketManager.onConnected = {
-                        completion(.success([])) // messages are sent in multiple chuncks and not one, meaning the chats have to be updated in .text on didReceive
+                        completion(.success([]))
                     }
                     webSocketManager.onError = { error in
                         let errorFallback = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Something went wrong."])
@@ -186,29 +129,31 @@ class ChatService {
 }
 
 class WebSocketManager: NSObject, WebSocketDelegate {
-    func didReceive(event: Starscream.WebSocketEvent, client _: Starscream.WebSocketClient) { // self.webSocket.onEvent = { event in switch event {}
+    // self.webSocket.onEvent = { event in switch event {}
+    func didReceive(event: Starscream.WebSocketEvent, client _: Starscream.WebSocketClient) {
         switch event {
         case let .connected(headers):
             isConnected = true
-            print("websocket is connected: \(headers)")
             onConnected?()
+            if (Environment.isDebug) { print("websocket is connected (headers: \(headers))") }
         case let .disconnected(reason, code):
             isConnected = false
-            print("websocket is disconnected: \(reason) with code: \(code)")
+            if (Environment.isDebug) { print("websocket disconnected because '\(reason)' (code: \(code))") }
         case let .text(string):
-            print("Received text: \(string)")
+            if (Environment.isDebug) { print("Received text: \(string)") }
 
             if let data = string.data(using: .utf8) {
                 let decoder = JSONDecoder()
                 if let message = try? decoder.decode(ChatMessage.self, from: data) {
-                    print("appending message to chat")
+                    if (Environment.isDebug) { print("appending message to chat...") }
                     messages.append(message)
-                    print("messages: \(messages)")
                     onMessageReceived?(message, monitorId)
+                    // if (Environment.isDebug) { print("messages: \(messages)") }
                 }
             }
         case let .binary(data):
-            print("Received data: \(data.count)")
+            // if (Environment.isDebug) { print("Received data: \(data.count)") }
+            break
         case .ping:
             break
         case .pong:
@@ -219,10 +164,12 @@ class WebSocketManager: NSObject, WebSocketDelegate {
             break
         case .cancelled:
             isConnected = false
+            break
         case let .error(error):
             isConnected = false
             handleError(error)
             onError?(error)
+            break
         case .peerClosed:
             break
         }
@@ -243,28 +190,30 @@ class WebSocketManager: NSObject, WebSocketDelegate {
     init(monitorId: String, token: String) {
         self.monitorId = monitorId
         self.token = token
-
-        let encodedMonitorId = self.monitorId.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!
-        urlRequest = URLRequest(url: URL(string: "ws\(sStandsForSecure)://\(chatServerUrl)/chat/\(encodedMonitorId)?auth=\(self.token)")!)
-        urlRequest.timeoutInterval = 5
-        webSocket = Starscream.WebSocket(request: urlRequest)
-
+        
+        let encodedMonitorId = self.monitorId.addingPercentEncoding(withAllowedCharacters:.alphanumerics)!
+        self.urlRequest = URLRequest(url: URL(string: "ws\(sStandsForSecure)://\(chatServerUrl)/chat/\(encodedMonitorId)?auth=\(self.token)")!)
+        self.urlRequest.timeoutInterval = 5
+        self.webSocket = Starscream.WebSocket(request: urlRequest)
+        
         super.init()
-        webSocket.delegate = self
+        
+        self.webSocket.delegate = self
     }
 
     init(monitorId: String, token: String, onMessageReceived: @escaping (ChatMessage, String) -> Void) {
         self.monitorId = monitorId
         self.token = token
         self.onMessageReceived = onMessageReceived
-
-        let encodedMonitorId = self.monitorId.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!
-        urlRequest = URLRequest(url: URL(string: "ws\(sStandsForSecure)://\(chatServerUrl)/chat/\(encodedMonitorId)?auth=\(self.token)")!)
-        urlRequest.timeoutInterval = 5
-        webSocket = Starscream.WebSocket(request: urlRequest)
-
+        
+        let encodedMonitorId = self.monitorId.addingPercentEncoding(withAllowedCharacters:.alphanumerics)!
+        self.urlRequest = URLRequest(url: URL(string: "ws\(sStandsForSecure)://\(chatServerUrl)/chat/\(encodedMonitorId)?auth=\(self.token)")!)
+        self.urlRequest.timeoutInterval = 5
+        self.webSocket = Starscream.WebSocket(request: urlRequest)
+        
         super.init()
-        webSocket.delegate = self
+        
+        self.webSocket.delegate = self
     }
 
     func connect() {
@@ -275,10 +224,10 @@ class WebSocketManager: NSObject, WebSocketDelegate {
         webSocket.disconnect()
     }
 
+    // INFO: message is persisted in .text, because every message is coming back from the server with an id and a timestamp
     func sendMessage(_ message: String) {
         if isConnected {
             webSocket.write(string: message)
-            // INFO: message is persisted in .text, because every message is coming back from the server with an id and a timestamp
         }
     }
 
