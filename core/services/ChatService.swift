@@ -151,7 +151,7 @@ class WebSocketManager: NSObject, WebSocketDelegate {
                     // if (Environment.isDebug) { print("messages: \(messages)") }
                 }
             }
-        case let .binary(data):
+        case .binary(_):
             // if (Environment.isDebug) { print("Received data: \(data.count)") }
             break
         case .ping:

@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 extension Color {
     init(hex: Int, opacity: Double = 1) {
