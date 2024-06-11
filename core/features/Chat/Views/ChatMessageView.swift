@@ -58,8 +58,7 @@ struct ChatMessageView: View {
                         }
                     }
                 }
-                .frame(width: .infinity)
-                .navigationTitle(selectedChat.title ?? "Scrum Master")
+                .padding()
             }
 
             MessageInputView(messageText: $messageText, sendMessage: {
@@ -67,6 +66,8 @@ struct ChatMessageView: View {
             })
             .border(width: 1, edges: [.top], color: .gray)
         }
+        .navigationTitle(selectedChat.title ?? "Scrum Master")
+        .navigationBarTitleDisplayMode(.inline)
         .padding()
     }
 }
@@ -125,7 +126,7 @@ struct OutgoingMessageView: View {
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(Color(UIColor.systemGray3), lineWidth: 1)
                 )
-        }.frame(width: .infinity, alignment: .trailing)
+        }.frame(alignment: .trailing)
     }
 }
 

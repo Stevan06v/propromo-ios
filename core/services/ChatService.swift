@@ -60,7 +60,7 @@ struct ResponseChats: Decodable {
     let chats: [ChatInfo]
 }
 
-let url = "propromo-chat.deno.dev" // 127.0.0.1:6969, production URL: chat-app-latest-m6ht.onrender.com | propromo-chat.deno.dev
+let url = "127.0.0.1:6969" // 127.0.0.1:6969, production URL: chat-app-latest-m6ht.onrender.com | propromo-chat.deno.dev
 
 class ChatService {
     var webSocketManagers: [String: WebSocketManager] = [:]
@@ -71,7 +71,7 @@ class ChatService {
     func loginAndConnect(loginRequest: ChatLoginRequest, completion: @escaping (Result<[ChatMessage], Error>) -> Void) { // returns token for chat
         // let loginURL = URLRequest(url: URL(string: "https://\(url)/login")!, cachePolicy: .reloadIgnoringLocalCacheData) // wrong type
 
-        let loginURL = URL(string: "https://\(url)/login")! // TODO, remove monitor_id from req obj and load all chats that login returns in .chats
+        let loginURL = URL(string: "http://\(url)/login")! // TODO, remove monitor_id from req obj and load all chats that login returns in .chats
         let headers: HTTPHeaders = [
             "Cache-Control": "no-cache",
         ]
@@ -235,7 +235,7 @@ class WebSocketManager: NSObject, WebSocketDelegate {
         self.token = token
 
         let encodedMonitorId = self.monitorId.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!
-        urlRequest = URLRequest(url: URL(string: "wss://\(url)/chat/\(encodedMonitorId)?auth=\(self.token)")!)
+        urlRequest = URLRequest(url: URL(string: "ws://\(url)/chat/\(encodedMonitorId)?auth=\(self.token)")!)
         urlRequest.timeoutInterval = 5
         webSocket = Starscream.WebSocket(request: urlRequest)
 
@@ -249,7 +249,7 @@ class WebSocketManager: NSObject, WebSocketDelegate {
         self.onMessageReceived = onMessageReceived
 
         let encodedMonitorId = self.monitorId.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!
-        urlRequest = URLRequest(url: URL(string: "wss://\(url)/chat/\(encodedMonitorId)?auth=\(self.token)")!)
+        urlRequest = URLRequest(url: URL(string: "ws://\(url)/chat/\(encodedMonitorId)?auth=\(self.token)")!)
         urlRequest.timeoutInterval = 5
         webSocket = Starscream.WebSocket(request: urlRequest)
 

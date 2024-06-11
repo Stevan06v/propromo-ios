@@ -6,18 +6,31 @@ struct ChatView: View {
 
     var body: some View {
         NavigationSplitView {
-            VStack {
-                List(chatViewModel.chatsModel.chats, id: \.id) { chat in
-                    NavigationLink {
-                        ChatMessageView(chatViewModel: chatViewModel, selectedChat: chat)
-                    } label: {
-                        Text(chat.title ?? chat.id)
-                    }
+            if chatViewModel.chatsModel.chats.isEmpty {
+                VStack {
+                    Text("No chats available.")
+                        .foregroundColor(.gray)
+                    Text("You do not have any monitors.")
+                        .foregroundColor(.gray)
+                    Spacer()
                 }
+                .navigationTitle("Chats")
+                .padding()
+            } else {
+                VStack {
+                    List(chatViewModel.chatsModel.chats, id: \.id) { chat in
+                        NavigationLink {
+                            ChatMessageView(chatViewModel: chatViewModel, selectedChat: chat)
+                        } label: {
+                            Text(chat.title ?? chat.id)
+                        }
+                    }
+                }.navigationTitle("Chats")
             }
         } detail: {
             Text("Select a chatroom")
-        }.task {
+        }
+        .task {
             chatViewModel.chatsModel.setChats(chats: [])
             chatViewModel.connect()
         }
@@ -26,7 +39,7 @@ struct ChatView: View {
                 title: Text("Login Error"),
                 message: Text(chatViewModel.message)
             )
-        }.navigationTitle("Chats")
+        }
         .onDisappear {
             chatViewModel.disconnect()
         }.badge(0)
