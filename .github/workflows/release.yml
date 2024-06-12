@@ -29,7 +29,7 @@ jobs:
       - name: Generate Project
         run: xcodegen generate
 
-      - name: Xcode Tests
+      - name: Xcode Builds
         uses: mxcl/xcodebuild@v2
         with:
           platform: iOS
