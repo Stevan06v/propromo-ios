@@ -39,7 +39,7 @@ class LoginViewModel: ObservableObject {
 
                 self.viewModel.showAuthenticationView = false
             case let .failure(error):
-                self.message = "\(error.localizedDescription)"
+                self.message = "Wrong credentials!"
                 self.showAlert = true
             }
         }

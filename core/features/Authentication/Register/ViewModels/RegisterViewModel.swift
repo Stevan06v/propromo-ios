@@ -46,7 +46,7 @@ class RegisterViewModel: ObservableObject {
                     self.viewModel.showAuthenticationView = false
 
                 case let .failure(error):
-                    self.message = "\(error.localizedDescription)"
+                    self.message = "The email-address is already taken!"
                     self.showAlert = true
                 }
             }
