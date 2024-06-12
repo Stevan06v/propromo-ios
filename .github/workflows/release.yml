@@ -29,12 +29,17 @@ jobs:
       - name: Generate Project
         run: xcodegen generate
 
-      - name: Xcode Builds
+      - name: Xcode Setup
+        uses: maxim-lobanov/setup-xcode@v1
+
+      - name: Xcode Build
         uses: mxcl/xcodebuild@v2
         with:
           platform: iOS
           action: build
           code-coverage: false
+          # warnings-as-errors: false
+          # configuration: release
 
       - name: Generate release tag
         id: generate_release_tag
