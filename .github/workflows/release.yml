@@ -12,6 +12,8 @@ jobs:
   release:
     runs-on: macos-latest
 
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
     steps:
       - name: Info
         run: echo "Release Workflow - IOS App"
