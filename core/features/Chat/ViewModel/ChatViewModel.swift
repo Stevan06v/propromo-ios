@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import UserNotifications
 
 class ChatViewModel: ObservableObject {
     @AppStorage("USER_KEY") var email: String = ""
@@ -16,6 +17,14 @@ class ChatViewModel: ObservableObject {
         chatService.onMessage = { message, monitorId in
             if Environment.isDebug { print("updating chat messages...") }
             self.updateChatWithNewMessage(message, monitor_hash: monitorId)
+        }
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound]) { granted, error in
+            if let error = error {
+                print("Error requesting notification permission: \(error.localizedDescription)")
+            } else if granted {
+                print("Notification permission granted")
+            }
         }
     }
 
@@ -73,6 +82,23 @@ class ChatViewModel: ObservableObject {
         updatedChats[chatIndex] = updatedChat
 
         chatsModel.setChats(chats: updatedChats)
+        
+        if message.email != email {
+            let content = UNMutableNotificationContent()
+            content.title = "New Message from \(String(describing: message.email)) in \(String(describing: updatedChat.title))"
+            content.body = message.text ?? "no message body..."
+            content.sound = UNNotificationSound.default
+
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    print("Error creating notification: \(error.localizedDescription)")
+                } else {
+                    print("Notification created successfully")
+                }
+            }
+        }
+        
         // if (Environment.isDebug) { print("chat messages updated") }
         // if (Environment.isDebug) { print("chat count", chatsModel.chats.endIndex) }
     }
