@@ -12,7 +12,7 @@ struct ContentView: View {
     }
 
     var body: some View {
-        if authenticated && viewModel.showAuthenticationView {
+        if !authenticated && viewModel.showAuthenticationView {
             AuthenticationView().environmentObject(viewModel)
         } else {
             TabView(selection: $selectedView) {
@@ -32,7 +32,8 @@ struct ContentView: View {
                     Label("Chat", systemImage: "text.bubble.fill")
                 }
                 VStack {
-                    SettingsView()
+                    SettingsView(viewModel: viewModel)
+                                       .environmentObject(viewModel)
                 }.tabItem {
                     Label("Settings", systemImage: "gear")
                 }

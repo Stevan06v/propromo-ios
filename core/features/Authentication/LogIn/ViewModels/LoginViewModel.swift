@@ -11,8 +11,6 @@ class LoginViewModel: ObservableObject {
     @Published public var showAlert: Bool = false
     @Published public var message: String = ""
 
-    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
-
     @Published private(set) var loginRequest: LoginRequest = .init()
 
     var email: String {

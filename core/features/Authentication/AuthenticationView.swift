@@ -11,7 +11,6 @@ struct AuthenticationView: View {
     var body: some View {
         if authenticationViewModel.showLogin {
             LogInView(viewModel: viewModel)
-                .environmentObject(authenticationViewModel)
                 .environmentObject(viewModel)
         } else {
             RegistrationView(viewModel: viewModel)

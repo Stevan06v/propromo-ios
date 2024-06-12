@@ -2,11 +2,11 @@ import SwiftUI
 
 struct SettingsView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
+    @EnvironmentObject var viewModel: ViewModel
 
-    init() {
-        _settingsViewModel = ObservedObject(wrappedValue: SettingsViewModel())
+    init(viewModel: ViewModel) {
+        _settingsViewModel = ObservedObject(wrappedValue: SettingsViewModel(viewModel: viewModel))
     }
-
     var body: some View {
         NavigationView {
             Form {
@@ -70,6 +70,24 @@ struct SettingsView: View {
                     .padding(.top, 10)
                 }
                 .padding(.vertical, 10)
+                
+                Section(header: Text("Logout").font(.headline).padding(.bottom, 5)) {
+                    Button(action: {
+                        settingsViewModel.logout()
+                    }) {
+                        Text("Logout")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                    .padding(.top, 10)
+                }
+                .padding(.vertical, 10)
+                
+                
+                
             }
             .navigationTitle("Settings")
             .alert(isPresented: $settingsViewModel.showAlert) {
@@ -78,8 +96,4 @@ struct SettingsView: View {
             .padding(.top)
         }
     }
-}
-
-#Preview {
-    SettingsView()
 }
