@@ -136,11 +136,15 @@ struct MessageInputView: View {
             TextField("Type your message", text: $messageText)
                 .textFieldStyle(.roundedBorder)
             Button(action: {
-                sendMessage(messageText)
-                messageText = ""
+                if !messageText.isEmpty {
+                    sendMessage(messageText)
+                    messageText = ""
+                }
             }) {
                 Text("Send")
-            }.buttonStyle(.borderedProminent)
+            }
+            .buttonStyle(.borderedProminent)
+            .disabled(messageText.isEmpty)
         }
         .padding()
     }
