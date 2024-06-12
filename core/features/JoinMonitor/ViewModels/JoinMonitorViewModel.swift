@@ -16,7 +16,14 @@ class JoinMonitorViewModel: ObservableObject {
     }
 
     func dataChanged(monitorHash: String? = nil) {
-        joinMonitorRequest.dataChanged(monitorHash: monitorHash, email: userKey)
+        var processedMonitorHash = monitorHash
+
+        if let monitorHash = monitorHash,
+           let range = monitorHash.range(of: "/join/") {
+            processedMonitorHash = String(monitorHash[range.upperBound...])
+        }
+
+        joinMonitorRequest.dataChanged(monitorHash: processedMonitorHash, email: userKey)
         print("\(joinMonitorRequest)")
     }
 
@@ -24,10 +31,11 @@ class JoinMonitorViewModel: ObservableObject {
         MonitorService().joinMonitor(joinMonitorRequest: joinMonitorRequest) { result in
             switch result {
             case .success:
-                self.selectedView = "Monitors"
+                self.message = "Successfully joined the monitor!"
+                self.showAlert = true
             case let .failure(error):
                 print(error)
-                self.message = "\(error.localizedDescription)"
+                self.message = "Monitor with that ID does not exsist or you already joined!"
                 self.showAlert = true
             }
         }

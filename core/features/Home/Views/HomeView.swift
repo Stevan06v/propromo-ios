@@ -51,7 +51,7 @@ struct HomeView: View {
                 }).buttonStyle(.borderedProminent)
                     .alert(isPresented: $joinMonitorViewModel.showAlert) {
                         Alert(
-                            title: Text("Joining Error"),
+                            title: Text("Joining Notification"),
                             message: Text(joinMonitorViewModel.message)
                         )
                     }
