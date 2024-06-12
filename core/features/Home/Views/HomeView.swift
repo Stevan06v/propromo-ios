@@ -29,13 +29,20 @@ struct HomeView: View {
                 .textCase(.uppercase)
                 .padding(.bottom, 20)
 
-            Text("Works with Github")
+            Text("Works with:")
                 .bold()
                 .font(.caption)
                 .foregroundStyle(Color.gray)
                 .textCase(.uppercase)
-                .padding(.bottom, 40)
-
+            
+            HStack {
+                Spacer()
+                WebView(svgString: SVGIcons.github(size: 150))
+                    .frame(width: 150)
+                    .padding(.leading, 100)
+                Spacer()
+            }.padding(.bottom, 40)
+            
             HStack {
                 TextField("Monitor-ID", text: Binding(get: {
                     joinMonitorViewModel.monitorHash
