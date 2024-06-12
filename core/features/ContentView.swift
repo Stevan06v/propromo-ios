@@ -33,7 +33,7 @@ struct ContentView: View {
                 }
                 VStack {
                     SettingsView(viewModel: viewModel)
-                                       .environmentObject(viewModel)
+                        .environmentObject(viewModel)
                 }.tabItem {
                     Label("Settings", systemImage: "gear")
                 }

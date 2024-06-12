@@ -20,12 +20,12 @@ class ChatService {
     func loginAndConnect(loginRequest: ChatLoginRequest, completion: @escaping (Result<[ChatMessage], Error>) -> Void) {
         // let loginURL = URLRequest(url: URL(string: "https://\(url)/login")!, cachePolicy: .reloadIgnoringLocalCacheData) // wrong type
         let loginURL = URL(string: "http\(sStandsForSecure)://\(chatServerUrl)/login")!
-        
+
         let headers: HTTPHeaders = [
             "Cache-Control": "no-cache",
         ]
 
-        if (Environment.isDebug) { print("chatLoginRequest:", loginRequest) }
+        if Environment.isDebug { print("chatLoginRequest:", loginRequest) }
 
         AF.request(loginURL,
                    method: .post,
@@ -33,28 +33,28 @@ class ChatService {
                    encoder: JSONParameterEncoder.default,
                    headers: headers).response { response in
             if let error = response.error {
-                if (Environment.isDebug) { print("Request Error: \(error)") }
+                if Environment.isDebug { print("Request Error: \(error)") }
                 completion(.failure(error))
                 return
             }
 
             guard let responseData = response.data else {
                 let error = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Response is empty."])
-                if (Environment.isDebug) { print("Response data is nil.") }
+                if Environment.isDebug { print("Response data is nil.") }
                 completion(.failure(error))
                 return
             }
 
             guard let responseString = String(data: responseData, encoding: .utf8) else {
                 let error = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Response data could not be converted to a string."])
-                if (Environment.isDebug) { print("Response data could not be converted to a string.") }
+                if Environment.isDebug { print("Response data could not be converted to a string.") }
                 completion(.failure(error))
                 return
             }
 
             guard let statusCode = response.response?.statusCode, (200 ..< 300) ~= statusCode else {
                 let error = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not login to the specified monitor."])
-                if (Environment.isDebug) { print("Could not login to the specified monitor. (response of server: \(responseString))") }
+                if Environment.isDebug { print("Could not login to the specified monitor. (response of server: \(responseString))") }
                 completion(.failure(error))
                 return
             }
@@ -66,7 +66,7 @@ class ChatService {
 
                 for chat in chats {
                     let webSocketManager = WebSocketManager(monitorId: chat.monitor_hash, token: token) { message, monitor_hash in
-                        if (Environment.isDebug) { print("Received message: \(String(describing: message.text))") }
+                        if Environment.isDebug { print("Received message: \(String(describing: message.text))") }
                         self.onMessage?(message, monitor_hash)
                     }
 
@@ -135,23 +135,23 @@ class WebSocketManager: NSObject, WebSocketDelegate {
         case let .connected(headers):
             isConnected = true
             onConnected?()
-            if (Environment.isDebug) { print("websocket is connected (headers: \(headers))") }
+            if Environment.isDebug { print("websocket is connected (headers: \(headers))") }
         case let .disconnected(reason, code):
             isConnected = false
-            if (Environment.isDebug) { print("websocket disconnected because '\(reason)' (code: \(code))") }
+            if Environment.isDebug { print("websocket disconnected because '\(reason)' (code: \(code))") }
         case let .text(string):
-            if (Environment.isDebug) { print("Received text: \(string)") }
+            if Environment.isDebug { print("Received text: \(string)") }
 
             if let data = string.data(using: .utf8) {
                 let decoder = JSONDecoder()
                 if let message = try? decoder.decode(ChatMessage.self, from: data) {
-                    if (Environment.isDebug) { print("appending message to chat...") }
+                    if Environment.isDebug { print("appending message to chat...") }
                     messages.append(message)
                     onMessageReceived?(message, monitorId)
                     // if (Environment.isDebug) { print("messages: \(messages)") }
                 }
             }
-        case .binary(_):
+        case .binary:
             // if (Environment.isDebug) { print("Received data: \(data.count)") }
             break
         case .ping:
@@ -164,12 +164,10 @@ class WebSocketManager: NSObject, WebSocketDelegate {
             break
         case .cancelled:
             isConnected = false
-            break
         case let .error(error):
             isConnected = false
             handleError(error)
             onError?(error)
-            break
         case .peerClosed:
             break
         }
@@ -190,30 +188,30 @@ class WebSocketManager: NSObject, WebSocketDelegate {
     init(monitorId: String, token: String) {
         self.monitorId = monitorId
         self.token = token
-        
-        let encodedMonitorId = self.monitorId.addingPercentEncoding(withAllowedCharacters:.alphanumerics)!
-        self.urlRequest = URLRequest(url: URL(string: "ws\(sStandsForSecure)://\(chatServerUrl)/chat/\(encodedMonitorId)?auth=\(self.token)")!)
-        self.urlRequest.timeoutInterval = 5
-        self.webSocket = Starscream.WebSocket(request: urlRequest)
-        
+
+        let encodedMonitorId = self.monitorId.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!
+        urlRequest = URLRequest(url: URL(string: "ws\(sStandsForSecure)://\(chatServerUrl)/chat/\(encodedMonitorId)?auth=\(self.token)")!)
+        urlRequest.timeoutInterval = 5
+        webSocket = Starscream.WebSocket(request: urlRequest)
+
         super.init()
-        
-        self.webSocket.delegate = self
+
+        webSocket.delegate = self
     }
 
     init(monitorId: String, token: String, onMessageReceived: @escaping (ChatMessage, String) -> Void) {
         self.monitorId = monitorId
         self.token = token
         self.onMessageReceived = onMessageReceived
-        
-        let encodedMonitorId = self.monitorId.addingPercentEncoding(withAllowedCharacters:.alphanumerics)!
-        self.urlRequest = URLRequest(url: URL(string: "ws\(sStandsForSecure)://\(chatServerUrl)/chat/\(encodedMonitorId)?auth=\(self.token)")!)
-        self.urlRequest.timeoutInterval = 5
-        self.webSocket = Starscream.WebSocket(request: urlRequest)
-        
+
+        let encodedMonitorId = self.monitorId.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!
+        urlRequest = URLRequest(url: URL(string: "ws\(sStandsForSecure)://\(chatServerUrl)/chat/\(encodedMonitorId)?auth=\(self.token)")!)
+        urlRequest.timeoutInterval = 5
+        webSocket = Starscream.WebSocket(request: urlRequest)
+
         super.init()
-        
-        self.webSocket.delegate = self
+
+        webSocket.delegate = self
     }
 
     func connect() {

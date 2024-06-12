@@ -19,7 +19,8 @@ class JoinMonitorViewModel: ObservableObject {
         var processedMonitorHash = monitorHash
 
         if let monitorHash = monitorHash,
-           let range = monitorHash.range(of: "/join/") {
+           let range = monitorHash.range(of: "/join/")
+        {
             processedMonitorHash = String(monitorHash[range.upperBound...])
         }
 

@@ -2,20 +2,17 @@ import Foundation
 import SwiftUI
 
 class SettingsViewModel: ObservableObject {
-
     private var viewModel: ViewModel
     @AppStorage("USER_KEY") var userKey: String = ""
     @AppStorage("USER_PASSWORD") var userPassword: String = ""
     @AppStorage("AUTH_KEY") var authenticated: Bool = false
-
 
     @Published private(set) var emailChangedRequest: EmailChangedRequest = .init()
     @Published private(set) var passwordChangedRequest: PasswordChangedRequest = .init()
     @Published var showAlert: Bool = false
     @Published var alertMessage: String = ""
 
-    
-    init(viewModel: ViewModel){
+    init(viewModel: ViewModel) {
         self.viewModel = viewModel
     }
 
@@ -55,11 +52,13 @@ class SettingsViewModel: ObservableObject {
             }
         }
     }
+
     func logout() {
-            print("Logout pressed")
-            self.authenticated = false
-            self.viewModel.showAuthenticationView = true
-        }
+        print("Logout pressed")
+        authenticated = false
+        viewModel.showAuthenticationView = true
+    }
+
     func updatePassword() {
         if oldPassword == userPassword {
             if newPassword == confirmNewPassword {

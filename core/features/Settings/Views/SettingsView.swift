@@ -7,6 +7,7 @@ struct SettingsView: View {
     init(viewModel: ViewModel) {
         _settingsViewModel = ObservedObject(wrappedValue: SettingsViewModel(viewModel: viewModel))
     }
+
     var body: some View {
         NavigationView {
             Form {
@@ -70,7 +71,7 @@ struct SettingsView: View {
                     .padding(.top, 10)
                 }
                 .padding(.vertical, 10)
-                
+
                 Section(header: Text("Logout").font(.headline).padding(.bottom, 5)) {
                     Button(action: {
                         settingsViewModel.logout()
@@ -85,9 +86,6 @@ struct SettingsView: View {
                     .padding(.top, 10)
                 }
                 .padding(.vertical, 10)
-                
-                
-                
             }
             .navigationTitle("Settings")
             .alert(isPresented: $settingsViewModel.showAlert) {
