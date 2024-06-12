@@ -74,33 +74,35 @@ class ChatService {
 
                     // INFO: messages are sent in multiple chuncks and not one, meaning the chats have to be updated in .text on didReceive
                     webSocketManager.onConnected = {
+                        self.webSocketManagers[chat.monitor_hash] = webSocketManager
+
+                        let formatter = ISO8601DateFormatter()
+                        let created_at = formatter.date(from: chat.created_at ?? Date().ISO8601Format())
+                        let updated_at = formatter.date(from: chat.updated_at ?? Date().ISO8601Format())
+
+                        self.chats[chat.monitor_hash] = ChatBody(
+                            team: chat.organization_name ?? "",
+                            type: chat.type ?? "",
+                            title: chat.title ?? "",
+                            description: chat.short_description ?? "",
+                            isPublic: chat.public ?? false,
+                            createdAt: created_at ?? Date(),
+                            updatedAt: updated_at ?? Date(),
+                            projectUrl: chat.project_url ?? ""
+                        )
+                        
                         completion(.success([]))
                     }
                     webSocketManager.onError = { error in
                         let errorFallback = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Something went wrong."])
                         completion(.failure(error ?? errorFallback))
                     }
-
-                    self.webSocketManagers[chat.monitor_hash] = webSocketManager
-
-                    let formatter = ISO8601DateFormatter()
-                    let created_at = formatter.date(from: chat.created_at)
-                    let updated_at = formatter.date(from: chat.updated_at)
-
-                    self.chats[chat.monitor_hash] = ChatBody(
-                        team: chat.organization_name,
-                        type: chat.type,
-                        title: chat.title,
-                        description: chat.short_description,
-                        isPublic: chat.public,
-                        createdAt: created_at ?? Date(),
-                        updatedAt: updated_at ?? Date(),
-                        projectUrl: chat.project_url
-                    )
                 }
 
                 completion(.success([]))
             } catch {
+                if Environment.isDebug { print("Failed to parse JSON response", error, responseString) }
+
                 let error = NSError(domain: "ChatLoginService", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to parse JSON response"])
                 completion(.failure(error))
             }
