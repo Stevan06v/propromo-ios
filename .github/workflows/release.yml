@@ -16,23 +16,23 @@ jobs:
       - name: Info
         run: echo "Release Workflow - IOS App"
 
-    - name: Checkout Code
-      uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-    - name: Install Dependencies
-      run: |
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        brew install xcodegen
+      - name: Install Dependencies
+        run: |
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          brew install xcodegen
 
-    - name: Generate Project
-      run: xcodegen generate
+      - name: Generate Project
+        run: xcodegen generate
 
-    - name: Xcode Tests
-      uses: mxcl/xcodebuild@v2
-      with:
-        platform: iOS
-        action: build
-        code-coverage: false
+      - name: Xcode Tests
+        uses: mxcl/xcodebuild@v2
+        with:
+          platform: iOS
+          action: build
+          code-coverage: false
 
       - name: Generate release tag
         id: generate_release_tag
