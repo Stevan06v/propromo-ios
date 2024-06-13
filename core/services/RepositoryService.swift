@@ -4,9 +4,14 @@ import SwiftUI
 
 class RepositoryService {
     func getRepositoriesBy(monitor: Monitor, completion: @escaping (Result<RepositoryResponse, Error>) -> Void) {
-        // jo eh
-        let url = monitor.type! == "ORGANIZATION" ? "https://rest-microservice.onrender.com/v1/github/orgs/\(monitor.organization_name!)/projects/\(monitor.project_identification!)/repositories/milestones/issues?rootPageSize=10&milestonesPageSize=10&issuesPageSize=100&issues_states=open,closed"
-            : "https://rest-microservice.onrender.com/v1/github/users/\(monitor.login_name!)/projects/\(monitor.project_identification!)/repositories/milestones/issues?rootPageSize=10&milestonesPageSize=10&issuesPageSize=100&issues_states=open,closed"
+        let url = monitor.type! == "ORGANIZATION" ? 
+        Environment.Services.MICROSERVICE_API_GITHUB_ORGANIZATION(
+            "\(monitor.organization_name!)/projects/\(monitor.project_identification!)/repositories/milestones/issues?rootPageSize=10&milestonesPageSize=10&issuesPageSize=100&issues_states=open,closed"
+        )
+            :
+        Environment.Services.MICROSERVICE_API_GITHUB_USER(
+            "\(monitor.login_name!)/projects/\(monitor.project_identification!)/repositories/milestones/issues?rootPageSize=10&milestonesPageSize=10&issuesPageSize=100&issues_states=open,closed"
+        )
 
         let headers: HTTPHeaders = [
             .authorization(bearerToken: monitor.pat_token!),
