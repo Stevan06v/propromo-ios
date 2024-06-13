@@ -90,7 +90,7 @@ class ChatService {
                             updatedAt: updated_at ?? Date(),
                             projectUrl: chat.project_url ?? ""
                         )
-                        
+
                         completion(.success([]))
                     }
                     webSocketManager.onError = { error in

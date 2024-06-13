@@ -8,13 +8,13 @@ struct propromoApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-            .onAppear {
-                UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
-                AppDelegate.orientationLock = .portrait
-            }
-            //.onDisappear {
+                .onAppear {
+                    UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+                    AppDelegate.orientationLock = .portrait
+                }
+            // .onDisappear {
             //    AppDelegate.orientationLock = .all
-            //}
+            // }
         }
     }
 }

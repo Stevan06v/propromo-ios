@@ -34,15 +34,15 @@ struct HomeView: View {
                 .font(.caption)
                 .foregroundStyle(Color.gray)
                 .textCase(.uppercase)
-            
+
             HStack {
                 Spacer()
                 WebView(svgString: SVGIcons.github(size: 150))
                     .frame(width: 150)
-                    .padding(.leading, 100)
+                    .padding(.leading, 105)
                 Spacer()
             }.padding(.bottom, 40)
-            
+
             HStack {
                 TextField("Monitor-ID", text: Binding(get: {
                     joinMonitorViewModel.monitorHash

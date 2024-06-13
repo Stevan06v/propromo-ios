@@ -18,8 +18,8 @@ class ChatViewModel: ObservableObject {
             if Environment.isDebug { print("updating chat messages...") }
             self.updateChatWithNewMessage(message, monitor_hash: monitorId)
         }
-        
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound]) { granted, error in
+
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
             if let error = error {
                 print("Error requesting notification permission: \(error.localizedDescription)")
             } else if granted {
@@ -82,7 +82,7 @@ class ChatViewModel: ObservableObject {
         updatedChats[chatIndex] = updatedChat
 
         chatsModel.setChats(chats: updatedChats)
-        
+
         if message.email != email {
             let content = UNMutableNotificationContent()
             content.title = "New Message from \(String(describing: message.email)) in \(String(describing: updatedChat.title))"
@@ -98,7 +98,7 @@ class ChatViewModel: ObservableObject {
                 }
             }
         }
-        
+
         // if (Environment.isDebug) { print("chat messages updated") }
         // if (Environment.isDebug) { print("chat count", chatsModel.chats.endIndex) }
     }
