@@ -17,8 +17,8 @@ jobs:
       matrix:
         platform:
           - iOS
-        #xcode:
-        #  - ^14
+        xcode:
+          - ^15
         # https://flatgithub.com/mxcl/.github/?filename=versions.json&sha=7f6f9803a64ce8a542970f9f04eb1b39b8b76946
         # https://github.com/actions/runner-images/blob/main/images/macos/macos-11-Readme.md#xcode
         #swift:
@@ -44,8 +44,8 @@ jobs:
       run: xcodegen generate
 
     - uses: maxim-lobanov/setup-xcode@v1
-      # with:
-      #   xcode-version: ${{ matrix.xcode }}
+      with:
+        xcode-version: ${{ matrix.xcode }}
 
     # Versions:
     # https://xcodereleases.com/
