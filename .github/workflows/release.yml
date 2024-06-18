@@ -41,6 +41,7 @@ jobs:
           xcode: ^15
           action: build
           code-coverage: false
+          scheme: Propromo
           # warnings-as-errors: false
           # configuration: release
 
