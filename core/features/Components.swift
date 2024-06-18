@@ -69,12 +69,14 @@ struct WebView: UIViewRepresentable {
     func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView()
         webView.navigationDelegate = context.coordinator
+        webView.isUserInteractionEnabled = false
+        webView.scrollView.isScrollEnabled = false
         webView.loadHTMLString(svgString, baseURL: nil)
         return webView
     }
 
     func updateUIView(_: WKWebView, context _: Context) {
-        // Do nothing
+        // Nothing to update :)
     }
 
     class Coordinator: NSObject, WKNavigationDelegate {
@@ -85,7 +87,7 @@ struct WebView: UIViewRepresentable {
         }
 
         func webView(_ webView: WKWebView, didFinish _: WKNavigation!) {
-            webView.evaluateJavaScript("document.documentElement.style.webkitUserSelect='none';") { _, error in
+            webView.evaluateJavaScript("document.documentElement.style.webkitUserSelect='none';document.documentElement.style.pointerEvents='none';document.documentElement.style.overflow='hidden';") { _, error in
                 if let error = error {
                     print("Error: \(error.localizedDescription)")
                 }
