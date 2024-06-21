@@ -6,18 +6,19 @@
 		Stretch,
 		Media,
 		Notes,
+		Step,
 	} from '@components'
 	import propromo from './lib/assets/images/propromo.png'
 
 	let isFullscreen = false
 </script>
 
+<!-- Notes are visible with the `S` key in the browser -->
+
 <Presentation>
-	<Slide animate>
-		<FitText class="flex gap-2 uppercase" data-id="propromo-headline">
-			Propromo
-		</FitText>
-		<FitText class="uppercase gray-1-color" data-id="propromo-content">
+	<Slide animate transition={'slide'}>
+		<FitText class="flex gap-2 uppercase">Propromo</FitText>
+		<FitText class="uppercase gray-1-color" data-id="subtitle">
 			Your client wants to be involved. We make it possible.
 		</FitText>
 
@@ -28,8 +29,34 @@
 		</Notes>
 	</Slide>
 
+	<Slide animate transition={'slide'}>
+		<FitText class="flex gap-2 uppercase">Propromo</FitText>
+		<FitText class="flex gap-2 uppercase gray-1-color" data-id="subtitle"
+			>What we do</FitText
+		>
+
+		<div class="min-h-[100vh/2] h-fit-content">
+			<Step fadeUp>
+				<h2 class="text-6xl uppercase gray-1-color system-ui-font">Project</h2>
+			</Step>
+			<Step fadeLeft>
+				<h2 class="text-6xl uppercase gray-1-color system-ui-font">Progress</h2>
+			</Step>
+			<Step fadeRight>
+				<h2 class="text-6xl uppercase gray-1-color system-ui-font">
+					Monitoring
+				</h2>
+			</Step>
+		</div>
+
+		<Notes>
+			<h1>What we do</h1>
+		</Notes>
+	</Slide>
+
 	<Slide
 		animate
+		transition={'slide'}
 		class="flex justify-center"
 		on:in={() => (isFullscreen = true)}
 		on:out={() => (isFullscreen = false)}
@@ -66,19 +93,9 @@
 		</Notes>
 	</Slide>
 
-	<Slide animate>
-		<Stretch
-			class="mx-auto"
-			src={propromo}
-			type="img"
-			data-id="propromo-content"
-		/>
-		<h1
-			class="flex justify-center gap-2 pt-4 uppercase"
-			data-id="propromo-headline"
-		>
-			Propromo
-		</h1>
+	<Slide animate transition={'slide'}>
+		<Stretch class="mx-auto" src={propromo} type="img" />
+		<h1 class="flex justify-center gap-2 pt-4 uppercase">Propromo</h1>
 
 		<Notes>
 			<h1>Thank you for listening!</h1>
