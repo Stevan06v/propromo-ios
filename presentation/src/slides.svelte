@@ -16,7 +16,7 @@
 <!-- Notes are visible with the `S` key in the browser -->
 
 <Presentation>
-	<Slide animate transition={'slide'}>
+	<Slide animate>
 		<FitText class="flex gap-2 uppercase">Propromo</FitText>
 		<FitText class="uppercase gray-1-color" data-id="subtitle">
 			Your client wants to be involved. We make it possible.
@@ -29,7 +29,7 @@
 		</Notes>
 	</Slide>
 
-	<Slide animate transition={'slide'}>
+	<Slide animate>
 		<FitText class="flex gap-2 uppercase">Propromo</FitText>
 		<FitText class="flex gap-2 uppercase gray-1-color" data-id="subtitle"
 			>What we do</FitText
@@ -56,7 +56,6 @@
 
 	<Slide
 		animate
-		transition={'slide'}
 		class="flex justify-center"
 		on:in={() => (isFullscreen = true)}
 		on:out={() => (isFullscreen = false)}
@@ -80,20 +79,23 @@
 			class="w-full h-screen"
 			src="https://propromo-d08144c627d3.herokuapp.com"
 			type="iframe"
+			preload={true}
 		/>
 
-		<div
-			class="absolute left-4 bottom-4 uppercase px-4 py-2 text-lg text-white font-semibold bg-[#0D3269] rounded-md shadow-md source-sans-3-font focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-		>
-			Live Demo
-		</div>
+		{#if isFullscreen}
+			<div
+				class="absolute left-4 bottom-4 uppercase px-4 py-2 text-lg text-white font-semibold bg-[#0D3269] rounded-md shadow-md source-sans-3-font focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+			>
+				Live Demo
+			</div>
+		{/if}
 
 		<Notes>
 			<h1>Live Demo</h1>
 		</Notes>
 	</Slide>
 
-	<Slide animate transition={'slide'}>
+	<Slide animate>
 		<Stretch class="mx-auto" src={propromo} type="img" />
 		<h1 class="flex justify-center gap-2 pt-4 uppercase">Propromo</h1>
 
