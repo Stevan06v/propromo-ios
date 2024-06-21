@@ -1,14 +1,92 @@
-@import '@fontsource-variable/manrope';
+@import url('https://api.fonts.coollabs.io/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap');
+@import url('https://api.fonts.coollabs.io/css2?family=Koulen&display=swap');
+/* no ü, ö, ä, ß... */
+@import url('https://api.fonts.coollabs.io/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
 @import '@fontsource-variable/jetbrains-mono';
 
 :root {
-	--r-background-color: hsl(226 19% 13%);
-	--r-main-font: 'Manrope Variable';
-	--r-main-font-size: 42px;
-	--r-main-color: hsl(226 19% 98%);
-	--r-heading-font: 'Manrope';
+	--system-ui-font: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	--source-sans-3-font: "Source Sans 3", sans-serif;
+	--figtree-font: "Figtree", sans-serif;
+	--koulen-font: 'Koulen', sans-serif;
 	--r-code-font: 'JetBrains Mono Variable';
-	--r-link-color: hsl(180 100% 50%);
+	--r-background-color: hsl(226 19% 98%);
+	--r-main-color: #0D3269;
+	--r-main-font: var(--system-ui-font);
+	--r-main-font-size: 42px;
+	--r-heading-font: var(--koulen-font);
+	--r-green-color: #229342;
+	--r-yellow-color: #FBC116;
+	--r-red-color: #E33B2E;
+	--r-link-color: var(--r-green-color);
+	--r-gray-1-color: #9A9A9A;
+	--r-gray-2-color: #CCCCCC;
+	--r-gray-3-color: #DCDCDC;
+}
+
+/* Fonts */
+
+.figtree-font {
+	font-family: var(--figtree-font);
+	font-optical-sizing: auto;
+	font-weight: 300;
+	/* 300 to 900 */
+	font-style: normal;
+}
+
+.koulen-font {
+	font-family: var(--koulen-font);
+	font-weight: 500;
+	font-style: normal;
+}
+
+.source-sans-3-font {
+	font-family: var(--source-sans-3-font);
+	font-optical-sizing: auto;
+	font-weight: 400;
+	/* 200 to 900 */
+	font-style: normal;
+}
+
+.system-ui-font {
+	font-family: var(--system-ui-font);
+}
+
+/* Colors */
+
+.gray-1-color {
+	color: var(--r-gray-1-color);
+}
+
+.gray-2-color {
+	color: var(--r-gray-2-color);
+}
+
+.gray-3-color {
+	color: var(--r-gray-3-color);
+}
+
+.green-color {
+	color: var(--r-green-color);
+}
+
+.yellow-color {
+	color: var(--r-yellow-color);
+}
+
+.red-color {
+	color: var(--r-red-color);
+}
+
+/* Heading fonts */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: var(--r-heading-font);
 }
 
 /* required for Reveal.js to work */
