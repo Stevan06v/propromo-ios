@@ -9,6 +9,10 @@
 		Step,
 	} from '@components'
 	import propromo from './lib/assets/images/propromo.png'
+	import join from './lib/assets/images/join-gray.png'
+	import monitors from './lib/assets/images/monitors-gray.png'
+	import chat from './lib/assets/images/chat-gray.png'
+	import manageAccount from './lib/assets/images/manage-account-gray.png'
 
 	let isFullscreen = false
 </script>
@@ -30,7 +34,7 @@
 	</Slide>
 
 	<Slide animate>
-		<FitText class="flex gap-2 uppercase">Propromo</FitText>
+		<FitText class="flex gap-2 uppercase" data-id="title">Propromo</FitText>
 		<FitText class="flex gap-2 uppercase gray-1-color" data-id="subtitle"
 			>What we do</FitText
 		>
@@ -52,6 +56,126 @@
 		<Notes>
 			<h1>What we do</h1>
 		</Notes>
+	</Slide>
+
+	<Slide animate>
+		<FitText class="flex gap-2 uppercase" data-id="title"
+			>Mobile App Features</FitText
+		>
+
+		<div class="grid h-full">
+			<div>
+				<img class="h-48 mx-auto" src={join} alt="plus" />
+				<p class="font-extrabold uppercase gray-1-color">Join</p>
+			</div>
+
+			<Notes>
+				<h1>Features</h1>
+
+				<ol>
+					<li>Join Monitors</li>
+				</ol>
+			</Notes>
+		</div>
+	</Slide>
+
+	<Slide animate>
+		<FitText class="flex gap-2 uppercase" data-id="title"
+			>Mobile App Features</FitText
+		>
+
+		<div class="grid h-full grid-cols-2">
+			<div>
+				<img class="h-48 mx-auto" src={join} alt="plus" />
+				<p class="font-extrabold uppercase gray-1-color">Join</p>
+			</div>
+
+			<div>
+				<img class="h-48 mx-auto" src={monitors} alt="monitors" />
+				<p class="font-extrabold uppercase gray-1-color">Monitors</p>
+			</div>
+
+			<Notes>
+				<h1>Features</h1>
+
+				<ol>
+					<li>Join Monitors</li>
+					<li>View Monitors</li>
+				</ol>
+			</Notes>
+		</div>
+	</Slide>
+
+	<Slide animate>
+		<FitText class="flex gap-2 uppercase" data-id="title"
+			>Mobile App Features</FitText
+		>
+
+		<div class="grid h-full grid-cols-3">
+			<div>
+				<img class="h-48 mx-auto" src={join} alt="plus" />
+				<p class="font-extrabold uppercase gray-1-color">Join</p>
+			</div>
+
+			<div>
+				<img class="h-48 mx-auto" src={monitors} alt="monitors" />
+				<p class="font-extrabold uppercase gray-1-color">Monitors</p>
+			</div>
+
+			<div>
+				<img class="h-48 mx-auto" src={chat} alt="chat" />
+				<p class="font-extrabold uppercase gray-1-color">Chat</p>
+			</div>
+
+			<Notes>
+				<h1>Features</h1>
+
+				<ol>
+					<li>Join Monitors</li>
+					<li>View Monitors</li>
+					<li>Chat with the Scrum Master</li>
+				</ol>
+			</Notes>
+		</div>
+	</Slide>
+
+	<Slide animate>
+		<FitText class="flex gap-2 uppercase" data-id="title"
+			>Mobile App Features</FitText
+		>
+
+		<div class="grid h-full grid-cols-4">
+			<div>
+				<img class="h-48 mx-auto" src={join} alt="plus" />
+				<p class="font-extrabold uppercase gray-1-color">Join</p>
+			</div>
+
+			<div>
+				<img class="h-48 mx-auto" src={monitors} alt="monitors" />
+				<p class="font-extrabold uppercase gray-1-color">Monitors</p>
+			</div>
+
+			<div>
+				<img class="h-48 mx-auto" src={chat} alt="chat" />
+				<p class="font-extrabold uppercase gray-1-color">Chat</p>
+			</div>
+
+			<div>
+				<img class="h-48 mx-auto" src={manageAccount} alt="settings" />
+				<p class="font-extrabold uppercase gray-1-color">Account</p>
+			</div>
+
+			<Notes>
+				<h1>Features</h1>
+
+				<ol>
+					<li>Join Monitors</li>
+					<li>View Monitors</li>
+					<li>Chat with the Scrum Master</li>
+					<li>Manage Account</li>
+				</ol>
+			</Notes>
+		</div>
 	</Slide>
 
 	<Slide
