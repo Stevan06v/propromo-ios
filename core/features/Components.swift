@@ -72,6 +72,9 @@ struct WebView: UIViewRepresentable {
         webView.isUserInteractionEnabled = false
         webView.scrollView.isScrollEnabled = false
         webView.loadHTMLString(svgString, baseURL: nil)
+        webView.isOpaque = false
+        webView.backgroundColor = .clear
+        webView.scrollView.backgroundColor = .clear
         return webView
     }
 
