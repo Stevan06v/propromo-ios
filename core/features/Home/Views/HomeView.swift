@@ -15,7 +15,7 @@ struct HomeView: View {
     var body: some View {
         VStack(alignment: .center) {
             WebView(svgString: SVGIcons.logo())
-                .frame(height: 380)
+                .frame(minHeight: 325)
 
             Text("Propromo")
                 .bold()
@@ -27,13 +27,12 @@ struct HomeView: View {
                 .font(.subheadline)
                 .foregroundStyle(Color.gray)
                 .textCase(.uppercase)
-                .padding(.bottom, 20)
+                .padding(.bottom, 5)
 
             Text("Works with:")
                 .bold()
                 .font(.caption)
                 .foregroundStyle(Color.gray)
-                .textCase(.uppercase)
 
             HStack {
                 Spacer()
@@ -41,7 +40,7 @@ struct HomeView: View {
                     .frame(width: 150)
                     .padding(.leading, 105)
                 Spacer()
-            }.padding(.bottom, 40)
+            }.padding(.bottom, 15)
 
             HStack {
                 TextField("Monitor-ID", text: Binding(get: {
