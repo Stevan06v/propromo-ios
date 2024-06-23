@@ -39,7 +39,6 @@ struct RepositoryDetailsView: View {
             }
             .padding()
             .frame(maxWidth: .infinity)
-            .background(Color.white)
             .padding(.horizontal, 20)
         }
         .frame(maxWidth: .infinity, alignment: .top) // Align VStack at the top

@@ -41,7 +41,6 @@ struct MonitorDetailsView: View {
         }
         .padding()
         .frame(maxWidth: .infinity)
-        .background(Color.white)
         Spacer()
     }
 }

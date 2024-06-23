@@ -39,7 +39,7 @@ struct MilestoneRowView: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 10)
-                .fill(Color.white)
+                .fill(Color("secondaryBackground"))
         )
         .overlay(
             RoundedRectangle(cornerRadius: 10)
