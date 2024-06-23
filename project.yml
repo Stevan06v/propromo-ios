@@ -4,9 +4,10 @@ name: Propromo
 # https://stackoverflow.com/questions/43111501/the-bundles-info-plist-does-not-contain-a-cfbundleversion-key-or-its-value-is-n
 settings:
   GENERATE_INFOPLIST_FILE: YES
-  CODE_SIGNING_ALLOWED: NO
+  CODE_SIGNING_ALLOWED: NO # YES
   MARKETING_VERSION: 0.0.0
   CURRENT_PROJECT_VERSION: 0.0.0
+  # DEVELOPMENT_TEAM: Propromo
 options:
   bundleIdPrefix: com.propromo
 packages:
