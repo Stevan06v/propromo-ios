@@ -92,7 +92,7 @@
 
 			<div>
 				<img class="h-48 mx-auto" src={monitors} alt="monitors" />
-				<p class="font-extrabold uppercase gray-1-color">Monitors</p>
+				<p class="font-extrabold uppercase gray-1-color">View</p>
 			</div>
 
 			<Notes>
@@ -119,7 +119,7 @@
 
 			<div>
 				<img class="h-48 mx-auto" src={monitors} alt="monitors" />
-				<p class="font-extrabold uppercase gray-1-color">Monitors</p>
+				<p class="font-extrabold uppercase gray-1-color">View</p>
 			</div>
 
 			<div>
@@ -152,7 +152,7 @@
 
 			<div>
 				<img class="h-48 mx-auto" src={monitors} alt="monitors" />
-				<p class="font-extrabold uppercase gray-1-color">Monitors</p>
+				<p class="font-extrabold uppercase gray-1-color">View</p>
 			</div>
 
 			<div>
