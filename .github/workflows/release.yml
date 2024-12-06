@@ -35,7 +35,7 @@ jobs:
           xcode-version: ^15
 
       - name: Xcode Build
-        uses: mxcl/xcodebuild@v2
+        uses: mxcl/xcodebuild@v3
         with:
           platform: iOS
           xcode: ^15
